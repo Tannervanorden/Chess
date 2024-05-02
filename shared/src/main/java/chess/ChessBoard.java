@@ -9,7 +9,7 @@ package chess;
 public class ChessBoard {
 
     public ChessBoard() {
-        
+        ChessPiece[][] board = new ChessPiece[8][8];
     }
 
     /**
@@ -19,7 +19,9 @@ public class ChessBoard {
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
-        throw new RuntimeException("Not implemented");
+        int row = position.getRow() - 1; // Adjusting from 1-based index to 0-based index
+        int column = position.getColumn() - 1; // Adjusting from 1-based index to 0-based index
+        board[row][column] = piece;
     }
 
     /**

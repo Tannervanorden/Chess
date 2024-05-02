@@ -1,5 +1,6 @@
 package chess;
 
+
 /**
  * Represents a single square position on a chess board
  * <p>
@@ -7,8 +8,15 @@ package chess;
  * signature of the existing methods.
  */
 public class ChessPosition {
+    private int row;
+    private int column;
 
     public ChessPosition(int row, int col) {
+        if (row < 1 || row > 8 || col < 1 || col > 8) {
+            throw new IllegalArgumentException("Invalid position");
+        }
+        this.row = row;
+        this.column = col;
     }
 
     /**
@@ -16,7 +24,7 @@ public class ChessPosition {
      * 1 codes for the bottom row
      */
     public int getRow() {
-        throw new RuntimeException("Not implemented");
+        return row;
     }
 
     /**
@@ -24,6 +32,6 @@ public class ChessPosition {
      * 1 codes for the left row
      */
     public int getColumn() {
-        throw new RuntimeException("Not implemented");
+        return column;
     }
 }
