@@ -60,8 +60,8 @@ public class ChessBoard {
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
-        int row = position.getRow(); // Adjusting from 1-based index to 0-based index
-        int column = position.getColumn(); // Adjusting from 1-based index to 0-based index
+        int row = position.getRow() - 1;
+        int column = position.getColumn() - 1;
         board[row][column] = piece;
     }
 
@@ -73,8 +73,8 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        if (board[position.getRow()][position.getColumn()] != null) {
-            return board[position.getRow()][position.getColumn()];
+        if (board[position.getRow() - 1][position.getColumn() - 1] != null) {
+            return board[position.getRow() - 1][position.getColumn() - 1];
         }
         else {
             return null;

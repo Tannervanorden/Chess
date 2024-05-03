@@ -74,6 +74,8 @@ public class ChessPiece {
 
         int row = myPosition.getRow();
         int col = myPosition.getColumn();
-        return pieceMoves(board, myPosition);
+
+        return validMoves;
     }
+
 }
