@@ -76,8 +76,9 @@ public class ChessPiece {
         int row = myPosition.getRow();
         int col = myPosition.getColumn();
 
-//        if (type == PieceType.PAWN) {
-//        }
+        if (type == PieceType.PAWN) {
+            calculatePawnMoves(validMoves, board, myPosition);
+        }
 
         if (type == PieceType.BISHOP) {
             // Diagonal moves
@@ -115,6 +116,55 @@ public class ChessPiece {
 
         return validMoves;
     }
+
+    private void calculatePawnMoves(Collection<ChessMove> validMoves, ChessBoard board, ChessPosition myPosition) {
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        int direction = (pieceColor == ChessGame.TeamColor.WHITE) ? 1 : -1;
+
+        // Check if the square in front of the pawn is empty
+        if (board.isValidPosition(row + direction, col)) {
+            ChessPosition nextPositionOne = new ChessPosition(row + direction, col);
+            ChessPiece pieceAtNextPositionOne = board.getPiece(nextPositionOne);
+            if (pieceAtNextPositionOne == null) {
+                validMoves.add(new ChessMove(myPosition, nextPositionOne, null));
+
+                // Check if it's the pawn's first move and the two squares ahead are empty
+                if ((row == 2 && direction == 1) || (row == 7 && direction == -1)) {
+                    ChessPosition nextPositionTwo = new ChessPosition(row + 2 * direction, col);
+                    ChessPiece pieceAtNextPositionTwo = board.getPiece(nextPositionTwo);
+                    if (pieceAtNextPositionTwo == null) {
+                        validMoves.add(new ChessMove(myPosition, nextPositionTwo, null));
+                    }
+                }
+            }
+        }
+
+        // Check diagonal captures
+        int[] colOffsets = { -1, 1 };
+        for (int colOffset : colOffsets) {
+            if (board.isValidPosition(row + direction, col + colOffset)) {
+                ChessPosition nextPosition = new ChessPosition(row + direction, col + colOffset);
+                ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
+                if (pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor) {
+                    validMoves.add(new ChessMove(myPosition, nextPosition, null));
+                }
+            }
+        }
+
+        // Check for pawn promotion
+        if ((direction == 1 && row == 7) || (direction == -1 && row == 2)) {
+            // Promote the pawn to different piece types
+            ChessPosition promotionPosition = new ChessPosition(row + direction, col);
+            validMoves.add(new ChessMove(myPosition, promotionPosition, ChessPiece.PieceType.QUEEN));
+            validMoves.add(new ChessMove(myPosition, promotionPosition, ChessPiece.PieceType.BISHOP));
+            validMoves.add(new ChessMove(myPosition, promotionPosition, ChessPiece.PieceType.ROOK));
+            validMoves.add(new ChessMove(myPosition, promotionPosition, ChessPiece.PieceType.KNIGHT));
+        }
+    }
+
+
 
     private void addDiagonalMove(Collection<ChessMove> validMoves, ChessBoard board, ChessPosition currentPosition, int rowChange, int colChange) {
         int row = currentPosition.getRow();
