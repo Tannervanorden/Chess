@@ -87,6 +87,11 @@ public class ChessPiece {
         else if (type == PieceType.ROOK) {
             addStraightMove(validMoves, board, myPosition);
         }
+        else if (type == PieceType.QUEEN) {
+            addDiagonalMove(validMoves, board, myPosition, 1, 1); //right
+            addDiagonalMove(validMoves, board, myPosition, -1, 1);  // left
+            addStraightMove(validMoves, board, myPosition);
+        }
 
         return validMoves;
     }
