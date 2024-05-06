@@ -80,6 +80,10 @@ public class ChessPiece {
             calculatePawnMoves(validMoves, board, myPosition);
         }
 
+        if (type == PieceType.KNIGHT) {
+            calculateKnightMoves(validMoves, board, myPosition);
+        }
+
         if (type == PieceType.BISHOP) {
             // Diagonal moves
             addDiagonalMove(validMoves, board, myPosition, 1, 1); //right
@@ -127,15 +131,15 @@ public class ChessPiece {
         if (board.isValidPosition(row + direction, col)) {
             ChessPosition nextPositionOne = new ChessPosition(row + direction, col);
             ChessPiece pieceAtNextPositionOne = board.getPiece(nextPositionOne);
-            if (pieceAtNextPositionOne == null) {
-                validMoves.add(new ChessMove(myPosition, nextPositionOne, null));
+            if (pieceAtNextPositionOne == null && !((direction == 1 && row == 7) || (direction == -1 && row == 2))) {
+                validMoves.add(new ChessMove(myPosition, nextPositionOne, null)); // No promotion
 
                 // Check if it's the pawn's first move and the two squares ahead are empty
                 if ((row == 2 && direction == 1) || (row == 7 && direction == -1)) {
                     ChessPosition nextPositionTwo = new ChessPosition(row + 2 * direction, col);
                     ChessPiece pieceAtNextPositionTwo = board.getPiece(nextPositionTwo);
                     if (pieceAtNextPositionTwo == null) {
-                        validMoves.add(new ChessMove(myPosition, nextPositionTwo, null));
+                        validMoves.add(new ChessMove(myPosition, nextPositionTwo, null)); // No promotion
                     }
                 }
             }
@@ -147,8 +151,8 @@ public class ChessPiece {
             if (board.isValidPosition(row + direction, col + colOffset)) {
                 ChessPosition nextPosition = new ChessPosition(row + direction, col + colOffset);
                 ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
-                if (pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor) {
-                    validMoves.add(new ChessMove(myPosition, nextPosition, null));
+                if ((pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor) && !((direction == 1 && row == 7) || (direction == -1 && row == 2))) {
+                    validMoves.add(new ChessMove(myPosition, nextPosition, null)); // No promotion
                 }
             }
         }
@@ -157,6 +161,7 @@ public class ChessPiece {
         if ((direction == 1 && row == 7) || (direction == -1 && row == 2)) {
             // Promote the pawn to different piece types
             ChessPosition promotionPosition = new ChessPosition(row + direction, col);
+//            validMoves.add(new ChessMove(myPosition, promotionPosition, null)); // No promotion
             validMoves.add(new ChessMove(myPosition, promotionPosition, ChessPiece.PieceType.QUEEN));
             validMoves.add(new ChessMove(myPosition, promotionPosition, ChessPiece.PieceType.BISHOP));
             validMoves.add(new ChessMove(myPosition, promotionPosition, ChessPiece.PieceType.ROOK));
@@ -164,6 +169,35 @@ public class ChessPiece {
         }
     }
 
+
+
+
+    private void calculateKnightMoves(Collection<ChessMove> validMoves, ChessBoard board, ChessPosition myPosition) {
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        int[][] knightMoves = {
+                {-2, -1}, {-2, 1}, // Two squares up/down and one square left/right
+                {-1, -2}, {-1, 2}, // One square up/down and two squares left/right
+                {1, -2}, {1, 2},   // One square up/down and two squares left/right
+                {2, -1}, {2, 1}    // Two squares up/down and one square left/right
+        };
+
+        for (int[] move : knightMoves) {
+            int nextRow = row + move[0];
+            int nextCol = col + move[1];
+
+            if (board.isValidPosition(nextRow, nextCol)) {
+                ChessPosition nextPosition = new ChessPosition(nextRow, nextCol);
+                ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
+
+                // Add the move if the square is empty or contains an opponent's piece
+                if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
+                    validMoves.add(new ChessMove(myPosition, nextPosition, null));
+                }
+            }
+        }
+    }
 
 
     private void addDiagonalMove(Collection<ChessMove> validMoves, ChessBoard board, ChessPosition currentPosition, int rowChange, int colChange) {
