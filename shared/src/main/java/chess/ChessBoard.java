@@ -24,6 +24,21 @@ public class ChessBoard {
         return Arrays.deepHashCode(board);
     }
 
+    private boolean isValidPosition(int row, int col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
+    }
+
+    public ChessPiece getPieceAtPosition(ChessPosition position) {
+        int row = position.getRow();
+        int col = position.getColumn();
+
+        if (isValidPosition(row, col)) {
+            return board[row][col];
+        } else {
+            return null;
+        }
+    }
+
     public ChessBoard() {
         this.board = new ChessPiece[8][8]; // Initialize the instance variable
         // Place white pieces

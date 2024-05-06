@@ -29,6 +29,7 @@ public class ChessPosition {
         return row == that.row && column == that.column;
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
