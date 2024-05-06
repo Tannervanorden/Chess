@@ -75,6 +75,14 @@ public class ChessPiece {
         int row = myPosition.getRow();
         int col = myPosition.getColumn();
 
+        if (type == PieceType.BISHOP) {
+            // Diagonal moves
+            addDiagonalMove(validMoves, board, myPosition, -1, -1); // Up-left
+            addDiagonalMove(validMoves, board, myPosition, -1, 1);  // Up-right
+            addDiagonalMove(validMoves, board, myPosition, 1, -1);  // Down-left
+            addDiagonalMove(validMoves, board, myPosition, 1, 1);   // Down-right
+        }
+
         return validMoves;
     }
 
