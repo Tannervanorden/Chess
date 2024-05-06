@@ -92,6 +92,26 @@ public class ChessPiece {
             addDiagonalMove(validMoves, board, myPosition, -1, 1);  // left
             addStraightMove(validMoves, board, myPosition);
         }
+        if (type == PieceType.KING) {
+
+            // The king can move in 8 directions (horizontal, vertical, and diagonal)
+            int[] rowOffsets = {1, 1, 1, 0, 0, -1, -1, -1};
+            int[] colOffsets = {1, 0, -1, 1, -1, 1, 0, -1};
+
+            for (int i = 0; i < 8; i++) {
+                int newRow = row + rowOffsets[i];
+                int newCol = col + colOffsets[i];
+
+                if (board.isValidPosition(newRow, newCol)) {
+                    ChessPosition nextPosition = new ChessPosition(newRow, newCol);
+                    ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
+                    // Add the move if the position is empty or occupied by an opponent's piece
+                    if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
+                        validMoves.add(new ChessMove(myPosition, nextPosition, null));
+                    }
+                }
+            }
+        }
 
         return validMoves;
     }
