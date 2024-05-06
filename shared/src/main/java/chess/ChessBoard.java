@@ -25,7 +25,7 @@ public class ChessBoard {
     }
 
     public boolean isValidPosition(int row, int col) {
-        return row >= 1 && row < 8 && col >= 1 && col < 8;
+        return row > 1 && row < 8 && col > 1 && col < 8;
     }
 
     public ChessPiece getPieceAtPosition(ChessPosition position) {

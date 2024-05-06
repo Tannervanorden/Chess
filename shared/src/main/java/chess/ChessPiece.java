@@ -114,11 +114,9 @@ public class ChessPiece {
             ChessPosition nextPosition = new ChessPosition(row, col);
 
             // Add the diagonal move if it's within the board boundaries
-            if (board.isValidPosition(row, col)) {
             validMoves.add(new ChessMove(currentPosition, nextPosition, null));
         }
     }
-
 
 
 
