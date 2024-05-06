@@ -97,9 +97,14 @@ public class ChessPiece {
             col += colChange;
 
             ChessPosition nextPosition = new ChessPosition(row, col);
+            ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
 
-            // Add the diagonal move if it's within the board boundaries
-            validMoves.add(new ChessMove(currentPosition, nextPosition, null));
+            // Add the diagonal move if it's within the board boundaries and the square is empty
+            if (pieceAtNextPosition == null) {
+                validMoves.add(new ChessMove(currentPosition, nextPosition, null));
+            } else {
+                break; // Stop generating moves in this direction if blocked by a piece
+            }
         }
 
         // Reset row and col for backward iteration
@@ -112,13 +117,15 @@ public class ChessPiece {
             col -= colChange;
 
             ChessPosition nextPosition = new ChessPosition(row, col);
+            ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
 
-            // Add the diagonal move if it's within the board boundaries
-            validMoves.add(new ChessMove(currentPosition, nextPosition, null));
+            // Add the diagonal move if it's within the board boundaries and the square is empty
+            if (pieceAtNextPosition == null) {
+                validMoves.add(new ChessMove(currentPosition, nextPosition, null));
+            } else {
+                break; // Stop generating moves in this direction if blocked by a piece
+            }
         }
     }
-
-
-
 
 }
