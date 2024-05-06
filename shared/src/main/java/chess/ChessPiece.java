@@ -92,6 +92,8 @@ public class ChessPiece {
 
         // Iterate Forward through the diagonal until a piece or boundary is reached
         while (true) {
+            row += rowChange;
+            col += colChange;
 
             if (!board.isValidPosition(row, col)) {
                 break; // Stop if we reach the boundary
@@ -109,8 +111,6 @@ public class ChessPiece {
             if (nextPiece != null) {
                 break;
             }
-            row += rowChange;
-            col += colChange;
         }
 
         // Reset row and col for backward iteration
@@ -119,6 +119,8 @@ public class ChessPiece {
 
         // Iterate Backward through the diagonal until a piece or boundary is reached
         while (true) {
+            row -= rowChange;
+            col -= colChange;
 
             if (!board.isValidPosition(row, col)) {
                 break; // Stop if we reach the boundary
@@ -136,8 +138,6 @@ public class ChessPiece {
             if (nextPiece != null) {
                 break;
             }
-            row -= rowChange;
-            col -= colChange;
         }
     }
 
