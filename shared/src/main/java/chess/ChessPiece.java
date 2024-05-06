@@ -96,9 +96,13 @@ public class ChessPiece {
         int col = currentPosition.getColumn();
 
         // Generate diagonal moves in the forward direction
-        while (board.isValidPosition(row, col)) {
+        while (true) {
             row += rowChange;
             col += colChange;
+
+            if (!board.isValidPosition(row, col)) {
+                break;
+            }
 
             ChessPosition nextPosition = new ChessPosition(row, col);
             ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
@@ -122,9 +126,13 @@ public class ChessPiece {
         col = currentPosition.getColumn();
 
         // Generate diagonal moves in the backward direction
-        while (board.isValidPosition(row, col)) {
+        while (true) {
             row -= rowChange;
             col -= colChange;
+
+            if (!board.isValidPosition(row, col)) {
+                break;
+            }
 
             ChessPosition nextPosition = new ChessPosition(row, col);
             ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
@@ -213,7 +221,6 @@ public class ChessPiece {
                 break; // Stop generating moves in this direction if blocked by a piece
             }
         }
-
         row = currentPosition.getRow();
         col = currentPosition.getColumn();
 
@@ -237,6 +244,7 @@ public class ChessPiece {
                 break; // Stop generating moves in this direction if blocked by a piece
             }
         }
+
     }
 
 }
