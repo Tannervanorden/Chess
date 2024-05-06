@@ -14,6 +14,7 @@ public class ChessPiece {
     private ChessGame.TeamColor pieceColor;
     private PieceType type;
 
+
     private boolean isValidPosition(int row, int col) {
         return row >= 0 && row < 8 && col >= 0 && col < 8;
     }
@@ -99,10 +100,16 @@ public class ChessPiece {
             ChessPosition nextPosition = new ChessPosition(row, col);
             ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
 
+
+
             // Add the diagonal move if it's within the board boundaries and the square is empty
-            if (pieceAtNextPosition == null) {
+            if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
                 validMoves.add(new ChessMove(currentPosition, nextPosition, null));
-            } else {
+                if ((pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor)) {
+                    break;
+                }
+            }
+            else {
                 break; // Stop generating moves in this direction if blocked by a piece
             }
         }
@@ -120,9 +127,13 @@ public class ChessPiece {
             ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
 
             // Add the diagonal move if it's within the board boundaries and the square is empty
-            if (pieceAtNextPosition == null) {
+            if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
                 validMoves.add(new ChessMove(currentPosition, nextPosition, null));
-            } else {
+                if ((pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor)) {
+                    break;
+                }
+            }
+            else {
                 break; // Stop generating moves in this direction if blocked by a piece
             }
         }
