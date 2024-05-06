@@ -77,10 +77,10 @@ public class ChessPiece {
 
         if (type == PieceType.BISHOP) {
             // Diagonal moves
-            addDiagonalMove(validMoves, board, myPosition, -1, -1); // Up-left
-            addDiagonalMove(validMoves, board, myPosition, -1, 1);  // Up-right
-            addDiagonalMove(validMoves, board, myPosition, 1, -1);  // Down-left
-            addDiagonalMove(validMoves, board, myPosition, 1, 1);   // Down-right
+            addDiagonalMove(validMoves, board, myPosition, -1, -1); // Down-left
+            addDiagonalMove(validMoves, board, myPosition, -1, 1);  // Up-left
+            addDiagonalMove(validMoves, board, myPosition, 1, -1);  // Down-right
+            addDiagonalMove(validMoves, board, myPosition, 1, 1);   // Up-right
         }
 
         return validMoves;
@@ -90,10 +90,37 @@ public class ChessPiece {
         int row = currentPosition.getRow();
         int col = currentPosition.getColumn();
 
-        // Iterate through the diagonal until a piece or boundary is reached
+        // Iterate Forward through the diagonal until a piece or boundary is reached
         while (true) {
             row += rowChange;
             col += colChange;
+
+            if (!board.isValidPosition(row, col)) {
+                break; // Stop if we reach the boundary
+            }
+
+            ChessPosition nextPosition = new ChessPosition(row, col);
+            ChessPiece nextPiece = board.getPieceAtPosition(nextPosition);
+
+            // If there's no piece at the next position, or the piece is of the opposite color, it's a valid move
+            if (nextPiece == null || nextPiece.getTeamColor() != pieceColor) {
+                validMoves.add(new ChessMove(currentPosition, nextPosition,null));
+            }
+
+            // Stop if there's a piece blocking the diagonal
+            if (nextPiece != null) {
+                break;
+            }
+        }
+
+        // Reset row and col for backward iteration
+        row = currentPosition.getRow();
+        col = currentPosition.getColumn();
+
+        // Iterate Backward through the diagonal until a piece or boundary is reached
+        while (true) {
+            row -= rowChange;
+            col -= colChange;
 
             if (!board.isValidPosition(row, col)) {
                 break; // Stop if we reach the boundary
