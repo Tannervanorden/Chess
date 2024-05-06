@@ -78,4 +78,32 @@ public class ChessPiece {
         return validMoves;
     }
 
+    private void addDiagonalMove(Collection<ChessMove> validMoves, ChessBoard board, ChessPosition currentPosition, int rowChange, int colChange) {
+        int row = currentPosition.getRow();
+        int col = currentPosition.getColumn();
+
+        // Iterate through the diagonal until a piece or boundary is reached
+        while (true) {
+            row += rowChange;
+            col += colChange;
+
+            if (!board.isValidPosition(row, col)) {
+                break; // Stop if we reach the boundary
+            }
+
+            ChessPosition nextPosition = new ChessPosition(row, col);
+            ChessPiece nextPiece = board.getPieceAtPosition(nextPosition);
+
+            // If there's no piece at the next position, or the piece is of the opposite color, it's a valid move
+            if (nextPiece == null || nextPiece.getTeamColor() != pieceColor) {
+                validMoves.add(new ChessMove(currentPosition, nextPosition,null));
+            }
+
+            // Stop if there's a piece blocking the diagonal
+            if (nextPiece != null) {
+                break;
+            }
+        }
+    }
+
 }
