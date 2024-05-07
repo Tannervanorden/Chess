@@ -154,6 +154,15 @@ public class ChessPiece {
                 if ((pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor) && !((direction == 1 && row == 7) || (direction == -1 && row == 2))) {
                     validMoves.add(new ChessMove(myPosition, nextPosition, null)); // No promotion
                 }
+                else if (((direction == 1 && row == 7) || (direction == -1 && row == 2)) && isDiagonalPiecePresent(board, row, col, direction)) {
+                    ChessPosition promotionPosition = new ChessPosition(row + direction, col + colOffset);
+                    validMoves.add(new ChessMove(myPosition, promotionPosition, ChessPiece.PieceType.QUEEN));
+                    validMoves.add(new ChessMove(myPosition, promotionPosition, ChessPiece.PieceType.BISHOP));
+                    validMoves.add(new ChessMove(myPosition, promotionPosition, ChessPiece.PieceType.ROOK));
+                    validMoves.add(new ChessMove(myPosition, promotionPosition, ChessPiece.PieceType.KNIGHT));
+                    break;
+
+                }
             }
         }
 
@@ -171,6 +180,21 @@ public class ChessPiece {
 
 
 
+    private boolean isDiagonalPiecePresent(ChessBoard board, int row, int col, int direction) {
+        int[] colOffsets = { -1, 1 };
+        for (int colOffset : colOffsets) {
+            int nextRow = row + direction;
+            int nextCol = col + colOffset;
+            if (board.isValidPosition(nextRow, nextCol)) {
+                ChessPosition nextPosition = new ChessPosition(nextRow, nextCol);
+                ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
+                if (pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     private void calculateKnightMoves(Collection<ChessMove> validMoves, ChessBoard board, ChessPosition myPosition) {
         int row = myPosition.getRow();
