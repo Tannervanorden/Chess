@@ -100,6 +100,8 @@ public class ChessGame {
         teamTurn = (teamTurn == TeamColor.WHITE) ? TeamColor.BLACK : TeamColor.WHITE;
     }
 
+
+
     /**
      * Determines if the given team is in check
      *
@@ -107,7 +109,41 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        return false;
+        ChessPosition kingPosition = null;
+
+        // First, find the king's position
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                ChessPiece piece = board.getPiece(new ChessPosition(row + 1, col + 1));
+                if (piece != null && piece.getTeamColor() == teamColor && piece.getPieceType() == ChessPiece.PieceType.KING) {
+                    kingPosition = new ChessPosition(row + 1, col + 1);
+                    break;
+                }
+            }
+            if (kingPosition != null) {
+                break;
+            }
+        }
+
+        if (kingPosition == null) {
+            throw new IllegalStateException("King not found on the board.");
+        }
+
+        // Check if any opponent's piece can move to the king's position
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                ChessPiece piece = board.getPiece(new ChessPosition(row + 1, col + 1));
+                if (piece != null && piece.getTeamColor() != teamColor) {
+                    Collection<ChessMove> moves = piece.pieceMoves(board, new ChessPosition(row + 1, col + 1));
+                    for (ChessMove move : moves) {
+                        if (move.getEndPosition().equals(kingPosition)) {
+                            return true; // King is in check
+                        }
+                    }
+                }
+            }
+        }
+        return false; // King is not in check
     }
 
     /**
