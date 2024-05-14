@@ -52,7 +52,11 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-        return null;
+        ChessPiece piece = board.getPiece(startPosition);
+        if (piece == null) {
+            return null;
+        }
+        return piece.pieceMoves(board, startPosition);
     }
 
     /**
@@ -77,13 +81,40 @@ public class ChessGame {
 
         Collection<ChessMove> validMoves = piece.pieceMoves(board, startPosition);
         if (!validMoves.contains(move)) {
-            throw new InvalidMoveException("The move is not valid for the piece.");
+            if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+                int promotionRow = (teamTurn == TeamColor.WHITE) ? 8 : 1;
+                if (endPosition.getRow() != promotionRow) {
+                    throw new InvalidMoveException("The move is not valid for the piece.");
+                }
+                // Code for handling pawn promotion can go here, if needed.
+            } else {
+                throw new InvalidMoveException("The move is not valid for the piece.");
+            }
         }
 
-        // Make the move
+
+        // Capture the piece at the end position if any
         ChessPiece capturedPiece = board.getPiece(endPosition);
-        board.addPiece(endPosition, piece);
-        board.addPiece(startPosition, null);
+
+        // Handle pawn promotion
+        if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+            int promotionRow = (teamTurn == TeamColor.WHITE) ? 8 : 1;
+            if (endPosition.getRow() == promotionRow) {
+                ChessPiece.PieceType promotionPieceType = move.getPromotionPiece();
+                if (promotionPieceType == null) {
+                    throw new InvalidMoveException("Pawn promotion must specify a piece type.");
+                }
+                ChessPiece promotedPiece = new ChessPiece(teamTurn, promotionPieceType);
+                board.addPiece(endPosition, promotedPiece);
+                board.addPiece(startPosition, null);
+            } else {
+                board.addPiece(endPosition, piece);
+                board.addPiece(startPosition, null);
+            }
+        } else {
+            board.addPiece(endPosition, piece);
+            board.addPiece(startPosition, null);
+        }
 
         // Check for check, checkmate, and stalemate
         if (isInCheck(teamTurn)) {
@@ -93,12 +124,13 @@ public class ChessGame {
             throw new InvalidMoveException("This move puts your king in check.");
         }
 
-        // Check for checkmate and stalemate
-        // Implement these methods accordingly
-
         // Switch turn to the other team
         teamTurn = (teamTurn == TeamColor.WHITE) ? TeamColor.BLACK : TeamColor.WHITE;
+
+        // Additional logic for checkmate and stalemate can be added here
     }
+
+
 
 
 
@@ -123,10 +155,6 @@ public class ChessGame {
             if (kingPosition != null) {
                 break;
             }
-        }
-
-        if (kingPosition == null) {
-            throw new IllegalStateException("King not found on the board.");
         }
 
         // Check if any opponent's piece can move to the king's position
@@ -164,7 +192,7 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        return false;
     }
 
     /**
