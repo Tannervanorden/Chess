@@ -24,6 +24,11 @@ public class ChessPiece {
         this.type = type;
     }
 
+    public ChessPiece(ChessPiece original) { // Copy Constructor
+        this.pieceColor = original.pieceColor;
+        this.type = original.type;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -56,8 +57,69 @@ public class ChessGame {
         if (piece == null) {
             return null;
         }
-        return piece.pieceMoves(board, startPosition);
+
+        Collection<ChessMove> possibleMoves = piece.pieceMoves(board, startPosition);
+        Collection<ChessMove> validMoves = new ArrayList<>();
+
+        for (ChessMove move : possibleMoves) {
+            // Make the move on a temporary board to check if it results in a check
+            ChessBoard tempBoard = new ChessBoard(board);
+            ChessPiece capturedPiece = tempBoard.getPiece(move.getEndPosition());
+            tempBoard.addPiece(move.getEndPosition(), piece);
+            tempBoard.addPiece(startPosition, null);
+
+            // Check if the move puts the current player's king in check
+            if (!isInCheckAfterMove(tempBoard, piece.getTeamColor(), move)) {
+                validMoves.add(move);
+            }
+
+            // Revert the move on the tempBoard
+            tempBoard.addPiece(startPosition, piece);
+            tempBoard.addPiece(move.getEndPosition(), capturedPiece);
+        }
+
+        return validMoves;
     }
+
+    /**
+     * Helper method to determine if the move leaves the player in check.
+     */
+    private boolean isInCheckAfterMove(ChessBoard tempBoard, TeamColor teamColor, ChessMove move) {
+        // Find the king's position after the move
+        ChessPosition kingPosition = null;
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                ChessPiece piece = tempBoard.getPiece(new ChessPosition(row + 1, col + 1));
+                if (piece != null && piece.getTeamColor() == teamColor && piece.getPieceType() == ChessPiece.PieceType.KING) {
+                    kingPosition = new ChessPosition(row + 1, col + 1);
+                    break;
+                }
+            }
+            if (kingPosition != null) {
+                break;
+            }
+        }
+
+        // Check if any opponent's piece can move to the king's position
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                ChessPiece piece = tempBoard.getPiece(new ChessPosition(row + 1, col + 1));
+                if (piece != null && piece.getTeamColor() != teamColor) {
+                    Collection<ChessMove> moves = piece.pieceMoves(tempBoard, new ChessPosition(row + 1, col + 1));
+                    for (ChessMove possibleMove : moves) {
+                        if (possibleMove.getEndPosition().equals(kingPosition)) {
+                            return true; // King is in check
+                        }
+                    }
+                }
+            }
+        }
+
+        return false; // King is not in check
+    }
+
+
+
 
     /**
      * Makes a move in a chess game

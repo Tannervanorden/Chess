@@ -28,6 +28,9 @@ public class ChessBoard {
         return row >= 1 && row <= 8 && col >= 1 && col <= 8;
     }
 
+
+
+
     public ChessPiece getPieceAtPosition(ChessPosition position) {
         int row = position.getRow();
         int col = position.getColumn();
@@ -53,6 +56,18 @@ public class ChessBoard {
         int row = position.getRow() - 1;
         int column = position.getColumn() - 1;
         board[row][column] = piece;
+    }
+
+    public ChessBoard(ChessBoard original) {
+        this.board = new ChessPiece[8][8];
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                ChessPiece piece = original.board[row][col];
+                if (piece != null) {
+                    this.board[row][col] = new ChessPiece(piece); // Chess Piece Copy Constructor
+                }
+            }
+        }
     }
 
     /**
