@@ -16,9 +16,9 @@ public class ChessGame {
 
     public ChessGame() {
         // Initialize the game
-        teamTurn = TeamColor.WHITE; // By default, white team starts first
-        board = new ChessBoard(); // Initialize the chessboard
-        board.resetBoard(); // Set up the default starting board
+        teamTurn = TeamColor.WHITE;
+        board = new ChessBoard();
+        board.resetBoard();
     }
 
     /**
