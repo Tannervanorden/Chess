@@ -15,7 +15,7 @@ public class ChessGame {
     private ChessBoard board;
 
     public ChessGame() {
-        // Initialize the game with default settings
+        // Initialize the game
         teamTurn = TeamColor.WHITE; // By default, white team starts first
         board = new ChessBoard(); // Initialize the chessboard
         board.resetBoard(); // Set up the default starting board
@@ -89,9 +89,6 @@ public class ChessGame {
         return chessChecker(tempBoard,kingPosition,teamColor);
     }
 
-
-
-
     /**
      * Makes a move in a chess game
      *
@@ -126,11 +123,7 @@ public class ChessGame {
             }
         }
 
-
-        // Capture the piece at the end position if any
-        ChessPiece capturedPiece = board.getPiece(endPosition);
-
-        // Handle pawn promotion
+        // Handle pawn promotion and other moves
         if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
             int promotionRow = (teamTurn == TeamColor.WHITE) ? 8 : 1;
             if (endPosition.getRow() == promotionRow) {
@@ -145,16 +138,11 @@ public class ChessGame {
                 board.addPiece(endPosition, piece);
                 board.addPiece(startPosition, null);
             }
-        } else {
+        } else if (!isInCheck(teamTurn)){
             board.addPiece(endPosition, piece);
             board.addPiece(startPosition, null);
         }
-
-        // Check for check, checkmate, and stalemate
-        if (isInCheck(teamTurn)) {
-            // Revert the move
-            board.addPiece(startPosition, piece);
-            board.addPiece(endPosition, capturedPiece);
+        else {
             throw new InvalidMoveException("This move puts your king in check.");
         }
 
@@ -265,9 +253,9 @@ public class ChessGame {
                 ChessPosition startPosition = new ChessPosition(row + 1, col + 1);
                 ChessPiece piece = board.getPiece(startPosition);
 
-                // If the piece belongs to the correct team
+                // If the piece belongs to the correct color
                 if (piece != null && piece.getTeamColor() == teamColor) {
-                    // Check if there are any valid moves for this piece
+                    // Check if there are any valid moves
                     Collection<ChessMove> validMoves = validMoves(startPosition);
                     if (!validMoves.isEmpty()) {
                         return false; // No Valid Moves

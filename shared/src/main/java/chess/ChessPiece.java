@@ -14,11 +14,6 @@ public class ChessPiece {
     private ChessGame.TeamColor pieceColor;
     private PieceType type;
 
-
-    private boolean isValidPosition(int row, int col) {
-        return row >= 0 && row < 8 && col >= 0 && col < 8;
-    }
-
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceColor = pieceColor;
         this.type = type;
