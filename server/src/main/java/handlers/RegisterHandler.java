@@ -7,6 +7,8 @@ import spark.Request;
 import spark.Response;
 
 public class RegisterHandler {
+    private Gson gson = new Gson();
+    private RegisterService registerService = new RegisterService();
 
 
 }
