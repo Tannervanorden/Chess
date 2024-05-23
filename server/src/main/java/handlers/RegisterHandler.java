@@ -1,6 +1,7 @@
 package handlers;
 
 import com.google.gson.Gson;
+import model.AuthData;
 import model.UserData;
 import service.RegisterService;
 import spark.Request;
@@ -11,10 +12,16 @@ public class RegisterHandler {
     private RegisterService registerService = new RegisterService();
 
     public Object register(Request request, Response response) {
-        UserData user = gson.fromJson(request.body(), UserData.class);
+        try {
+            UserData userData = gson.fromJson(request.body(), UserData.class);
 
-        var result = RegisterService.register(userData);
-        return gson.toJson(result);
+            AuthData result = registerService.register(userData);
+
+            return gson.toJson(result);
+        } catch (Exception e) {
+            response.status(500);
+            return gson.toJson(e);
+        }
     }
 
 }

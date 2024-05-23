@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class RegisterService {
+public class RegisterService extends GenericService {
 
     private Map<String, UserData> users = new HashMap<>();
     private  Map<String, AuthData> authTokens = new HashMap<>();
