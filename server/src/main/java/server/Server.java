@@ -1,5 +1,6 @@
 package server;
 
+import service.ClearService;
 import spark.*;
 
 public class Server {

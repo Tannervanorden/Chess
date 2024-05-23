@@ -6,7 +6,6 @@ import java.util.Map;
 import model.AuthData;
 
 public class AuthDAO {
-    private static UserDAO database;
     private Map<String, AuthDAO> auth;
 
     private AuthDAO() {
