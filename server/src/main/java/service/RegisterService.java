@@ -16,5 +16,15 @@ public class RegisterService {
         if (users.containsKey(userData.username())){
             throw new Exception("Username is already in use");
         }
+
+        //Create a AuthToken
+        String token = UUID.randomUUID().toString();
+
+        //save
+        users.put(userData.userName(), userData);
+        AuthData authData = new AuthData(token, userData.username());
+        authTokens.put(token, authData);
+
+        return authData;
     }
 }
