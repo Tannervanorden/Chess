@@ -5,9 +5,6 @@ import model.UserData;
 import dataaccess.UserDAO;
 import dataaccess.AuthDAO;
 
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class RegisterService extends GenericService {
@@ -26,9 +23,10 @@ public class RegisterService extends GenericService {
 
         //save
 
-        users.put(user.username(), user);
+        userDAO.addUser(user);
         AuthData authData = new AuthData(token, user.username());
-        authTokens.put(token, authData);
+        authDAO.addAuth(token, authData);
+
 
         return authData;
     }

@@ -6,7 +6,6 @@ import java.util.Map;
 import model.UserData;
 
 public class UserDAO {
-    private static UserDAO database;
     private Map<String, UserData> users;
 
     public UserDAO() {
@@ -15,6 +14,10 @@ public class UserDAO {
 
     public UserData getUser(String username){
         return users.get(username);
+    }
+
+    public void addUser(UserData userData){
+        users.put(userData.username(), userData);
     }
 
     public Map<String, UserData> getUsers() {
