@@ -10,10 +10,10 @@ import java.util.UUID;
 public class RegisterService {
 
     private Map<String, UserData> users = new HashMap<>();
-    private Map<String, AuthData> authTokens = new HashMap<>();
+    private  Map<String, AuthData> authTokens = new HashMap<>();
 
     public AuthData register(UserData user) throws Exception {
-        if (users.containsKey(userData.username())){
+        if (users.containsKey(user.username())){
             throw new Exception("Username is already in use");
         }
 
@@ -21,8 +21,8 @@ public class RegisterService {
         String token = UUID.randomUUID().toString();
 
         //save
-        users.put(userData.userName(), userData);
-        AuthData authData = new AuthData(token, userData.username());
+        users.put(user.username(), user);
+        AuthData authData = new AuthData(token, user.username());
         authTokens.put(token, authData);
 
         return authData;
