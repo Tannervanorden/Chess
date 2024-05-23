@@ -10,5 +10,11 @@ public class RegisterHandler {
     private Gson gson = new Gson();
     private RegisterService registerService = new RegisterService();
 
+    public Object register(Request request, Response response) {
+        UserData user = gson.fromJson(request.body(), UserData.class);
+
+        var result = RegisterService.register(userData);
+        return gson.toJson(result);
+    }
 
 }
