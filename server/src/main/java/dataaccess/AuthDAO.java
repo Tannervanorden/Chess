@@ -4,15 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.AuthData;
+import model.UserData;
 
 public class AuthDAO {
-    private Map<String, AuthDAO> auth;
+    private Map<String, AuthData> auth;
 
-    private AuthDAO() {
+    public AuthDAO() {
         this.auth = new HashMap<>();
     }
 
-    public Map<String, AuthDAO> getAuth() {
+    public void addAuth(String token, AuthData authData) {
+        auth.put(token, authData);
+    }
+
+    public Map<String, AuthData> getAuth() {
         return auth;
     }
 

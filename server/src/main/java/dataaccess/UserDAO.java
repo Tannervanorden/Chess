@@ -9,10 +9,13 @@ public class UserDAO {
     private static UserDAO database;
     private Map<String, UserData> users;
 
-    private UserDAO() {
+    public UserDAO() {
         this.users = new HashMap<>();
     }
 
+    public UserData getUser(String username){
+        return users.get(username);
+    }
 
     public Map<String, UserData> getUsers() {
         return users;

@@ -9,7 +9,7 @@ public class GameDAO {
     private static  GameDAO database;
     private Map<Integer, GameDAO> games;
 
-    private GameDAO() {
+    public GameDAO() {
         this.games = new HashMap<>();
     }
 
