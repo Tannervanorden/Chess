@@ -1,6 +1,7 @@
 package handlers;
 
 import com.google.gson.Gson;
+import dataaccess.DataAccessException;
 import model.AuthData;
 import model.UserData;
 import service.LoginService;
@@ -18,7 +19,7 @@ public class LoginHandler  {
             UserData userData = gson.fromJson(request.body(), UserData.class);
             AuthData result = loginService.login(userData);
 
-            if (result.username() != null && userData.password() != null) {
+            if (result != null) {
                 response.status(200);
                 return gson.toJson(result);
             }
