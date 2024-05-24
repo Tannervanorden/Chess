@@ -13,23 +13,13 @@ public class GenericService {
         return authDAO;
     }
 
-    public static void setAuthDAO(AuthDAO authDAO) {
-        GenericService.authDAO = authDAO;
-    }
-
     public static UserDAO getUserDAO() {
         return userDAO;
     }
 
-    public static void setUserDAO(UserDAO userDAO) {
-        GenericService.userDAO = userDAO;
-    }
 
     public static GameDAO getGameDAO() {
         return gameDAO;
     }
 
-    public static void setGameDAO(GameDAO gameDAO) {
-        GenericService.gameDAO = gameDAO;
-    }
 }

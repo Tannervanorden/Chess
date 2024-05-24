@@ -22,7 +22,6 @@ public class RegisterService extends GenericService {
         String token = UUID.randomUUID().toString();
 
         //save
-
         userDAO.addUser(user);
         AuthData authData = new AuthData(token, user.username());
         authDAO.addAuth(token, authData);
