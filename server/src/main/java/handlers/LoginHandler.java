@@ -14,11 +14,19 @@ public class LoginHandler  {
     public Object login(Request request, Response response) {
         try {
             UserData userData = gson.fromJson(request.body(), UserData.class);
-
             AuthData result = loginService.login(userData);
 
-            return gson.toJson(result);
-        } catch (Exception e) {
+            if (result != null) {
+                response.status(200);
+                return gson.toJson(result);
+            }
+            else {
+                response.status(401);
+                return gson.toJson(result);
+
+            }
+        }
+        catch (Exception e) {
             response.status(500);
             return gson.toJson(e);
         }
