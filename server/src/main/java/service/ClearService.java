@@ -4,14 +4,17 @@ import dataaccess.DataAccessException;
 import dataaccess.AuthDAO;
 import dataaccess.UserDAO;
 import dataaccess.GameDAO;
+import model.AuthData;
+import model.UserData;
 
 
-public class ClearService {
+public class ClearService extends GenericService {
 
-    public ClearService(GameDAO gameDAO, UserDAO userDAO, AuthDAO authDAO) {
-        gameDAO.clear();
-        userDAO.clear();
-        authDAO.clear();
+    public ClearService() {
+        public void clear() throws DataAccessException {
+
+            UserDAO userDAO = GenericService.getUserDAO();
+            AuthDAO authDAO = GenericService.getAuthDAO();
+            GameDAO gameDAO = GenericService.getGameDAO();
     }
-
 }

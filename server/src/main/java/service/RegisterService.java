@@ -1,5 +1,6 @@
 package service;
 
+import dataaccess.DataAccessException;
 import model.AuthData;
 import model.UserData;
 import dataaccess.UserDAO;
@@ -9,13 +10,13 @@ import java.util.UUID;
 
 public class RegisterService extends GenericService {
 
-    public AuthData register(UserData user) throws Exception {
+    public AuthData register(UserData user) throws DataAccessException {
 
         UserDAO userDAO = GenericService.getUserDAO();
         AuthDAO authDAO = GenericService.getAuthDAO();
 
         if (userDAO.getUser(user.username()) != null) {
-            throw new Exception("Username is already in use");
+            throw new DataAccessException("Username is already in use");
         }
 
         //Create a AuthToken

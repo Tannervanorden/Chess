@@ -18,7 +18,7 @@ public class LoginHandler  {
             UserData userData = gson.fromJson(request.body(), UserData.class);
             AuthData result = loginService.login(userData);
 
-            if (result != null) {
+            if (result.username() != null && userData.password() != null) {
                 response.status(200);
                 return gson.toJson(result);
             }
