@@ -1,11 +1,14 @@
 package handlers;
 
 import com.google.gson.Gson;
+import dataaccess.DataAccessException;
 import model.AuthData;
 import model.UserData;
 import service.RegisterService;
 import spark.Request;
 import spark.Response;
+
+import java.util.Map;
 
 public class RegisterHandler {
     private Gson gson = new Gson();
@@ -15,12 +18,25 @@ public class RegisterHandler {
         try {
             UserData userData = gson.fromJson(request.body(), UserData.class);
 
-            AuthData result = registerService.register(userData);
+            if(userData.username() == null || userData.password() == null || userData.email() == null) {
+                response.status(400);
+                return gson.toJson(Map.of("message", "Error: bad request"));
+            }
+            else {
+                AuthData result = registerService.register(userData);
+                response.status(200);
+                return gson.toJson(result);
+            }
 
-            return gson.toJson(result);
-        } catch (Exception e) {
-            response.status(500);
-            return gson.toJson(e);
+        } catch (DataAccessException e) {
+            if (e.getMessage().equals("Username already in use")) {
+                response.status(403);
+                return gson.toJson(Map.of("message", "Error: username is already in use"));
+            }
+            else {
+                response.status(500);
+                return gson.toJson(Map.of("message", "Error: (description of error)"));
+            }
         }
     }
 
