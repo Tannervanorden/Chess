@@ -7,6 +7,8 @@ import service.LoginService;
 import spark.Request;
 import spark.Response;
 
+import java.util.Map;
+
 public class LoginHandler  {
     private Gson gson = new Gson();
     private LoginService loginService = new LoginService();
@@ -22,13 +24,12 @@ public class LoginHandler  {
             }
             else {
                 response.status(401);
-                return gson.toJson(result);
-
+                return gson.toJson(Map.of("message", "Error: unauthorized" ));
             }
         }
         catch (Exception e) {
             response.status(500);
-            return gson.toJson(e);
+            return gson.toJson(Map.of("message", "Error: (description of error)"));
         }
     }
 }

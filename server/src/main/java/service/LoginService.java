@@ -13,8 +13,8 @@ public class LoginService extends GenericService {
         UserDAO userDAO = GenericService.getUserDAO();
         AuthDAO authDAO = GenericService.getAuthDAO();
 
-        if (userDAO.getUser(user.username()) != null) {
-            throw new Exception("Username is already in use");
+        if (userDAO.getUser(user.username()) == null) {
+            throw new Exception("User does not exist");
         }
 
         //Create a AuthToken
