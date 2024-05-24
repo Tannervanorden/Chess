@@ -13,19 +13,25 @@ public class LoginService extends GenericService {
         UserDAO userDAO = GenericService.getUserDAO();
         AuthDAO authDAO = GenericService.getAuthDAO();
 
-        if (userDAO.getUser(user.username()) == null) {
-            throw new Exception("User does not exist");
+        try {
+            UserData existingU = userDAO.getUser(user.username());
+            if (existingU == null) {
+                throw new Exception("User not found");
+            }
+
+            if (!existingU.password().equals(user.password())) {
+                throw new Exception("Wrong password");
+            }
+
+            String token = UUID.randomUUID().toString();
+
+            AuthData authData = new AuthData(token, user.username());
+            authDAO.addAuth(token, authData);
+            return authData;
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
-
-        //Create a AuthToken
-        String token = UUID.randomUUID().toString();
-
-        //save
-        userDAO.addUser(user);
-        AuthData authData = new AuthData(token, user.username());
-        authDAO.addAuth(token, authData);
-
-
-        return authData;
     }
 }
