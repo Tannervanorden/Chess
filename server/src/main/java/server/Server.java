@@ -1,5 +1,6 @@
 package server;
 
+import handlers.LoginHandler;
 import handlers.RegisterHandler;
 import spark.*;
 
