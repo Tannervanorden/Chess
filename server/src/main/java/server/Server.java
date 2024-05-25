@@ -2,6 +2,7 @@ package server;
 
 import handlers.ClearHandler;
 import handlers.LoginHandler;
+import handlers.LogoutHandler;
 import handlers.RegisterHandler;
 import spark.*;
 
@@ -15,7 +16,7 @@ public class Server {
         // Register your endpoints and handle exceptions here.
         Spark.post("/user", ((request, response) -> (new RegisterHandler()).register(request, response)));
         Spark.post("/session", ((request, response) -> (new LoginHandler()).login(request, response)));
-        Spark.delete("/session", ((request, response) -> (new ClearHandler()).clear(request, response)));
+        Spark.delete("/session", ((request, response) -> (new LogoutHandler()).logout(request, response)));
         Spark.delete("/db", ((request, response) -> (new ClearHandler()).clear(request, response)));
 
         Spark.awaitInitialization();
