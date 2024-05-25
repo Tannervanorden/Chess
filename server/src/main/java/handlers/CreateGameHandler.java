@@ -17,7 +17,7 @@ public class CreateGameHandler {
         try {
             GameData game = gson.fromJson(request.body(), GameData.class);
             String authToken = request.headers("authorization");
-            if (game.whiteUsername() == null || game.blackUsername() == null) {
+            if (game.whiteUsername() == null || game.blackUsername() == null || game.gameName() == null || game.game() == null) {
                 response.status(401);
                 return gson.toJson(Map.of("message", "Error; Invalid Request"));
             }
