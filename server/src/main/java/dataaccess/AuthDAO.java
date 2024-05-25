@@ -21,6 +21,10 @@ public class AuthDAO {
         return auth;
     }
 
+    public void removeAuth(String token) {
+        auth.remove(token);
+    }
+
     public void clear() {
         this.auth.clear();
     }
