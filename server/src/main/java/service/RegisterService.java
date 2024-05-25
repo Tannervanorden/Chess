@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class RegisterService extends GenericService {
 
-    public AuthData register(UserData user) throws DataAccessException {
+    public AuthData register(UserData user) throws Exception {
 
         UserDAO userDAO = GenericService.getUserDAO();
         AuthDAO authDAO = GenericService.getAuthDAO();

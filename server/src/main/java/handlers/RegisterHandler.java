@@ -28,8 +28,8 @@ public class RegisterHandler {
                 return gson.toJson(result);
             }
 
-        } catch (DataAccessException e) {
-            if (e.getMessage().equals("Username already in use")) {
+        } catch (Exception e) {
+            if (e.getMessage().equals("Username is already in use")) {
                 response.status(403);
                 return gson.toJson(Map.of("message", "Error: username is already in use"));
             }
