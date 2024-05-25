@@ -18,8 +18,14 @@ public class CreateGameHandler {
             GameData game = gson.fromJson(request.body(), GameData.class);
             if (game.whiteUsername() == null || game.blackUsername() == null) {
                 response.status(400);
-                return gson.toJson(Map.of("message", "Error; Invalid Request"))
+                return gson.toJson(Map.of("message", "Error; Invalid Request"));
             }
+            createGameService.createGame(game);
+            response.status(200);
+            return gson.toJson(game);
+        } catch (Exception e) {
+            response.status(500);
+            return gson.toJson(Map.of("message", e.getMessage()));
         }
     }
 }
