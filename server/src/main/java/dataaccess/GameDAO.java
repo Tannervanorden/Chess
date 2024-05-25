@@ -6,7 +6,6 @@ import java.util.Map;
 import model.GameData;
 
 public class GameDAO {
-    private static  GameDAO database;
     private Map<Integer, GameDAO> games;
 
     public GameDAO() {
