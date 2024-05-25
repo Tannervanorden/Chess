@@ -7,6 +7,7 @@ import spark.Response;
 import service.CreateGameService;
 import service.LoginService;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class CreateGameHandler {
@@ -17,13 +18,13 @@ public class CreateGameHandler {
         try {
             GameData game = gson.fromJson(request.body(), GameData.class);
             String authToken = request.headers("authorization");
-            if (game.whiteUsername() == null || game.blackUsername() == null || game.gameName() == null || game.game() == null) {
+            if (game.gameName() == null) {
                 response.status(401);
                 return gson.toJson(Map.of("message", "Error; Invalid Request"));
             }
-            createGameService.createGame(game, authToken);
+            GameData result = createGameService.createGame(game, authToken);
             response.status(200);
-            return gson.toJson(game);
+            return gson.toJson(result);
         } catch (Exception e) {
             response.status(500);
             return gson.toJson(Map.of("message", e.getMessage()));
