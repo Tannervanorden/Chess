@@ -16,11 +16,12 @@ public class CreateGameHandler {
     public Object createGame(Request request, Response response) {
         try {
             GameData game = gson.fromJson(request.body(), GameData.class);
+            String authToken = request.headers("authorization");
             if (game.whiteUsername() == null || game.blackUsername() == null) {
-                response.status(400);
+                response.status(401);
                 return gson.toJson(Map.of("message", "Error; Invalid Request"));
             }
-            createGameService.createGame(game);
+            createGameService.createGame(game, authToken);
             response.status(200);
             return gson.toJson(game);
         } catch (Exception e) {

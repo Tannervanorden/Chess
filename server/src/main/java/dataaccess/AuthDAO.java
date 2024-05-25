@@ -17,6 +17,10 @@ public class AuthDAO {
         auth.put(token, authData);
     }
 
+    public boolean validateToken(String token) {
+        return auth.containsKey(token);
+    }
+
     public Map<String, AuthData> getAuth() {
         return auth;
     }
