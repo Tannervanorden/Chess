@@ -6,13 +6,17 @@ import java.util.Map;
 import model.GameData;
 
 public class GameDAO {
-    private Map<Integer, GameDAO> games;
+    private Map<Integer, GameData> games;
 
     public GameDAO() {
         this.games = new HashMap<>();
     }
 
-    public Map<Integer,  GameDAO> getGames() {
+    public void addGame(GameData game) {
+        games.put(game.gameID(), game);
+    }
+
+    public Map<Integer,  GameData> getGames() {
         return games;
     }
 
