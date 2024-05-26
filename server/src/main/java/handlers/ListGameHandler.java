@@ -7,7 +7,6 @@ import spark.Response;
 
 import java.util.Map;
 
-//adding comment to test git push
 public class ListGameHandler {
     private Gson gson = new Gson();;
     private ListGamesService listGamesService = new ListGamesService();
