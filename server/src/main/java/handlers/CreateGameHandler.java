@@ -18,10 +18,12 @@ public class CreateGameHandler {
         try {
             GameData game = gson.fromJson(request.body(), GameData.class);
             String authToken = request.headers("authorization");
+
             if (game.gameName() == null) {
-                response.status(401);
+                response.status(400);
                 return gson.toJson(Map.of("message", "Error; Invalid Request"));
             }
+
             GameData result = createGameService.createGame(game, authToken);
             response.status(200);
             return gson.toJson(result);
