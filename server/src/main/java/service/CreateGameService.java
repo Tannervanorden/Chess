@@ -18,7 +18,7 @@ public class CreateGameService extends GenericService {
             int gameID = UUID.randomUUID().hashCode();
             GameData newGame = new GameData(gameID, null, null, game.gameName(), null);
             gameDAO.addGame(newGame);
-            return game;
+            return newGame;
         } catch (Exception e) {
             throw new Exception("Failed" + e.getMessage());
         }
