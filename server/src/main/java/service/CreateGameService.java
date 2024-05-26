@@ -15,7 +15,7 @@ public class CreateGameService extends GenericService {
             throw new Exception("Unauthorized");
         }
         try {
-            int gameID = UUID.randomUUID().hashCode();
+            int gameID = Math.abs(UUID.randomUUID().hashCode());
             GameData newGame = new GameData(gameID, null, null, game.gameName(), null);
             gameDAO.addGame(newGame);
             return newGame;
