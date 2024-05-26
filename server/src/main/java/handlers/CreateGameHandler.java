@@ -28,6 +28,10 @@ public class CreateGameHandler {
             response.status(200);
             return gson.toJson(result);
         } catch (Exception e) {
+            if (e.getMessage().contains("Unauthorized")) {
+                response.status(401);
+                return gson.toJson(Map.of("message", "Error; unauthorized"));
+            }
             response.status(500);
             return gson.toJson(Map.of("message", e.getMessage()));
         }
