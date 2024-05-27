@@ -25,6 +25,7 @@ public class JoinGameHandler {
 
 
              GameData game = joinGameService.joinGame(id, authToken);
+             response.status(200);
              return gson.toJson(Map.of("message", "Game joined successfully"));
          } catch (Exception e) {
              response.status(500);
