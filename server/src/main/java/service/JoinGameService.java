@@ -15,9 +15,14 @@ public class JoinGameService extends GenericService {
         String username = authDAO.getUsername(authToken);
         GameData game = gameDAO.getGame(id);
 
+        if (username == null) {
+            throw new Exception("Unauthorized");
+        }
+
         if (game == null) {
             throw new Exception("Game not found");
         }
+
 
         if (game.whiteUsername() == null){
             game = new GameData(game.gameID(), username, game.blackUsername(), game.gameName(), game.game());
