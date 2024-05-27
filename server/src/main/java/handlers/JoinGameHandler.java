@@ -16,14 +16,19 @@ public class JoinGameHandler {
          try {
              String authToken = request.headers("authorization");
              GameData requestBody = gson.fromJson(request.body(), GameData.class);
+             int id = requestBody.gameID();
 
              if (authToken == null || authToken.isEmpty()) {
                  response.status(401);
                  return gson.toJson(Map.of("message", "Error: unauthorized"));
              }
 
-             int id = requestBody.gameID();
+
              GameData game = joinGameService.joinGame(id, authToken);
+             return gson.toJson(Map.of("message", "Game joined successfully"));
+         } catch (Exception e) {
+             response.status(500);
+             return gson.toJson(Map.of("message", e.getMessage()));
          }
      }
 
