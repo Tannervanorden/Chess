@@ -20,21 +20,11 @@ public class ListGamesService extends GenericService {
 
         try {
             Map<Integer, GameData> games = gameDAO.getGames();
-            List<Map<String, Object>> gamesList = new ArrayList<>();
+            List<GameData> gamesList = new ArrayList<>(games.values());
 
-            //loop through each game in the gameDAO and add to an array list
-            for (GameData game : games.values()) {
-                Map<String, Object> gameData = new HashMap<>();
-                gameData.put("gameID", game.gameID());
-                gameData.put("gameName", game.gameName());
-                gameData.put("whiteUsername", game.whiteUsername());
-                gameData.put("blackUsername", game.blackUsername());
-                gamesList.add(gameData);
-            }
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("games", gamesList);
-            return response;
+            Map<String, Object> result = new HashMap<>();
+            result.put("games", gamesList);
+            return result;
         } catch (Exception e) {
             throw new Exception("Failed to get game list");
         }
