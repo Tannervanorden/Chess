@@ -24,7 +24,6 @@ public class JoinGameHandler {
 
              int id = requestBody.gameID();
              GameData game = joinGameService.joinGame(id, authToken);
-
          }
      }
 

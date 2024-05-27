@@ -20,6 +20,12 @@ public class GameDAO {
         }
         games.put(game.gameID(), game);
     }
+    public void updateGame(int id, GameData game){
+        games.put(game.gameID(), game);
+    }
+    public GameData getGame(int gameID) throws DataAccessException {
+        return games.get(gameID);
+    }
 
 
     public Map<Integer,  GameData> getGames() {
