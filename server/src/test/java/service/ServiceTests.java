@@ -81,15 +81,15 @@ class ServiceTest {
 
     @Test
     void logoutPositive() {
-        LogoutService LogoutService = new LogoutService();
-        assertNotNull(LogoutService);
+        LogoutService logoutService = new LogoutService();
+        assertNotNull(logoutService);
     }
 
     @Test
     void logoutNegative() {
-        LogoutService LogoutService = new LogoutService();
-        LogoutService LogoutService1 = new LogoutService();
-        assertNotEquals(LogoutService, LogoutService1);
+        LogoutService logoutService = new LogoutService();
+        LogoutService logoutService1 = new LogoutService();
+        assertNotEquals(logoutService, logoutService1);
     }
 
     @Test
