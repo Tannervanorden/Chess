@@ -30,12 +30,12 @@ public class LoginHandler  {
         }
         catch (Exception e) {
             String errorMessage = e.getMessage();
-            if (errorMessage.equals("Unauthorized")){
+            if (errorMessage.equals("Unauthorized") || errorMessage.equals("User not found")){
                 response.status(401);
                 return gson.toJson(Map.of("message", "Error: unauthorized" ));
             }
             response.status(500);
-            return gson.toJson(Map.of("message", "Error: (description of error)"));
+            return gson.toJson(Map.of("message", "errorMessage"));
         }
     }
 }

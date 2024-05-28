@@ -20,7 +20,7 @@ public class LoginService extends GenericService {
             }
 
             if (!existingU.password().equals(user.password())) {
-                throw new Exception("Wrong password");
+                throw new Exception("Unauthorized");
             }
 
             String token = UUID.randomUUID().toString();
