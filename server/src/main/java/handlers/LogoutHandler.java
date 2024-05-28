@@ -25,7 +25,7 @@ public class LogoutHandler {
 
         } catch (Exception e) {
             response.status(500);
-            return gson.toJson(Map.of("message", "Error: (description of error)"));
+            return gson.toJson(Map.of("message", e.getMessage()));
         }
     }
 
