@@ -81,7 +81,13 @@ public class ChessPiece {
         }
 
         if (type == PieceType.KNIGHT) {
-            calculateKnightMoves(validMoves, board, myPosition);
+            int[][] knightMoves = {
+                    {-2, -1}, {-2, 1},
+                    {-1, -2}, {-1, 2},
+                    {1, -2}, {1, 2},
+                    {2, -1}, {2, 1}
+            };
+            calculateMovesFromArray(validMoves, board, myPosition, knightMoves);
         }
 
         if (type == PieceType.BISHOP) {
@@ -98,24 +104,12 @@ public class ChessPiece {
             addStraightMove(validMoves, board, myPosition);
         }
         if (type == PieceType.KING) {
-
-            // The king can move in 8 directions (horizontal, vertical, and diagonal)
-            int[] rowOffsets = {1, 1, 1, 0, 0, -1, -1, -1};
-            int[] colOffsets = {1, 0, -1, 1, -1, 1, 0, -1};
-
-            for (int i = 0; i < 8; i++) {
-                int newRow = row + rowOffsets[i];
-                int newCol = col + colOffsets[i];
-
-                if (board.isValidPosition(newRow, newCol)) {
-                    ChessPosition nextPosition = new ChessPosition(newRow, newCol);
-                    ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
-                    // Add the move if the position is empty or occupied by an opponent's piece
-                    if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
-                        validMoves.add(new ChessMove(myPosition, nextPosition, null));
-                    }
-                }
-            }
+            int[][] kingMoves = {
+                    {-1, -1}, {-1, 0}, {-1, 1},
+                    {0, -1}, {0, 1},
+                    {1, -1}, {1, 0}, {1, 1}
+            };
+            calculateMovesFromArray(validMoves, board, myPosition, kingMoves);
         }
 
         return validMoves;
@@ -196,26 +190,18 @@ public class ChessPiece {
         return false;
     }
 
-    private void calculateKnightMoves(Collection<ChessMove> validMoves, ChessBoard board, ChessPosition myPosition) {
+    private void calculateMovesFromArray(Collection<ChessMove> validMoves, ChessBoard board, ChessPosition myPosition, int[][] moves) {
         int row = myPosition.getRow();
         int col = myPosition.getColumn();
 
-        int[][] knightMoves = {
-                {-2, -1}, {-2, 1}, // Two squares up/down and one square left/right
-                {-1, -2}, {-1, 2}, // One square up/down and two squares left/right
-                {1, -2}, {1, 2},   // One square up/down and two squares left/right
-                {2, -1}, {2, 1}    // Two squares up/down and one square left/right
-        };
+        for (int[] move : moves) {
+            int newRow = row + move[0];
+            int newCol = col + move[1];
 
-        for (int[] move : knightMoves) {
-            int nextRow = row + move[0];
-            int nextCol = col + move[1];
-
-            if (board.isValidPosition(nextRow, nextCol)) {
-                ChessPosition nextPosition = new ChessPosition(nextRow, nextCol);
+            if (board.isValidPosition(newRow, newCol)) {
+                ChessPosition nextPosition = new ChessPosition(newRow, newCol);
                 ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
 
-                // Add the move if the square is empty or contains an opponent's piece
                 if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
                     validMoves.add(new ChessMove(myPosition, nextPosition, null));
                 }

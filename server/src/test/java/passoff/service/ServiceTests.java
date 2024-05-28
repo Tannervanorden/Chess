@@ -19,9 +19,7 @@ class ServiceTest {
     }
 
     @Test
-    void createGamePositive() throws Exception {
-        CreateGameService createGameService = new CreateGameService();
-        String authToken = "authToken";
+    void createGamePositive() {
         ChessGame game = new ChessGame();
         GameData gameData = new GameData(1, "whiteUser", "blackUser", "game1", game);
         assertNotNull(gameData);
