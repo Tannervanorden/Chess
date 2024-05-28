@@ -20,10 +20,6 @@ public class UserDAO {
         users.put(userData.username(), userData);
     }
 
-    public Map<String, UserData> getUsers() {
-        return users;
-    }
-
     public void clear() {
         this.users.clear();
     }
