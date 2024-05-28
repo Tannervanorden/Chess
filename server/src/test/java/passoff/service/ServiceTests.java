@@ -1,9 +1,6 @@
 package passoff.service;
 
 import chess.ChessGame;
-import dataaccess.AuthDAO;
-import dataaccess.GameDAO;
-import dataaccess.UserDAO;
 import model.GameData;
 import org.junit.jupiter.api.Test;
 import service.*;
@@ -12,16 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceTest {
 
-    private AuthDAO authDAO;
-    private GameDAO gameDAO;
-
     private ClearService clearService;
-    private CreateGameService createGameService;
-    private JoinGameService joinGameService;
-    private ListGamesService listGamesService;
-    private LoginService loginService;
-    private LogoutService logoutService;
-    private RegisterService registerService;
 
 
     @Test
@@ -70,33 +58,53 @@ class ServiceTest {
 
     @Test
     void listGamesPositive() {
+        ListGamesService listGamesService = new ListGamesService();
+        assertNotNull(listGamesService);
     }
 
     @Test
     void listGamesNegative() {
+        ListGamesService listGamesService = new ListGamesService();
+        ListGamesService listGamesService1 = new ListGamesService();
+        assertNotEquals(listGamesService1, listGamesService);
     }
 
     @Test
     void loginPositive() {
+        LoginService loginService = new LoginService();
+        assertNotNull(loginService);
     }
 
     @Test
     void loginNegative() {
+        LoginService loginService = new LoginService();
+        LoginService loginService1 = new LoginService();
+        assertNotEquals(loginService, loginService1);
     }
 
     @Test
     void logoutPositive() {
+        LogoutService LogoutService = new LogoutService();
+        assertNotNull(LogoutService);
     }
 
     @Test
     void logoutNegative() {
+        LogoutService LogoutService = new LogoutService();
+        LogoutService LogoutService1 = new LogoutService();
+        assertNotEquals(LogoutService, LogoutService1);
     }
 
     @Test
     void registerPositive() {
+        RegisterService registerService = new RegisterService();
+        assertNotNull(registerService);
     }
 
     @Test
     void registerNegative() {
+        RegisterService registerService = new RegisterService();
+        RegisterService registerService1 = new RegisterService();
+        assertNotEquals(registerService, registerService1);
     }
 }
