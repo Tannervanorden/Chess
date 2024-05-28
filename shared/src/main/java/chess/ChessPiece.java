@@ -92,16 +92,23 @@ public class ChessPiece {
 
         if (type == PieceType.BISHOP) {
             // Diagonal moves
-            addDiagonalMove(validMoves, board, myPosition, 1, 1); //right
-            addDiagonalMove(validMoves, board, myPosition, -1, 1);  // left
+            addMovesInAnyDirection(validMoves, board, myPosition, 1, 1); // Diagonal right down
+            addMovesInAnyDirection(validMoves, board, myPosition, -1, 1); // Diagonal left down
+            addMovesInAnyDirection(validMoves, board, myPosition, 1, -1); // Diagonal right up
+            addMovesInAnyDirection(validMoves, board, myPosition, -1, -1); // Diagonal left up
         }
         else if (type == PieceType.ROOK) {
-            addStraightMove(validMoves, board, myPosition);
+            addMovesInAnyDirection(validMoves, board, myPosition, 1, 0); // Down
+            addMovesInAnyDirection(validMoves, board, myPosition, -1, 0); // Up
+            addMovesInAnyDirection(validMoves, board, myPosition, 0, 1); // Right
+            addMovesInAnyDirection(validMoves, board, myPosition, 0, -1); // Left
         }
         else if (type == PieceType.QUEEN) {
-            addDiagonalMove(validMoves, board, myPosition, 1, 1); //right
-            addDiagonalMove(validMoves, board, myPosition, -1, 1);  // left
-            addStraightMove(validMoves, board, myPosition);
+            addMovesInAnyDirection(validMoves, board, myPosition, 0, -1); // Left
+            addMovesInAnyDirection(validMoves, board, myPosition, 1, 0); // Down
+            addMovesInAnyDirection(validMoves, board, myPosition, 0, 1); // Right
+            addMovesInAnyDirection(validMoves, board, myPosition, -1, 0); // Up
+
         }
         if (type == PieceType.KING) {
             int[][] kingMoves = {
@@ -209,12 +216,10 @@ public class ChessPiece {
         }
     }
 
-
-    private void addDiagonalMove(Collection<ChessMove> validMoves, ChessBoard board, ChessPosition currentPosition, int rowChange, int colChange) {
+    private void addMovesInAnyDirection(Collection<ChessMove> validMoves, ChessBoard board, ChessPosition currentPosition, int rowChange, int colChange) {
         int row = currentPosition.getRow();
         int col = currentPosition.getColumn();
 
-        // Generate diagonal moves in the forward direction
         while (true) {
             row += rowChange;
             col += colChange;
@@ -226,144 +231,13 @@ public class ChessPiece {
             ChessPosition nextPosition = new ChessPosition(row, col);
             ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
 
-
-
-            // Add the diagonal move if it's within the board boundaries and the square is empty
+            // Add the move if it's within the board boundaries and the square is empty or contains an opponent's piece
             if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
                 validMoves.add(new ChessMove(currentPosition, nextPosition, null));
-                if ((pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor)) {
+                if (pieceAtNextPosition != null) {
                     break;
                 }
-            }
-            else {
-                break; // Stop generating moves in this direction if blocked by a piece
-            }
-        }
-
-        // Reset row and col for backward iteration
-        row = currentPosition.getRow();
-        col = currentPosition.getColumn();
-
-        // Generate diagonal moves in the backward direction
-        while (true) {
-            row -= rowChange;
-            col -= colChange;
-
-            if (!board.isValidPosition(row, col)) {
-                break;
-            }
-
-            ChessPosition nextPosition = new ChessPosition(row, col);
-            ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
-
-            // Add the diagonal move if it's within the board boundaries and the square is empty
-            if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
-                validMoves.add(new ChessMove(currentPosition, nextPosition, null));
-                if ((pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor)) {
-                    break;
-                }
-            }
-            else {
-                break; // Stop generating moves in this direction if blocked by a piece
-            }
-        }
-    }
-
-    private void addStraightMove(Collection<ChessMove> validMoves, ChessBoard board, ChessPosition currentPosition) {
-        int row = currentPosition.getRow();
-        int col = currentPosition.getColumn();
-
-        while (true) {
-            row += 1;
-
-            if (!board.isValidPosition(row, col)) {
-                break;
-            }
-
-            ChessPosition nextPosition = new ChessPosition(row, col);
-            ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
-
-            // Add the diagonal move if it's within the board boundaries and the square is empty
-            if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
-                validMoves.add(new ChessMove(currentPosition, nextPosition, null));
-                if ((pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor)) {
-                    break;
-                }
-            }
-            else {
-                break; // Stop generating moves in this direction if blocked by a piece
-            }
-        }
-        row = currentPosition.getRow();
-        col = currentPosition.getColumn();
-
-        while (true) {
-            row -= 1;
-
-            if (!board.isValidPosition(row, col)) {
-                break;
-            }
-
-            ChessPosition nextPosition = new ChessPosition(row, col);
-            ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
-
-            // Add the diagonal move if it's within the board boundaries and the square is empty
-            if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
-                validMoves.add(new ChessMove(currentPosition, nextPosition, null));
-                if ((pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor)) {
-                    break;
-                }
-            }
-            else {
-                break; // Stop generating moves in this direction if blocked by a piece
-            }
-        }
-
-        row = currentPosition.getRow();
-        col = currentPosition.getColumn();
-
-        while (true) {
-            col += 1;
-
-            if (!board.isValidPosition(row, col)) {
-                break;
-            }
-
-            ChessPosition nextPosition = new ChessPosition(row, col);
-            ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
-
-            // Add the diagonal move if it's within the board boundaries and the square is empty
-            if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
-                validMoves.add(new ChessMove(currentPosition, nextPosition, null));
-                if ((pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor)) {
-                    break;
-                }
-            }
-            else {
-                break; // Stop generating moves in this direction if blocked by a piece
-            }
-        }
-        row = currentPosition.getRow();
-        col = currentPosition.getColumn();
-
-        while (true) {
-            col -= 1;
-
-            if (!board.isValidPosition(row, col)) {
-                break;
-            }
-
-            ChessPosition nextPosition = new ChessPosition(row, col);
-            ChessPiece pieceAtNextPosition = board.getPiece(nextPosition);
-
-            // Add the diagonal move if it's within the board boundaries and the square is empty
-            if (pieceAtNextPosition == null || pieceAtNextPosition.getTeamColor() != pieceColor) {
-                validMoves.add(new ChessMove(currentPosition, nextPosition, null));
-                if ((pieceAtNextPosition != null && pieceAtNextPosition.getTeamColor() != pieceColor)) {
-                    break;
-                }
-            }
-            else {
+            } else {
                 break; // Stop generating moves in this direction if blocked by a piece
             }
         }
