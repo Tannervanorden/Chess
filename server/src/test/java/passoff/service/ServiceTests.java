@@ -52,13 +52,7 @@ class ServiceTest {
         });
     }
 
-    @Test
-    void joinGamePositive() {
-    }
 
-    @Test
-    void joinGameNegative() {
-    }
 
     @Test
     void listGamesPositive() {
