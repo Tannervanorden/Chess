@@ -5,9 +5,6 @@ import model.GameData;
 import spark.Request;
 import spark.Response;
 import service.CreateGameService;
-import service.LoginService;
-
-import java.util.HashMap;
 import java.util.Map;
 
 public class CreateGameHandler {
