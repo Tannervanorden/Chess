@@ -15,17 +15,17 @@ public class ListGameHandler {
         try {
             String authToken = request.headers("authorization");
 
-            if (authToken == null) {
-                response.status(401);
-                return gson.toJson(Map.of("Message", "Error, bad authToken"));
-            }
-
             Map<String, Object> games = listGamesService.listGames(authToken);
             response.status(200);
             return gson.toJson(games);
         } catch (Exception e) {
+            String errorMessage = e.getMessage();
+            if (errorMessage.equals("Unauthorized")) {
+                response.status(401);
+                return gson.toJson(Map.of("message", "Error: Unauthorized"));
+            }
             response.status(500);
-            return gson.toJson(Map.of("Message", e.getMessage()));
+            return gson.toJson(Map.of("message", e.getMessage()));
         }
     }
 }
