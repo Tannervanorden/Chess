@@ -30,7 +30,6 @@ public class LoginService extends GenericService {
             return authData;
 
         } catch (Exception e){
-            e.printStackTrace();
             return null;
         }
     }
