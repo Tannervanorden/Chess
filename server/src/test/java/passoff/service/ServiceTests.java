@@ -1,8 +1,10 @@
 package passoff.service;
 
+import chess.ChessGame;
 import dataaccess.AuthDAO;
 import dataaccess.GameDAO;
 import dataaccess.UserDAO;
+import model.GameData;
 import org.junit.jupiter.api.Test;
 import service.*;
 
@@ -29,11 +31,25 @@ class ServiceTest {
     }
 
     @Test
-    void createGamePositive() {
+    void createGamePositive() throws Exception {
+        CreateGameService createGameService = new CreateGameService();
+        String authToken = "authToken";
+        ChessGame game = new ChessGame();
+        GameData gameData = new GameData(1, "whiteUser", "blackUser", "game1", game);
+        assertNotNull(gameData);
+
     }
 
     @Test
     void createGameNegative() {
+        CreateGameService createGameService = new CreateGameService();
+        String authToken = "invalidAuthToken";  // Provide an invalid auth token
+        ChessGame game = new ChessGame();
+        GameData gameData = new GameData(1, "whiteUser", "blackUser", "game1", game);
+
+        assertThrows(Exception.class, () -> {
+            createGameService.createGame(gameData, authToken);
+        });
     }
 
     @Test
