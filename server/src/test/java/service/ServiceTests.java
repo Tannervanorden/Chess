@@ -1,9 +1,8 @@
-package passoff.service;
+package service;
 
 import chess.ChessGame;
 import model.GameData;
 import org.junit.jupiter.api.Test;
-import service.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
