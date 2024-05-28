@@ -52,7 +52,21 @@ class ServiceTest {
         });
     }
 
+    @Test
+    void joinGamePositive() {
+        GameData gameData1 = new GameData(1, null, null, null, null);
+        GameData gameData2 = new GameData(1, null, null, null, null);
 
+        assertEquals(gameData1, gameData2);
+    }
+
+    @Test
+    void joinGameNegative() {
+        GameData gameData1 = new GameData(1, null, null, null, null);
+        GameData gameData2 = new GameData(2, null, null, null, null);
+
+        assertNotEquals(gameData1, gameData2);
+    }
 
     @Test
     void listGamesPositive() {
