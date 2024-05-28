@@ -1,10 +1,19 @@
 package passoff.service;
 
+import dataaccess.AuthDAO;
+import dataaccess.GameDAO;
 import org.junit.jupiter.api.Test;
+import service.ClearService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceTest {
+
+    private AuthDAO authDAO;
+    private GameDAO gameDAO;
+
+    private ClearService clearService
+
 
     @Test
     void clearPositive() {
