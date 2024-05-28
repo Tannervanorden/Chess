@@ -104,10 +104,14 @@ public class ChessPiece {
             addMovesInAnyDirection(validMoves, board, myPosition, 0, -1); // Left
         }
         else if (type == PieceType.QUEEN) {
-            addMovesInAnyDirection(validMoves, board, myPosition, 0, -1); // Left
             addMovesInAnyDirection(validMoves, board, myPosition, 1, 0); // Down
-            addMovesInAnyDirection(validMoves, board, myPosition, 0, 1); // Right
+            addMovesInAnyDirection(validMoves, board, myPosition, 1, 1); // Diagonal right down
             addMovesInAnyDirection(validMoves, board, myPosition, -1, 0); // Up
+            addMovesInAnyDirection(validMoves, board, myPosition, -1, 1); // Diagonal left down
+            addMovesInAnyDirection(validMoves, board, myPosition, 0, 1); // Right
+            addMovesInAnyDirection(validMoves, board, myPosition, 1, -1); // Diagonal right up
+            addMovesInAnyDirection(validMoves, board, myPosition, 0, -1); // Left
+            addMovesInAnyDirection(validMoves, board, myPosition, -1, -1); // Diagonal left up
 
         }
         if (type == PieceType.KING) {
