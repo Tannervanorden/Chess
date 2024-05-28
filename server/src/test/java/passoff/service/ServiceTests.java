@@ -2,8 +2,9 @@ package passoff.service;
 
 import dataaccess.AuthDAO;
 import dataaccess.GameDAO;
+import dataaccess.UserDAO;
 import org.junit.jupiter.api.Test;
-import service.ClearService;
+import service.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,11 +13,19 @@ class ServiceTest {
     private AuthDAO authDAO;
     private GameDAO gameDAO;
 
-    private ClearService clearService
+    private ClearService clearService;
+    private CreateGameService createGameService;
+    private JoinGameService joinGameService;
+    private ListGamesService listGamesService;
+    private LoginService loginService;
+    private LogoutService logoutService;
+    private RegisterService registerService;
 
 
     @Test
     void clearPositive() {
+        clearService = new ClearService();
+        assertDoesNotThrow(clearService::clear);
     }
 
     @Test
