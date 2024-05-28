@@ -2,6 +2,7 @@ package handlers;
 
 import com.google.gson.Gson;
 import model.GameData;
+import model.JoinGameRequest;
 import service.JoinGameService;
 import spark.Request;
 import spark.Response;
@@ -15,8 +16,9 @@ public class JoinGameHandler {
      public Object joinGame(Request request, Response response) {
          try {
              String authToken = request.headers("authorization");
-             GameData requestBody = gson.fromJson(request.body(), GameData.class);
+             JoinGameRequest requestBody = gson.fromJson(request.body(), JoinGameRequest.class);
              int id = requestBody.gameID();
+             String playerColor = requestBody.playerColor();
 
              if (authToken == null || authToken.isEmpty()) {
                  response.status(400);
@@ -24,7 +26,7 @@ public class JoinGameHandler {
              }
 
 
-             GameData game = joinGameService.joinGame(id, authToken);
+             GameData game = joinGameService.joinGame(id, playerColor, authToken);
              response.status(200);
              return gson.toJson(Map.of("message", "Game joined successfully"));
          } catch (Exception e) {
@@ -35,7 +37,7 @@ public class JoinGameHandler {
              } else if (errorMessage.equals("Game not found") || errorMessage.equals("Invalid Player Color")){
                  response.status(400);
                  return gson.toJson(Map.of("message", "Error: bad request"));
-             } else if (errorMessage.equals("White already taken") || errorMessage.equals("Black already taken")){
+             } else if (errorMessage.equals("Error: already taken")){
                  response.status(403);
                  return gson.toJson(Map.of("message", "Error: already taken"));
              } else {
