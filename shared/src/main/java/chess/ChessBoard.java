@@ -30,18 +30,6 @@ public class ChessBoard {
 
 
 
-// Not used but came with the starter code
-//    public ChessPiece getPieceAtPosition(ChessPosition position) {
-//        int row = position.getRow();
-//        int col = position.getColumn();
-//
-//        if (isValidPosition(row, col)) {
-//            return board[row][col];
-//        } else {
-//            return null;
-//        }
-//    }
-
     public ChessBoard() {
         this.board = new ChessPiece[8][8]; // Initialize the instance variable
     }
