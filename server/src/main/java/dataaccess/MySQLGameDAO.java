@@ -18,7 +18,7 @@ public class MySQLGameDAO {
                     "  `gameID` INT AUTO_INCREMENT PRIMARY KEY," +
                     "  `whiteUsername` VARCHAR(100) NOT NULL," +
                     "  `blackUsername` VARCHAR(100) NOT NULL," +
-                    "   'gameName' VARCHAR(100) NOT NULL," +
+                    "   `gameName` VARCHAR(100) NOT NULL" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
     };
 
@@ -46,7 +46,7 @@ public class MySQLGameDAO {
     }
 
     public void addGame(GameData game) throws DataAccessException {
-        String query = "INSERT INTO " + TABLE_NAME + " (whiteUsername, blackUsername, gameState) VALUES (?, ?, ?)";
+        String query = "INSERT INTO " + TABLE_NAME + " (whiteUsername, blackUsername, gameName) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, game.whiteUsername());
@@ -57,6 +57,4 @@ public class MySQLGameDAO {
             throw new DataAccessException("Error adding game: " + ex.getMessage());
         }
     }
-
-
 }
