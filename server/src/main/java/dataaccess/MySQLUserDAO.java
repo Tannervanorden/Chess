@@ -1,5 +1,10 @@
 package dataaccess;
 
+import model.UserData;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MySQLUserDAO {
@@ -39,5 +44,22 @@ public class MySQLUserDAO {
         } catch (SQLException ex) {
             throw new DataAccessException("Unable to clear database: " + ex.getMessage());
         }
+    }
+
+    public UserData getUser(String username) throws DataAccessException {
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?";
+        try (Connection conn = DatabaseManager.getConnection();
+        PreparedStatement statement = conn.prepareStatement(query)) {
+        statement.setString(1, username);
+        try (ResultSet rs = statement.executeQuery()) {
+            if (rs.next()) {
+                return new UserData(rs.getString("username"), rs.getString("password"), rs.getString("email"));
+
+            }
+        }
+        } catch (SQLException ex) {
+            throw new DataAccessException("Error" + ex.getMessage());
+        }
+        return null;
     }
 }
