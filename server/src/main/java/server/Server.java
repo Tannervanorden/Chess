@@ -1,7 +1,9 @@
 package server;
 
 import dataaccess.DataAccessException;
+import dataaccess.MySQLAuthDAO;
 import dataaccess.MySQLGameDAO;
+import dataaccess.MySQLUserDAO;
 import handlers.*;
 import spark.*;
 
@@ -17,6 +19,20 @@ public class Server {
             System.out.println("Game table created successfully.");
         } catch (DataAccessException e) {
             System.err.println("Error creating game table: " + e.getMessage());
+            e.printStackTrace();
+        }
+        try {
+            new MySQLAuthDAO();
+            System.out.println("Auth table created successfully.");
+        } catch (DataAccessException e) {
+            System.err.println("Error creating auth table: " + e.getMessage());
+            e.printStackTrace();
+        }
+        try {
+            new MySQLUserDAO();
+            System.out.println("User table created successfully.");
+        } catch (DataAccessException e) {
+            System.err.println("Error creating user table: " + e.getMessage());
             e.printStackTrace();
         }
 
