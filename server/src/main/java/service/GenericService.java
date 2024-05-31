@@ -1,25 +1,47 @@
 package service;
 
-import dataaccess.AuthDAO;
-import dataaccess.GameDAO;
-import dataaccess.UserDAO;
+import dataaccess.*;
 
 public class GenericService {
-    static protected AuthDAO authDAO = new AuthDAO();
-    static protected UserDAO userDAO = new UserDAO();
-    static protected GameDAO gameDAO = new GameDAO();
+    static protected MySQLAuthDAO authDAO;
+    static protected MySQLUserDAO userDAO;
+    static protected MySQLGameDAO gameDAO;
 
-    public static AuthDAO getAuthDAO() {
+    static {
+        try {
+            authDAO = new MySQLAuthDAO();
+            System.out.println("Auth table created successfully.");
+        } catch (DataAccessException e) {
+            System.err.println("Error creating auth table: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
+            userDAO = new MySQLUserDAO();
+            System.out.println("User table created successfully.");
+        } catch (DataAccessException e) {
+            System.err.println("Error creating user table: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
+            gameDAO = new MySQLGameDAO();
+            System.out.println("Game table created successfully.");
+        } catch (DataAccessException e) {
+            System.err.println("Error creating game table: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static MySQLAuthDAO getAuthDAO() {
         return authDAO;
     }
 
-    public static UserDAO getUserDAO() {
+    public static MySQLUserDAO getUserDAO() {
         return userDAO;
     }
 
-
-    public static GameDAO getGameDAO() {
+    public static MySQLGameDAO getGameDAO() {
         return gameDAO;
     }
-
 }
