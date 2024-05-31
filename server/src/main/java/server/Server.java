@@ -14,28 +14,6 @@ public class Server {
 
         Spark.staticFiles.location("web");
 
-        try {
-            new MySQLGameDAO();
-            System.out.println("Game table created successfully.");
-        } catch (DataAccessException e) {
-            System.err.println("Error creating game table: " + e.getMessage());
-            e.printStackTrace();
-        }
-        try {
-            new MySQLAuthDAO();
-            System.out.println("Auth table created successfully.");
-        } catch (DataAccessException e) {
-            System.err.println("Error creating auth table: " + e.getMessage());
-            e.printStackTrace();
-        }
-        try {
-            new MySQLUserDAO();
-            System.out.println("User table created successfully.");
-        } catch (DataAccessException e) {
-            System.err.println("Error creating user table: " + e.getMessage());
-            e.printStackTrace();
-        }
-
         // Register your endpoints and handle exceptions here.
         Spark.post("/user", ((request, response) -> (new RegisterHandler()).register(request, response)));
         Spark.post("/session", ((request, response) -> (new LoginHandler()).login(request, response)));

@@ -5,8 +5,6 @@ import java.util.Map;
 
 import model.GameData;
 
-import javax.xml.crypto.Data;
-
 public class GameDAO {
     private Map<Integer, GameData> games;
 
