@@ -1,5 +1,9 @@
 package dataaccess;
 
+import model.GameData;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class MySQLGameDAO {
@@ -15,7 +19,6 @@ public class MySQLGameDAO {
                     "  `whiteUsername` VARCHAR(100) NOT NULL," +
                     "  `blackUsername` VARCHAR(100) NOT NULL," +
                     "   'gameName' VARCHAR(100) NOT NULL," +
-                    "  `gameState` JSON NOT NULL" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
     };
 
@@ -39,6 +42,19 @@ public class MySQLGameDAO {
             }
         } catch (SQLException ex) {
             throw new DataAccessException("Unable to clear database: " + ex.getMessage());
+        }
+    }
+
+    public void addGame(GameData game) throws DataAccessException {
+        String query = "INSERT INTO " + TABLE_NAME + " (whiteUsername, blackUsername, gameState) VALUES (?, ?, ?)";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, game.whiteUsername());
+            preparedStatement.setString(2, game.blackUsername());
+            preparedStatement.setString(3, game.gameName());
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataAccessException("Error adding game: " + ex.getMessage());
         }
     }
 
