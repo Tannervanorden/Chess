@@ -29,4 +29,15 @@ public class MySQLUserDAO {
             throw new DataAccessException("Unable to configure database: " + ex.getMessage());
         }
     }
+
+    public void clear() throws DataAccessException {
+        try (var conn = DatabaseManager.getConnection()) {
+            String clearTableSQL = "TRUNCATE TABLE " + TABLE_NAME;
+            try (var preparedStatement = conn.prepareStatement(clearTableSQL)) {
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            throw new DataAccessException("Unable to clear database: " + ex.getMessage());
+        }
+    }
 }
