@@ -12,7 +12,7 @@ public class MySQLAuthDAO {
     private final String [] createStatements = {
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                     " authToken VARCHAR(200) PRIMARY KEY," +
-                    " username VARCHAR(200 NOT NULL" +
+                    " username VARCHAR(200) NOT NULL" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
     };
 
