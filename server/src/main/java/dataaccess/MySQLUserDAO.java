@@ -62,4 +62,17 @@ public class MySQLUserDAO {
         }
         return null;
     }
+
+    public void addUser(UserData user) throws DataAccessException {
+        String query = "INSERT INTO " + TABLE_NAME + "(username, password, email) VALUES (?,?,?)";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, user.username());
+            statement.setString(2, user.password());
+            statement.setString(3, user.email());
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataAccessException("Error: can't add user" + ex.getMessage());
+        }
+    }
 }
