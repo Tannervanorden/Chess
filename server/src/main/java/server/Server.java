@@ -1,5 +1,7 @@
 package server;
 
+import dataaccess.DataAccessException;
+import dataaccess.MySQLGameDAO;
 import handlers.*;
 import spark.*;
 
@@ -9,6 +11,14 @@ public class Server {
         Spark.port(desiredPort);
 
         Spark.staticFiles.location("web");
+
+        try {
+            new MySQLGameDAO();
+            System.out.println("Game table created successfully.");
+        } catch (DataAccessException e) {
+            System.err.println("Error creating game table: " + e.getMessage());
+            e.printStackTrace();
+        }
 
         // Register your endpoints and handle exceptions here.
         Spark.post("/user", ((request, response) -> (new RegisterHandler()).register(request, response)));
