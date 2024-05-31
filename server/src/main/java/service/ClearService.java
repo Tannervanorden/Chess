@@ -1,18 +1,15 @@
 package service;
 
-import dataaccess.DataAccessException;
-import dataaccess.AuthDAO;
-import dataaccess.UserDAO;
-import dataaccess.GameDAO;
+import dataaccess.*;
 
 
 public class ClearService extends GenericService {
 
         public void clear() throws DataAccessException {
 
-            UserDAO userDAO = GenericService.getUserDAO();
-            AuthDAO authDAO = GenericService.getAuthDAO();
-            GameDAO gameDAO = GenericService.getGameDAO();
+            MySQLUserDAO userDAO = GenericService.getUserDAO();
+            MySQLAuthDAO authDAO = GenericService.getAuthDAO();
+            MySQLGameDAO gameDAO = GenericService.getGameDAO();
 
             userDAO.clear();
             authDAO.clear();

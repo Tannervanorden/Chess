@@ -1,10 +1,8 @@
 package service;
 
-import dataaccess.DataAccessException;
+import dataaccess.*;
 import model.AuthData;
 import model.UserData;
-import dataaccess.UserDAO;
-import dataaccess.AuthDAO;
 
 import java.util.UUID;
 
@@ -12,8 +10,8 @@ public class RegisterService extends GenericService {
 
     public AuthData register(UserData user) throws Exception {
 
-        UserDAO userDAO = GenericService.getUserDAO();
-        AuthDAO authDAO = GenericService.getAuthDAO();
+        MySQLUserDAO userDAO = GenericService.getUserDAO();
+        MySQLAuthDAO authDAO = GenericService.getAuthDAO();
 
         if (userDAO.getUser(user.username()) != null) {
             throw new DataAccessException("Username is already in use");

@@ -1,14 +1,13 @@
 package service;
 
-import dataaccess.GameDAO;
+import dataaccess.*;
 import model.GameData;
-import dataaccess.AuthDAO;
 
 import java.util.UUID;
 
 public class CreateGameService extends GenericService {
-    GameDAO gameDAO = GenericService.getGameDAO();
-    AuthDAO authDAO = GenericService.getAuthDAO();
+    MySQLAuthDAO authDAO = GenericService.getAuthDAO();
+    MySQLGameDAO gameDAO = GenericService.getGameDAO();
 
     public GameData createGame(GameData game, String authToken) throws Exception {
         if (!authDAO.validateToken(authToken)){

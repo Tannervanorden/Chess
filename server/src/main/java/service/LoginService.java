@@ -1,7 +1,6 @@
 package service;
 
-import dataaccess.AuthDAO;
-import dataaccess.UserDAO;
+import dataaccess.*;
 import model.AuthData;
 import model.UserData;
 
@@ -10,8 +9,8 @@ import java.util.UUID;
 public class LoginService extends GenericService {
     public AuthData login(UserData user) throws Exception {
 
-        UserDAO userDAO = GenericService.getUserDAO();
-        AuthDAO authDAO = GenericService.getAuthDAO();
+        MySQLUserDAO userDAO = GenericService.getUserDAO();
+        MySQLAuthDAO authDAO = GenericService.getAuthDAO();
 
         try {
             UserData existingU = userDAO.getUser(user.username());

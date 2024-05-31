@@ -1,10 +1,13 @@
 package service;
 
 import dataaccess.AuthDAO;
+import dataaccess.MySQLAuthDAO;
+import dataaccess.MySQLGameDAO;
+import dataaccess.MySQLUserDAO;
 
 public class LogoutService extends GenericService{
     public void logout(String token) throws Exception{
-        AuthDAO authDAO = GenericService.getAuthDAO();
+        MySQLAuthDAO authDAO = GenericService.getAuthDAO();
 
         if (authDAO.removeAuth(token) == null){
             throw new Exception("Token not found");
