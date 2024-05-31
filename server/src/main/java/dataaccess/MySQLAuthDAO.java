@@ -56,7 +56,7 @@ public class MySQLAuthDAO {
         }
     }
 
-    public void addAuthToken(String token, AuthData authData) throws DataAccessException {
+    public void addAuth(String token, AuthData authData) throws DataAccessException {
         String query = "INSERT INTO " + TABLE_NAME + " (authToken, username) VALUES (?, ?)";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query)) {
