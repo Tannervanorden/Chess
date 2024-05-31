@@ -1,5 +1,9 @@
 package dataaccess;
 
+import model.AuthData;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class MySQLAuthDAO {
@@ -49,6 +53,18 @@ public class MySQLAuthDAO {
             }
         } catch (SQLException ex) {
             throw new DataAccessException("Unable to validate token: " + ex.getMessage());
+        }
+    }
+
+    public void addAuthToken(String token, AuthData authData) throws DataAccessException {
+        String query = "INSERT INTO " + TABLE_NAME + " (authToken, username) VALUES (?, ?)";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, token);
+            statement.setString(2, authData.username());
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataAccessException("Unable to add auth token: " + ex.getMessage());
         }
     }
 }
