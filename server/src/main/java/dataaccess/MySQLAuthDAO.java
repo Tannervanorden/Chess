@@ -38,4 +38,17 @@ public class MySQLAuthDAO {
             throw new DataAccessException("Unable to clear database: " + ex.getMessage());
         }
     }
+
+    public boolean validateToken(String token) throws DataAccessException {
+        String query = "SELECT 1 FROM " + TABLE_NAME + " WHERE authToken = ?";
+        try (var conn = DatabaseManager.getConnection();
+             var preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, token);
+            try (var resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next();
+            }
+        } catch (SQLException ex) {
+            throw new DataAccessException("Unable to validate token: " + ex.getMessage());
+        }
+    }
 }
