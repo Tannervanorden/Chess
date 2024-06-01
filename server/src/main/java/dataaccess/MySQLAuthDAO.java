@@ -4,7 +4,10 @@ import model.AuthData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MySQLAuthDAO {
     private static String TABLE_NAME = "auth";
@@ -66,5 +69,22 @@ public class MySQLAuthDAO {
         } catch (SQLException ex) {
             throw new DataAccessException("Unable to add auth token: " + ex.getMessage());
         }
+    }
+
+    public Map<String, AuthData> getAuth() throws DataAccessException {
+        Map<String, AuthData> authData = new HashMap<>();
+        String query = "SELECT authToken, username, password FROM " + TABLE_NAME;
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement statement = conn.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                String token = resultSet.getString("authToken");
+                String username = resultSet.getString("username");
+                authData.put(token, new AuthData(token, username));
+            }
+        } catch (SQLException ex) {
+            throw new DataAccessException("Unable to get auth data: " + ex.getMessage());
+        }
+        return authData;
     }
 }
