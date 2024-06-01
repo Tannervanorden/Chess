@@ -87,4 +87,27 @@ public class MySQLAuthDAO {
         }
         return authData;
     }
+
+    public AuthData removeAuth(String token) throws DataAccessException {
+        String query = "SELECT username FROM " + TABLE_NAME + " WHERE authToken = ?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement selectStatement = conn.prepareStatement(query)) {
+            selectStatement.setString(1, token);
+            try (ResultSet resultSet = selectStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String username = resultSet.getString("username");
+                    AuthData authData = new AuthData(token, username);
+                    String deleteQuery = "DELETE FROM " + TABLE_NAME + " WHERE authToken = ?";
+                    try (PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery)) {
+                        deleteStatement.setString(1, token);
+                        deleteStatement.executeUpdate();
+                    }
+                    return authData;
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataAccessException("Unable to remove auth token: " + ex.getMessage());
+        }
+        return null;
+    }
 }
