@@ -19,7 +19,7 @@ public class Server {
         Spark.post("/session", ((request, response) -> (new LoginHandler()).login(request, response)));
         Spark.post("/game", ((request, response) -> (new CreateGameHandler()).createGame(request, response)));
 //        Spark.get("/game", ((request, response) -> (new ListGameHandler()).listGames(request, response)));
-//        Spark.delete("/session", ((request, response) -> (new LogoutHandler()).logout(request, response)));
+        Spark.delete("/session", ((request, response) -> (new LogoutHandler()).logout(request, response)));
 //        Spark.delete("/session", ((request, response) -> (new LogoutHandler()).logout(request, response)));
 //        Spark.delete("/session", ((request, response) -> (new LogoutHandler()).logout(request, response)));
         Spark.delete("/db", ((request, response) -> (new ClearHandler()).clear(request, response)));
