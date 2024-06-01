@@ -10,12 +10,13 @@ public class CreateGameService extends GenericService {
     MySQLGameDAO gameDAO = GenericService.getGameDAO();
 
     public GameData createGame(GameData game, String authToken) throws Exception {
+        String gameName = game.gameName();
         if (!authDAO.validateToken(authToken)){
             throw new Exception("Unauthorized");
         }
         try {
             int gameID = Math.abs(UUID.randomUUID().hashCode());
-            GameData newGame = new GameData(gameID, null, null, game.gameName(), null);
+            GameData newGame = new GameData(gameID, null, null, gameName, null);
             gameDAO.addGame(newGame);
             return newGame;
         } catch (Exception e) {
