@@ -73,7 +73,7 @@ public class MySQLAuthDAO {
 
     public Map<String, AuthData> getAuth() throws DataAccessException {
         Map<String, AuthData> authData = new HashMap<>();
-        String query = "SELECT authToken, username, password FROM " + TABLE_NAME;
+        String query = "SELECT authToken, username FROM " + TABLE_NAME;
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
@@ -87,6 +87,7 @@ public class MySQLAuthDAO {
         }
         return authData;
     }
+
 
     public AuthData removeAuth(String token) throws DataAccessException {
         String query = "SELECT username FROM " + TABLE_NAME + " WHERE authToken = ?";
