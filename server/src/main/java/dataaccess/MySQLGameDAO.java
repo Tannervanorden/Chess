@@ -18,7 +18,8 @@ public class MySQLGameDAO {
                     "  `gameID` INT AUTO_INCREMENT PRIMARY KEY," +
                     "  `whiteUsername` VARCHAR(100) NOT NULL," +
                     "  `blackUsername` VARCHAR(100) NOT NULL," +
-                    "   `gameName` VARCHAR(100) NOT NULL" +
+                    "   `gameName` VARCHAR(100) NOT NULL," +
+                    "   `game` VARCHAR(100) NULL" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
     };
 
@@ -52,6 +53,7 @@ public class MySQLGameDAO {
             preparedStatement.setString(1, game.whiteUsername());
             preparedStatement.setString(2, game.blackUsername());
             preparedStatement.setString(3, game.gameName());
+            preparedStatement.setString(4, null);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             throw new DataAccessException("Error adding game: " + ex.getMessage());
