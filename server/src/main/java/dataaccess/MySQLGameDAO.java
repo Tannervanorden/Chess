@@ -19,10 +19,11 @@ public class MySQLGameDAO {
 
     private final String[] createStatements = {
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
-                    "  gameID INT AUTO_INCREMENT PRIMARY KEY," +
-                    "  whiteUsername VARCHAR(100) NULL," +
-                    "  blackUsername VARCHAR(100) NULL," +
-                    "  gameName VARCHAR(100) NULL" +
+                    "  `gameID` INT AUTO_INCREMENT PRIMARY KEY," +
+                    "  `whiteUsername` VARCHAR(100) NOT NULL," +
+                    "  `blackUsername` VARCHAR(100) NOT NULL," +
+                    "  `gameName` VARCHAR(100) NOT NULL," +
+                    "  `game` TEXT NULL" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
     };
 
