@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 public class MySQLGameDAO {
     private static String TABLE_NAME = "game";
+    private Gson gson = new Gson();
 
     public MySQLGameDAO() throws DataAccessException {
         configureDatabase();
@@ -40,7 +41,6 @@ public class MySQLGameDAO {
 
     public GameData getGame(int gameID) throws DataAccessException {
         String query = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM " + TABLE_NAME + " WHERE gameID = ?";
-        Gson gson = new Gson();
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, gameID);
@@ -62,7 +62,21 @@ public class MySQLGameDAO {
         }
     }
 
-    public void updateGame(int id, GameData game) throws DataAccessException {}
+    public void updateGame(int id, GameData game) throws DataAccessException {
+        String query = "UPDATE " + TABLE_NAME + " SET whiteUsername = ?, blackUsername = ?, gameName = ?, game = ? WHERE gameID = ?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, game.whiteUsername());
+            preparedStatement.setString(2, game.blackUsername());
+            preparedStatement.setString(3, game.gameName());
+            String gameJson = gson.toJson(game.game());
+            preparedStatement.setString(4, gameJson);
+            preparedStatement.setInt(5, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataAccessException("Error updating game: " + ex.getMessage());
+        }
+    }
 
 
 
