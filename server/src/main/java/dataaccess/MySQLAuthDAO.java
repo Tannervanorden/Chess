@@ -111,4 +111,21 @@ public class MySQLAuthDAO {
         }
         return null;
     }
+
+    public String getUsername(String token) throws DataAccessException {
+        String query = "SELECT username FROM " + TABLE_NAME + " WHERE authToken = ?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement statement = conn.prepareStatement(query)){
+            statement.setString(1, token);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("username");
+                } else {
+                    return null;
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataAccessException("Unable to get auth token: " + ex.getMessage());
+        }
+    }
 }

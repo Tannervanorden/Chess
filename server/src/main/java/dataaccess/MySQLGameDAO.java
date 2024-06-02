@@ -1,9 +1,12 @@
 package dataaccess;
 
+import com.google.gson.Gson;
+import chess.ChessGame;
 import model.GameData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MySQLGameDAO {
@@ -34,6 +37,32 @@ public class MySQLGameDAO {
             throw new DataAccessException("Unable to configure database: " + ex.getMessage());
         }
     }
+
+//    public GameData getGame(int gameID) throws DataAccessException {
+//        String query = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM " + TABLE_NAME + " WHERE gameID = ?";
+//        try (Connection conn = DatabaseManager.getConnection();
+//             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+//            preparedStatement.setInt(1, gameID);
+//            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+//                if (resultSet.next()) {
+//                    int id = resultSet.getInt("gameID");
+//                    String whiteUsername = resultSet.getString("whiteUsername");
+//                    String blackUsername = resultSet.getString("blackUsername");
+//                    String gameName = resultSet.getString("gameName");
+//                    String gameJson = resultSet.getString("game");
+//                    ChessGame game = gson.fromJson(gameJson, ChessGame.class);  // Deserializing the game
+//                    return new GameData(id, whiteUsername, blackUsername, gameName, game);
+//                } else {
+//                    return null;
+//                }
+//            }
+//        } catch (SQLException ex) {
+//            throw new DataAccessException("Unable to get game: " + ex.getMessage());
+//        }
+//    }
+
+
+
     public void clear() throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()) {
             String clearTableSQL = "TRUNCATE TABLE " + TABLE_NAME;
