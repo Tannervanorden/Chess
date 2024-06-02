@@ -38,28 +38,31 @@ public class MySQLGameDAO {
         }
     }
 
-//    public GameData getGame(int gameID) throws DataAccessException {
-//        String query = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM " + TABLE_NAME + " WHERE gameID = ?";
-//        try (Connection conn = DatabaseManager.getConnection();
-//             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
-//            preparedStatement.setInt(1, gameID);
-//            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-//                if (resultSet.next()) {
-//                    int id = resultSet.getInt("gameID");
-//                    String whiteUsername = resultSet.getString("whiteUsername");
-//                    String blackUsername = resultSet.getString("blackUsername");
-//                    String gameName = resultSet.getString("gameName");
-//                    String gameJson = resultSet.getString("game");
-//                    ChessGame game = gson.fromJson(gameJson, ChessGame.class);  // Deserializing the game
-//                    return new GameData(id, whiteUsername, blackUsername, gameName, game);
-//                } else {
-//                    return null;
-//                }
-//            }
-//        } catch (SQLException ex) {
-//            throw new DataAccessException("Unable to get game: " + ex.getMessage());
-//        }
-//    }
+    public GameData getGame(int gameID) throws DataAccessException {
+        String query = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM " + TABLE_NAME + " WHERE gameID = ?";
+        Gson gson = new Gson();
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, gameID);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("gameID");
+                    String whiteUsername = resultSet.getString("whiteUsername");
+                    String blackUsername = resultSet.getString("blackUsername");
+                    String gameName = resultSet.getString("gameName");
+                    String gameJson = resultSet.getString("game");
+                    ChessGame game = gson.fromJson(gameJson, ChessGame.class);  // Deserializing the game
+                    return new GameData(id, whiteUsername, blackUsername, gameName, game);
+                } else {
+                    return null;
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataAccessException("Unable to get game: " + ex.getMessage());
+        }
+    }
+
+    public void updateGame(int id, GameData game) throws DataAccessException {}
 
 
 
