@@ -23,17 +23,6 @@ public class MySQLAuthDAO extends GenericDAO {
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
     };
 
-    public void clear() throws DataAccessException {
-        try (var conn = DatabaseManager.getConnection()) {
-            String clearTableSQL = "TRUNCATE TABLE " + tableName;
-            try (var preparedStatement = conn.prepareStatement(clearTableSQL)) {
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException ex) {
-            throw new DataAccessException("Unable to clear database: " + ex.getMessage());
-        }
-    }
-
     public boolean validateToken(String token) throws DataAccessException {
         String query = "SELECT 1 FROM " + tableName + " WHERE authToken = ?";
         try (var conn = DatabaseManager.getConnection();
