@@ -68,9 +68,18 @@ public class DataTest {
         authDAO.addAuth("token1", authData);
         assertFalse(authDAO.validateToken("token2"));
     }
-
     @Test
     @Order(5)
+    public void testClear() throws DataAccessException {
+        AuthData authData = new AuthData("token1", "user1");
+        authDAO.addAuth("token1", authData);
+        authDAO.clear();
+        assertNull(authDAO.getAuth().get("token1"));
+    }
+
+
+    @Test
+    @Order(6)
     public void testAddGame() throws DataAccessException {
         GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
         gameDAO.addGame(game);
