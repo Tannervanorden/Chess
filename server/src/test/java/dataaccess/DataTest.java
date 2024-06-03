@@ -76,10 +76,19 @@ public class DataTest {
         authDAO.clear();
         assertNull(authDAO.getAuth().get("token1"));
     }
+    @Test
+    @Order(6)
+    public void testGetAuthPositive() throws DataAccessException {
+        AuthData authData = new AuthData("token", "user");
+        authDAO.addAuth("token", authData);
+        assertEquals(authData, authDAO.getAuth().get("token"));
+
+    }
+
 
 
     @Test
-    @Order(6)
+    @Order(7)
     public void testAddGame() throws DataAccessException {
         GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
         gameDAO.addGame(game);
