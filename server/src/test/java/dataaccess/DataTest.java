@@ -149,6 +149,27 @@ public class DataTest {
         assertNotEquals(game, checkGame);
     }
 
+    @Test
+    @Order(14)
+    public void testGetGamePositive() throws DataAccessException {
+        GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
+        gameDAO.addGame(game);
+        GameData checkGame = gameDAO.getGame(1);
+        assertEquals(game, checkGame);
+    }
+
+    @Test
+    @Order(15)
+    public void testGetGameNegative() throws DataAccessException {
+        GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
+        GameData game2 = new GameData(2, "whiteUsername", "blackUsermane", "test", null);
+        gameDAO.addGame(game);
+        gameDAO.addGame(game2);
+        assertNotEquals(gameDAO.getGame(1), gameDAO.getGame(2));
+    }
+
+
+
 
 
 }
