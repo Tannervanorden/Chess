@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MySQLGameDAO {
-    private static String TABLE_NAME = "game";
+    private static String tableName = "game";
     private Gson gson = new Gson();
 
     public MySQLGameDAO() throws DataAccessException {
@@ -20,7 +20,7 @@ public class MySQLGameDAO {
     }
 
     private final String[] createStatements = {
-            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
                     "  `gameID` INT PRIMARY KEY," +
                     "  `whiteUsername` VARCHAR(100) NULL," +
                     "  `blackUsername` VARCHAR(100) NULL," +
@@ -43,7 +43,7 @@ public class MySQLGameDAO {
     }
 
     public GameData getGame(int gameID) throws DataAccessException {
-        String query = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM " + TABLE_NAME + " WHERE gameID = ?";
+        String query = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM " + tableName + " WHERE gameID = ?";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setInt(1, gameID);
@@ -68,7 +68,7 @@ public class MySQLGameDAO {
     }
 
     public void updateGame(int id, GameData game) throws DataAccessException {
-        String query = "UPDATE " + TABLE_NAME + " SET whiteUsername = ?, blackUsername = ?, gameName = ?, game = ? WHERE gameID = ?";
+        String query = "UPDATE " + tableName + " SET whiteUsername = ?, blackUsername = ?, gameName = ?, game = ? WHERE gameID = ?";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setString(1, game.whiteUsername());
@@ -87,7 +87,7 @@ public class MySQLGameDAO {
 
     public void clear() throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()) {
-            String clearTableSQL = "TRUNCATE TABLE " + TABLE_NAME;
+            String clearTableSQL = "TRUNCATE TABLE " + tableName;
             try (var preparedStatement = conn.prepareStatement(clearTableSQL)) {
                 preparedStatement.executeUpdate();
             }
@@ -97,7 +97,7 @@ public class MySQLGameDAO {
     }
 
     public void addGame(GameData game) throws DataAccessException {
-        String query = "INSERT INTO " + TABLE_NAME + " (gameID, whiteUsername, blackUsername, gameName, game) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO " + tableName + " (gameID, whiteUsername, blackUsername, gameName, game) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setInt(1, game.gameID());
@@ -113,7 +113,7 @@ public class MySQLGameDAO {
     }
 
     public Map<Integer, GameData> getGames() throws DataAccessException {
-        String query = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM " + TABLE_NAME;
+        String query = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM " + tableName;
         Map<Integer, GameData> games = new HashMap<>();
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query);

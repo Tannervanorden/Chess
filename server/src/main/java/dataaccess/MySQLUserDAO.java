@@ -9,14 +9,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MySQLUserDAO {
-    private static String TABLE_NAME = "user";
+    private static String tableName = "user";
 
     public MySQLUserDAO() throws DataAccessException {
         configureDatabase();
     }
 
     private final String[] createStatements = {
-            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
                     " username VARCHAR(200) PRIMARY KEY," +
                     " password VARCHAR(200) NOT NULL," +
                     " email VARCHAR(200) NOT NULL" +
@@ -38,7 +38,7 @@ public class MySQLUserDAO {
 
     public void clear() throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()) {
-            String clearTableSQL = "TRUNCATE TABLE " + TABLE_NAME;
+            String clearTableSQL = "TRUNCATE TABLE " + tableName;
             try (var preparedStatement = conn.prepareStatement(clearTableSQL)) {
                 preparedStatement.executeUpdate();
             }
@@ -48,7 +48,7 @@ public class MySQLUserDAO {
     }
 
     public UserData getUser(String username) throws DataAccessException {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?";
+        String query = "SELECT * FROM " + tableName + " WHERE username = ?";
         try (Connection conn = DatabaseManager.getConnection();
         PreparedStatement statement = conn.prepareStatement(query)) {
         statement.setString(1, username);
@@ -65,7 +65,7 @@ public class MySQLUserDAO {
     }
 
     public void addUser(UserData user) throws DataAccessException {
-        String query = "INSERT INTO " + TABLE_NAME + "(username, password, email) VALUES (?,?,?)";
+        String query = "INSERT INTO " + tableName + "(username, password, email) VALUES (?,?,?)";
         String hashedPassword = BCrypt.hashpw(user.password(), BCrypt.gensalt());
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query)) {

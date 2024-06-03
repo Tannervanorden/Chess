@@ -10,14 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MySQLAuthDAO {
-    private static String TABLE_NAME = "auth";
+    private static String tableName = "auth";
 
     public MySQLAuthDAO() throws DataAccessException {
         configureDatabase();
     }
 
     private final String [] createStatements = {
-            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
                     " authToken VARCHAR(200) PRIMARY KEY," +
                     " username VARCHAR(200) NOT NULL" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
@@ -37,7 +37,7 @@ public class MySQLAuthDAO {
     }
     public void clear() throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()) {
-            String clearTableSQL = "TRUNCATE TABLE " + TABLE_NAME;
+            String clearTableSQL = "TRUNCATE TABLE " + tableName;
             try (var preparedStatement = conn.prepareStatement(clearTableSQL)) {
                 preparedStatement.executeUpdate();
             }
@@ -47,7 +47,7 @@ public class MySQLAuthDAO {
     }
 
     public boolean validateToken(String token) throws DataAccessException {
-        String query = "SELECT 1 FROM " + TABLE_NAME + " WHERE authToken = ?";
+        String query = "SELECT 1 FROM " + tableName + " WHERE authToken = ?";
         try (var conn = DatabaseManager.getConnection();
              var preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, token);
@@ -60,7 +60,7 @@ public class MySQLAuthDAO {
     }
 
     public void addAuth(String token, AuthData authData) throws DataAccessException {
-        String query = "INSERT INTO " + TABLE_NAME + " (authToken, username) VALUES (?, ?)";
+        String query = "INSERT INTO " + tableName + " (authToken, username) VALUES (?, ?)";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setString(1, token);
@@ -73,7 +73,7 @@ public class MySQLAuthDAO {
 
     public Map<String, AuthData> getAuth() throws DataAccessException {
         Map<String, AuthData> authData = new HashMap<>();
-        String query = "SELECT authToken, username FROM " + TABLE_NAME;
+        String query = "SELECT authToken, username FROM " + tableName;
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
@@ -90,7 +90,7 @@ public class MySQLAuthDAO {
 
 
     public AuthData removeAuth(String token) throws DataAccessException {
-        String query = "SELECT username FROM " + TABLE_NAME + " WHERE authToken = ?";
+        String query = "SELECT username FROM " + tableName + " WHERE authToken = ?";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement selectStatement = conn.prepareStatement(query)) {
             selectStatement.setString(1, token);
@@ -98,7 +98,7 @@ public class MySQLAuthDAO {
                 if (resultSet.next()) {
                     String username = resultSet.getString("username");
                     AuthData authData = new AuthData(token, username);
-                    String deleteQuery = "DELETE FROM " + TABLE_NAME + " WHERE authToken = ?";
+                    String deleteQuery = "DELETE FROM " + tableName + " WHERE authToken = ?";
                     try (PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery)) {
                         deleteStatement.setString(1, token);
                         deleteStatement.executeUpdate();
@@ -113,7 +113,7 @@ public class MySQLAuthDAO {
     }
 
     public String getUsername(String token) throws DataAccessException {
-        String query = "SELECT username FROM " + TABLE_NAME + " WHERE authToken = ?";
+        String query = "SELECT username FROM " + tableName + " WHERE authToken = ?";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query)){
             statement.setString(1, token);
