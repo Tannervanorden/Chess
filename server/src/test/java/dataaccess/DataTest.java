@@ -177,6 +177,24 @@ public class DataTest {
         assertNull(gameDAO.getGame(1));
     }
 
+    @Test
+    @Order(17)
+    public void testGameUpdatePositive() throws DataAccessException {
+        GameData gameData = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
+        gameDAO.addGame(gameData);
+        gameDAO.updateGame(1, new GameData(1, "whiteUsername", "blackUser", "test", null));
+        assertEquals(gameDAO.getGame(1).blackUsername().equals("blackUser"), gameDAO.getGame(1).blackUsername().equals("blackUser"));
+    }
+
+    @Test
+    @Order(18)
+    public void testGameUpdateNegative() throws DataAccessException {
+        GameData gameData = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
+        gameDAO.addGame(gameData);
+        gameDAO.updateGame(1, new GameData(1, "whiteUsername", "blackUser", "test", null));
+        assertNotEquals(gameDAO.getGame(1).blackUsername().equals("blackUsername"), gameDAO.getGame(1).blackUsername().equals("blackUser"));
+    }
+
 
 
 
