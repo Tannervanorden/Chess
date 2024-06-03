@@ -67,7 +67,7 @@ public class DataTest {
     }
     @Test
     @Order(5)
-    public void testClear() throws DataAccessException {
+    public void testAuthClear() throws DataAccessException {
         AuthData authData = new AuthData("token1", "user1");
         authDAO.addAuth("token1", authData);
         authDAO.clear();
@@ -166,6 +166,15 @@ public class DataTest {
         gameDAO.addGame(game);
         gameDAO.addGame(game2);
         assertNotEquals(gameDAO.getGame(1), gameDAO.getGame(2));
+    }
+
+    @Test
+    @Order(16)
+    public void testGameClear() throws DataAccessException {
+        GameData gameData = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
+        gameDAO.addGame(gameData);
+        gameDAO.clear();
+        assertNull(gameDAO.getGame(1));
     }
 
 
