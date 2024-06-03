@@ -3,6 +3,8 @@ import model.AuthData;
 import model.GameData;
 import org.junit.jupiter.api.*;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -194,6 +196,35 @@ public class DataTest {
         gameDAO.updateGame(1, new GameData(1, "whiteUsername", "blackUser", "test", null));
         assertNotEquals(gameDAO.getGame(1).blackUsername().equals("blackUsername"), gameDAO.getGame(1).blackUsername().equals("blackUser"));
     }
+
+    @Test
+    @Order(19)
+    public void testGetGameListPositive() throws DataAccessException {
+        GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
+        GameData game2 = new GameData(2, "whiteUsername", "blackUsermane", "test", null);
+        gameDAO.addGame(game);
+        gameDAO.addGame(game2);
+        Map<Integer, GameData> list = gameDAO.getGames();
+        assertNotNull(list);
+    }
+
+    @Test
+    @Order(19)
+    public void testGetGameListNegative() throws DataAccessException {
+        GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
+        GameData game2 = new GameData(2, "whiteUsername", "blackUsermane", "test", null);
+        gameDAO.addGame(game);
+        gameDAO.addGame(game2);
+        gameDAO.clear();
+        Map<Integer, GameData> list = gameDAO.getGames();
+        assertTrue(list.isEmpty());
+    }
+
+    @Test
+    @Order(20)
+
+
+
 
 
 
