@@ -85,10 +85,17 @@ public class DataTest {
 
     }
 
-
-
     @Test
     @Order(7)
+    public void testGetAuthNegative() throws DataAccessException {
+        AuthData authData = new AuthData("token", "user");
+        authDAO.addAuth("token", authData);
+        assertNotNull(authDAO);
+
+    }
+
+    @Test
+    @Order(8)
     public void testAddGame() throws DataAccessException {
         GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
         gameDAO.addGame(game);
