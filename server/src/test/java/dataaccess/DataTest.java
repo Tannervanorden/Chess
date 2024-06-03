@@ -231,6 +231,28 @@ public class DataTest {
         assertNull(userDAO.getUser(user.username()));
     }
 
+    @Test
+    @Order(22)
+    void testGetUserPositive() throws DataAccessException {
+        UserData user = new UserData("username", "password", "email@email.com");
+        userDAO.addUser(user);
+        assertEquals(userDAO.getUser(user.username()).username(), user.username());
+
+    }
+
+    @Test
+    @Order(23)
+    void testGetUserNegative() throws DataAccessException {
+        UserData user = new UserData("username", "password", "email@email.com");
+        UserData user1 = new UserData("username1", "password", "email@email.com");
+        userDAO.addUser(user);
+        userDAO.addUser(user1);
+        assertNotEquals(userDAO.getUser(user1.username()).username(), user.username());
+
+    }
+
+
+
 
 
 
