@@ -1,6 +1,7 @@
 package dataaccess;
 import model.AuthData;
 import model.GameData;
+import model.UserData;
 import org.junit.jupiter.api.*;
 
 import java.util.Map;
@@ -209,7 +210,7 @@ public class DataTest {
     }
 
     @Test
-    @Order(19)
+    @Order(20)
     public void testGetGameListNegative() throws DataAccessException {
         GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
         GameData game2 = new GameData(2, "whiteUsername", "blackUsermane", "test", null);
@@ -221,7 +222,14 @@ public class DataTest {
     }
 
     @Test
-    @Order(20)
+    @Order(21)
+    void testClearUser() throws DataAccessException {
+        UserData user = new UserData("username", "password", "email@email.com");
+        userDAO.addUser(user);
+        userDAO.clear();
+        userDAO.getUser(user.username());
+        assertNull(userDAO.getUser(user.username()));
+    }
 
 
 
