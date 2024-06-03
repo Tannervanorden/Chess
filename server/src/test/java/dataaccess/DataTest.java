@@ -116,6 +116,26 @@ public class DataTest {
 
     @Test
     @Order(10)
+    public void testGetUsernamePostive() throws DataAccessException {
+        AuthData authData = new AuthData("token", "user");
+        authDAO.addAuth("token", authData);
+        String username = authDAO.getUsername("token");
+        assertNotNull(username);
+    }
+
+    @Test
+    @Order(11)
+    public void testGetUsernamenNegative() throws DataAccessException {
+        AuthData authData = new AuthData("token", "user");
+        authDAO.addAuth("token", authData);
+        String username = authDAO.getUsername("tokenFake");
+        assertNull(username);
+    }
+
+
+
+    @Test
+    @Order(12)
     public void testAddGame() throws DataAccessException {
         GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
         gameDAO.addGame(game);
