@@ -96,6 +96,15 @@ public class DataTest {
 
     @Test
     @Order(8)
+    public void testRemoveAuthPositive() throws DataAccessException {
+        AuthData authData = new AuthData("token", "user");
+        authDAO.addAuth("token", authData);
+        authDAO.removeAuth("token");
+        assertNull(authDAO.getAuth().get("token"));
+    }
+
+    @Test
+    @Order(9)
     public void testAddGame() throws DataAccessException {
         GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
         gameDAO.addGame(game);
