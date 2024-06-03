@@ -6,6 +6,8 @@ import passoff.model.*;
 import passoff.server.TestServerFacade;
 import server.Server;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -105,6 +107,15 @@ public class DataTest {
 
     @Test
     @Order(9)
+    public void testRemoveAuthNegative() throws DataAccessException {
+        AuthData authData = new AuthData("token", "user");
+        authDAO.addAuth("token", authData);
+        authDAO.removeAuth("token1");
+        assertNotNull(authDAO.getAuth().get("token"));
+    }
+
+    @Test
+    @Order(10)
     public void testAddGame() throws DataAccessException {
         GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
         gameDAO.addGame(game);
