@@ -3,6 +3,7 @@ package service;
 import dataaccess.*;
 import model.AuthData;
 import model.UserData;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.UUID;
 
@@ -18,7 +19,8 @@ public class LoginService extends GenericService {
                 throw new Exception("User not found");
             }
 
-            if (!existingU.password().equals(user.password())) {
+            var hashedPassword = existingU.password();
+            if (!BCrypt.checkpw(user.password(), hashedPassword)) {
                 throw new Exception("Unauthorized");
             }
 
