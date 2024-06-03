@@ -2,11 +2,6 @@ package dataaccess;
 import model.AuthData;
 import model.GameData;
 import org.junit.jupiter.api.*;
-import passoff.model.*;
-import passoff.server.TestServerFacade;
-import server.Server;
-
-import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -136,11 +131,22 @@ public class DataTest {
 
     @Test
     @Order(12)
-    public void testAddGame() throws DataAccessException {
+    public void testAddGamePositive() throws DataAccessException {
         GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
         gameDAO.addGame(game);
         GameData checkGame = gameDAO.getGame(1);
         assertEquals(game, checkGame);
+    }
+
+    @Test
+    @Order(13)
+    public void testAddGameNegative() throws DataAccessException {
+        GameData game = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
+        GameData game2 = new GameData(2, "whiteUsername", "blackUsermane", "test", null);
+        gameDAO.addGame(game);
+        gameDAO.addGame(game2);
+        GameData checkGame = gameDAO.getGame(2);
+        assertNotEquals(game, checkGame);
     }
 
 
