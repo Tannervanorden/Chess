@@ -11,12 +11,12 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MySQLGameDAO {
+public class MySQLGameDAO extends GenericDAO {
     private static String tableName = "game";
     private Gson gson = new Gson();
 
     public MySQLGameDAO() throws DataAccessException {
-        configureDatabase();
+        configureDatabase(createStatements);
     }
 
     private final String[] createStatements = {
@@ -28,19 +28,6 @@ public class MySQLGameDAO {
                     "  `game` TEXT NULL" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
     };
-
-    private void configureDatabase() throws DataAccessException {
-        DatabaseManager.createDatabase();
-        try (var conn = DatabaseManager.getConnection()) {
-            for (var statement : createStatements) {
-                try (var preparedStatement = conn.prepareStatement(statement)) {
-                    preparedStatement.executeUpdate();
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataAccessException("Unable to configure database: " + ex.getMessage());
-        }
-    }
 
     public GameData getGame(int gameID) throws DataAccessException {
         String query = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM " + tableName + " WHERE gameID = ?";
@@ -83,18 +70,6 @@ public class MySQLGameDAO {
         }
     }
 
-
-
-    public void clear() throws DataAccessException {
-        try (var conn = DatabaseManager.getConnection()) {
-            String clearTableSQL = "TRUNCATE TABLE " + tableName;
-            try (var preparedStatement = conn.prepareStatement(clearTableSQL)) {
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException ex) {
-            throw new DataAccessException("Unable to clear database: " + ex.getMessage());
-        }
-    }
 
     public void addGame(GameData game) throws DataAccessException {
         String query = "INSERT INTO " + tableName + " (gameID, whiteUsername, blackUsername, gameName, game) VALUES (?, ?, ?, ?, ?)";

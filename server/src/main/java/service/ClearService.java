@@ -11,9 +11,12 @@ public class ClearService extends GenericService {
             MySQLAuthDAO authDAO = GenericService.getAuthDAO();
             MySQLGameDAO gameDAO = GenericService.getGameDAO();
 
-            userDAO.clear();
-            authDAO.clear();
-            gameDAO.clear();
+            String tableUserName = "user";
+            String tableGameName = "game";
+            String tableAuthName = "auth";
+            userDAO.clear(tableUserName);
+            authDAO.clear(tableAuthName);
+            gameDAO.clear(tableGameName);
 
     }
 }

@@ -9,32 +9,20 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MySQLAuthDAO {
+public class MySQLAuthDAO extends GenericDAO {
     private static String tableName = "auth";
 
     public MySQLAuthDAO() throws DataAccessException {
-        configureDatabase();
+        configureDatabase(createStatements);
     }
 
-    private final String [] createStatements = {
+    final String [] createStatements = {
             "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
                     " authToken VARCHAR(200) PRIMARY KEY," +
                     " username VARCHAR(200) NOT NULL" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
     };
 
-    private void configureDatabase() throws DataAccessException {
-        DatabaseManager.createDatabase();
-        try (var conn = DatabaseManager.getConnection()) {
-            for (var statement : createStatements) {
-                try (var preparedStatement = conn.prepareStatement(statement)) {
-                    preparedStatement.executeUpdate();
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataAccessException("Unable to configure database: " + ex.getMessage());
-        }
-    }
     public void clear() throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()) {
             String clearTableSQL = "TRUNCATE TABLE " + tableName;

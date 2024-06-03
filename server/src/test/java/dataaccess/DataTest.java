@@ -13,25 +13,28 @@ public class DataTest {
     private MySQLAuthDAO authDAO;
     private MySQLGameDAO gameDAO;
     private MySQLUserDAO userDAO;
+    String tableUserName = "user";
+    String tableGameName = "game";
+    String tableAuthName = "auth";
 
 
     @BeforeEach
     public void setUp() {
         try {
             authDAO = new MySQLAuthDAO();
-            authDAO.clear();
+            authDAO.clear(tableAuthName);
         } catch (DataAccessException e) {
             e.printStackTrace();
         }
         try {
             userDAO = new MySQLUserDAO();
-            userDAO.clear();
+            userDAO.clear(tableUserName );
         } catch (DataAccessException e) {
             e.printStackTrace();
         }
         try {
             gameDAO = new MySQLGameDAO();
-            gameDAO.clear();
+            gameDAO.clear(tableGameName);
         } catch (DataAccessException e) {
             e.printStackTrace();
         }
@@ -73,7 +76,7 @@ public class DataTest {
     public void testAuthClear() throws DataAccessException {
         AuthData authData = new AuthData("token1", "user1");
         authDAO.addAuth("token1", authData);
-        authDAO.clear();
+        authDAO.clear(tableAuthName);
         assertNull(authDAO.getAuth().get("token1"));
     }
     @Test
@@ -176,7 +179,7 @@ public class DataTest {
     public void testGameClear() throws DataAccessException {
         GameData gameData = new GameData(1, "whiteUsername", "blackUsermane", "test", null);
         gameDAO.addGame(gameData);
-        gameDAO.clear();
+        gameDAO.clear(tableGameName);
         assertNull(gameDAO.getGame(1));
     }
 
@@ -216,7 +219,7 @@ public class DataTest {
         GameData game2 = new GameData(2, "whiteUsername", "blackUsermane", "test", null);
         gameDAO.addGame(game);
         gameDAO.addGame(game2);
-        gameDAO.clear();
+        gameDAO.clear(tableGameName);
         Map<Integer, GameData> list = gameDAO.getGames();
         assertTrue(list.isEmpty());
     }
@@ -226,7 +229,7 @@ public class DataTest {
     void testClearUser() throws DataAccessException {
         UserData user = new UserData("username", "password", "email@email.com");
         userDAO.addUser(user);
-        userDAO.clear();
+        userDAO.clear(tableUserName);
         userDAO.getUser(user.username());
         assertNull(userDAO.getUser(user.username()));
     }
@@ -265,7 +268,7 @@ public class DataTest {
     void testaddUserNegative() throws DataAccessException {
         UserData user1 = new UserData("username1", "password", "email@email.com");
         userDAO.addUser(user1);
-        userDAO.clear();
+        userDAO.clear(tableUserName);
         assertNull(userDAO.getUser(user1.username()));
     }
 

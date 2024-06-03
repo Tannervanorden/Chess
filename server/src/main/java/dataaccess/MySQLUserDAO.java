@@ -8,11 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MySQLUserDAO {
+public class MySQLUserDAO extends GenericDAO{
     private static String tableName = "user";
 
     public MySQLUserDAO() throws DataAccessException {
-        configureDatabase();
+        configureDatabase(createStatements);
     }
 
     private final String[] createStatements = {
@@ -22,30 +22,6 @@ public class MySQLUserDAO {
                     " email VARCHAR(200) NOT NULL" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
     };
-
-    private void configureDatabase() throws DataAccessException {
-        DatabaseManager.createDatabase();
-        try (var conn = DatabaseManager.getConnection()) {
-            for (var statement : createStatements) {
-                try (var preparedStatement = conn.prepareStatement(statement)) {
-                    preparedStatement.executeUpdate();
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataAccessException("Unable to configure database: " + ex.getMessage());
-        }
-    }
-
-    public void clear() throws DataAccessException {
-        try (var conn = DatabaseManager.getConnection()) {
-            String clearTableSQL = "TRUNCATE TABLE " + tableName;
-            try (var preparedStatement = conn.prepareStatement(clearTableSQL)) {
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException ex) {
-            throw new DataAccessException("Unable to clear database: " + ex.getMessage());
-        }
-    }
 
     public UserData getUser(String username) throws DataAccessException {
         String query = "SELECT * FROM " + tableName + " WHERE username = ?";
