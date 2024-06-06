@@ -15,5 +15,14 @@ public class ServerFacade {
         return sendPostRequest(endpoint, user, AuthData.class);
     }
 
+    //Register
+    public AuthData register(String username, String password, String email) throws Exception {
+        String endpoint = "/register";
+        UserData user = new UserData(username, password, email);
+        return sendPostRequest(endpoint, user, AuthData.class);
+    }
+
+
+
 
 }
