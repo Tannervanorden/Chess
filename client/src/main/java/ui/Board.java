@@ -41,12 +41,66 @@ public class Board {
                 if (piece != null){
                     if (piece.getPieceType() == ChessPiece.PieceType.ROOK){
                         if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
-                            System.out.print("R");
+                            System.out.print(" R ");
                         }
                         else {
-                            System.out.print("R");
+                            System.out.print(" R ");
                         }
                     }
+                    else if (piece.getPieceType() == ChessPiece.PieceType.KING){
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                            System.out.print(" K ");
+                        }
+                        else {
+                            System.out.print(" K ");
+                        }
+                    }
+
+                    else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT){
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                            System.out.print(" N ");
+                        }
+                        else {
+                            System.out.print(" N ");
+                        }
+                    }
+
+                    else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT){
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                            System.out.print(" N ");
+                        }
+                        else {
+                            System.out.print(" N ");
+                        }
+                    }
+
+                    else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN){
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                            System.out.print(" Q ");
+                        }
+                        else {
+                            System.out.print(" Q ");
+                        }
+                    }
+
+                    else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP){
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                            System.out.print(" B ");
+                        }
+                        else {
+                            System.out.print(" B ");
+                        }
+                    }
+
+                    else if (piece.getPieceType() == ChessPiece.PieceType.PAWN){
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                            System.out.print(" P ");
+                        }
+                        else {
+                            System.out.print(" P ");
+                        }
+                    }
+
                 }
                 else {
                     System.out.print(EscapeSequences.EMPTY);
