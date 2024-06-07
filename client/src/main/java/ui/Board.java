@@ -2,6 +2,7 @@ package ui;
 
 import chess.ChessBoard;
 import chess.ChessGame;
+import chess.ChessPiece;
 import chess.ChessPosition;
 
 
@@ -36,9 +37,16 @@ public class Board {
                 System.out.print(color);
 
                 ChessPosition position = new ChessPosition(row + 1, col + 1);
-                if (board.getPiece(position) != null){
-                    System.out.print(EscapeSequences.WHITE_KING);
-                    System.out.print(EscapeSequences.EMPTY);
+                ChessPiece piece = board.getPiece(position);
+                if (piece != null){
+                    if (piece.getPieceType() == ChessPiece.PieceType.ROOK){
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                            System.out.print("R");
+                        }
+                        else {
+                            System.out.print("R");
+                        }
+                    }
                 }
                 else {
                     System.out.print(EscapeSequences.EMPTY);
