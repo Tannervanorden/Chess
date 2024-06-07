@@ -1,7 +1,9 @@
 package ui;
 
+import chess.ChessBoard;
 
-public class ChessBoard {
+
+public class Board {
 
     private static final int BOARD_SIZE = 8;
 
