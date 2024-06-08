@@ -1,5 +1,6 @@
 package ui;
 
+import model.AuthData;
 import model.GameData;
 import sf.ServerFacade;
 
@@ -63,6 +64,8 @@ public class PostLogin {
                 try {
                     serverFacade.logout(authToken);
                     System.out.println("Logged out Successfully!");
+                    PreLogin preLogin = new PreLogin();
+                    AuthData authData = preLogin.displayPreLoginUI();
                 } catch (Exception e) {
                     System.out.println("Logout Failed: " + e.getMessage());
                 }
