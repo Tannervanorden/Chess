@@ -1,11 +1,13 @@
 package sf;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import model.AuthData;
 import model.UserData;
 import model.GameData;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -37,7 +39,7 @@ public class ServerFacade {
 
     public List<GameData> listGames(String authToken) throws Exception {
         String endpoint = "/game";
-        return doGet(endpoint, authToken, GameData[].class);
+        return doGet(endpoint, new TypeToken<List<GameData>>(){}.getType(), authToken);
     }
 
 
@@ -93,7 +95,7 @@ public class ServerFacade {
             }
         }
     }
-    public <T> T doGet(String endpoint, Class<T> responseClass, String authToken) throws Exception {
+    public <T> T doGet(String endpoint, Type responseType, String authToken) throws Exception {
         URL url = new URL(urlString + endpoint);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -121,7 +123,7 @@ public class ServerFacade {
                 while ((inputLine = bufferStream.readLine()) != null) {
                     responseBuilder.append(inputLine);
                 }
-                return gson.fromJson(responseBuilder.toString(), responseClass);
+                return gson.fromJson(responseBuilder.toString(), responseType);
             }
         } else {
             // SERVER RETURNED AN HTTP ERROR
