@@ -48,8 +48,9 @@ public class ServerFacade {
         }
     }
 
-    public void logout() throws Exception {
+    public void logout(String authToken) throws Exception {
         String endpoint = "/session";
+        doDelete(endpoint, void.class, authToken);
     }
 
 
@@ -107,7 +108,7 @@ public class ServerFacade {
     }
 
 
-    public <T> T doDelete(String endpoint, Object requestBody, Class<T> responseClass, String authToken) throws Exception {
+    public <T> T doDelete(String endpoint, Class<T> responseClass, String authToken) throws Exception {
         URL url = new URL(urlString + endpoint);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();

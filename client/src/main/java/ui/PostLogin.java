@@ -61,7 +61,7 @@ public class PostLogin {
                 }
             } else if (choice == 5) {
                 try {
-                    serverFacade.logout();
+                    serverFacade.logout(authToken);
                     System.out.println("Logged out Successfully!");
                 } catch (Exception e) {
                     System.out.println("Logout Failed: " + e.getMessage());
