@@ -22,7 +22,7 @@ public class ServerFacade {
 
     //Register
     public AuthData register(String username, String password, String email) throws Exception {
-        String endpoint = "/register";
+        String endpoint = "/user";
         UserData user = new UserData(username, password, email);
         return doPost(endpoint, user, AuthData.class, null);
     }
