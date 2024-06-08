@@ -59,14 +59,6 @@ public class ServerFacade {
         }
 
         if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            // Get HTTP response headers, if necessary
-            // Map<String, List<String>> headers = connection.getHeaderFields();
-
-            // OR
-
-            //connection.getHeaderField("Content-Length");
-
-            // Read response body from InputStream ...
 
             try (InputStream responseStream = connection.getInputStream()) {
                 InputStreamReader responseStreamReader = new InputStreamReader(responseStream);

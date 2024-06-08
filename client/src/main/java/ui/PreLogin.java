@@ -11,8 +11,7 @@ public class PreLogin {
         PreLogin preLogin = new PreLogin();
         preLogin.displayPreLoginUI();
     }
-
-    private void displayPreLoginUI() {
+    public void displayPreLoginUI() {
         System.out.print("Welcome to CS 240 Chess!\n");
 
         while(true) {
