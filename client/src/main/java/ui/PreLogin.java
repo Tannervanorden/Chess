@@ -8,18 +8,19 @@ public class PreLogin {
     private ServerFacade serverFacade = new ServerFacade();
 
     public static void main(String[] args) {
-        displayPreLoginUI();
+        PreLogin preLogin = new PreLogin();
+        preLogin.displayPreLoginUI();
     }
 
     private void displayPreLoginUI() {
-        System.out.print("Welcome to CS 240 Chess!");
+        System.out.print("Welcome to CS 240 Chess!\n");
 
         while(true) {
-            System.out.print("Select an option: ");
-            System.out.println("1. Register");
-            System.out.println("2. Login");
-            System.out.print("3. Quit");
-            System.out.print("4. Help");
+            System.out.print("Select an option: \n");
+            System.out.print("1. Register\n");
+            System.out.print("2. Login\n");
+            System.out.print("3. Quit\n");
+            System.out.print("4. Help\n");
 
             System.out.print("Enter: ");
 
@@ -36,9 +37,13 @@ public class PreLogin {
                 System.out.print("Enter email: ");
                 String email = scanner.next();
 
-                serverFacade.register(username, password, email);
+                try {
+                    serverFacade.register(username, password, email);
+                    System.out.println("Registration successful!");
+                } catch (Exception e) {
+                    System.out.println("Registration failed: " + e.getMessage());
+                }
             }
         }
     }
-
 }

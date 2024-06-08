@@ -35,7 +35,7 @@ public class ServerFacade {
     }
 
 
-    public <T> T doPost(String endpoint, Object requestBody, Class<T> responseClass, String authToken) throws IOException {
+    public <T> T doPost(String endpoint, Object requestBody, Class<T> responseClass, String authToken) throws Exception {
         URL url = new URL(urlString);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -52,7 +52,7 @@ public class ServerFacade {
 
         connection.connect();
 
-        try(OutputStream requestBodyStream = connection.getOutputStream();) {
+        try (OutputStream requestBodyStream = connection.getOutputStream();) {
             String jsonRequest = gson.toJson(requestBody);
             requestBodyStream.write(jsonRequest.getBytes());
             requestBodyStream.flush();
@@ -77,15 +77,22 @@ public class ServerFacade {
                 while ((inputLine = bufferStream.readLine()) != null) {
                     responseBuilder.append(inputLine);
                 }
-
-
+                return gson.fromJson(responseBuilder.toString(), responseClass);
             }
-        }
-        else {
+        } else {
             // SERVER RETURNED AN HTTP ERROR
+            try (InputStream responseBodyStream = connection.getErrorStream();
+                 InputStreamReader inputStreamReader = new InputStreamReader(responseBodyStream);
+                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
 
-            InputStream responseBody = connection.getErrorStream();
-            // Read and process error response body from InputStream ...
+                StringBuilder responseBody = new StringBuilder();
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    responseBody.append(line);
+                }
+
+                throw new Exception(responseBody.toString());
+            }
         }
     }
 }
