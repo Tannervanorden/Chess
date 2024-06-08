@@ -43,6 +43,19 @@ public class PreLogin {
                     System.out.println("Registration failed: " + e.getMessage());
                 }
             }
+            else if(choice == 2){
+                System.out.print("Enter username: ");
+                String username = scanner.next();
+
+                System.out.print("Enter password: ");
+                String password = scanner.next();
+
+                try {
+                    serverFacade.login(username, password);
+                } catch (Exception e) {
+                    System.out.println("Login failed: " + e.getMessage());
+                }
+            }
         }
     }
 }

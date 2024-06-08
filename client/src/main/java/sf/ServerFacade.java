@@ -15,7 +15,7 @@ public class ServerFacade {
 
     //Login
     public AuthData login(String username, String password) throws Exception {
-        String endpoint = "/login";
+        String endpoint = "/session";
         UserData user = new UserData(username, password, null);
         return doPost(endpoint, user, AuthData.class, null);
     }
