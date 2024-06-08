@@ -18,8 +18,8 @@ public class PostLogin {
     }
     public void displayPostLoginUI() {
 
+        System.out.print("Logged in\n");
         while (true) {
-            System.out.print("Logged in\n");
             System.out.print("Select an option: \n");
             System.out.print("1. Create Game\n");
             System.out.print("2. List Games\n");
