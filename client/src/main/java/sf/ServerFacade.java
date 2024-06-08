@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 public class ServerFacade {
     private String urlString = "http://localhost:8080";
@@ -39,7 +40,12 @@ public class ServerFacade {
 
     public List<GameData> listGames(String authToken) throws Exception {
         String endpoint = "/game";
-        return doGet(endpoint, new TypeToken<List<GameData>>(){}.getType(), authToken);
+        Map<String, List<GameData>> response = doGet(endpoint, new TypeToken<Map<String, List<GameData>>>(){}.getType(), authToken);
+        if (response.containsKey("games")) {
+            return response.get("games");
+        } else {
+            throw new Exception("Response does not contain 'games' key.");
+        }
     }
 
 

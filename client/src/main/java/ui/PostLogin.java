@@ -54,7 +54,8 @@ public class PostLogin {
                     } else {
                         System.out.println("Games:");
                         for (GameData gameData : games) {
-                            System.out.println("Game ID:" + gameData.gameID() + "Game Name: " + gameData.gameName());
+                            System.out.println("Game ID: " + gameData.gameID());
+                            System.out.println("Game Name: " + gameData.gameName());
                         }
                     }
                 } catch (Exception e) {
