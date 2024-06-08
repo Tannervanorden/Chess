@@ -38,8 +38,9 @@ public class PreLogin {
                 String email = scanner.next();
 
                 try {
-                    serverFacade.register(username, password, email);
+                    AuthData authData = serverFacade.register(username, password, email);
                     System.out.println("Registration successful!");
+                    return authData;
                 } catch (Exception e) {
                     System.out.println("Registration failed: " + e.getMessage());
                 }
@@ -52,8 +53,9 @@ public class PreLogin {
                 String password = scanner.next();
 
                 try {
-                    serverFacade.login(username, password);
+                    AuthData authData = serverFacade.login(username, password);
                     System.out.println("Login successful!");
+                    return authData;
                 } catch (Exception e) {
                     System.out.println("Login failed: " + e.getMessage());
                 }

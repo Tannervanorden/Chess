@@ -1,5 +1,6 @@
 import chess.*;
 import model.AuthData;
+import ui.PostLogin;
 import ui.PreLogin;
 
 public class Main {
@@ -9,6 +10,7 @@ public class Main {
 
         PreLogin preLogin = new PreLogin();
         AuthData authData = preLogin.displayPreLoginUI();
+        PostLogin postLogin = new PostLogin(authData.authToken());
 
     }
 }

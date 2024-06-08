@@ -7,12 +7,12 @@ import java.util.Scanner;
 public class PostLogin {
     private Scanner scanner = new Scanner(System.in);
     private ServerFacade serverFacade = new ServerFacade();
+    private String authToken;
 
-    public static void main(String[] args) {
-        PostLogin postLogin = new PostLogin();
-        postLogin.displayPostLoginUI();
+
+    public PostLogin(String authToken) {
+        this.authToken = authToken;
     }
-
     public void displayPostLoginUI() {
 
         while (true) {
