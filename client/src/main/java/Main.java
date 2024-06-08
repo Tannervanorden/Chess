@@ -11,6 +11,7 @@ public class Main {
         PreLogin preLogin = new PreLogin();
         AuthData authData = preLogin.displayPreLoginUI();
         PostLogin postLogin = new PostLogin(authData.authToken());
+        postLogin.displayPostLoginUI();
 
     }
 }
