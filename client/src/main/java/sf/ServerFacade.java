@@ -36,7 +36,7 @@ public class ServerFacade {
 
 
     public <T> T doPost(String endpoint, Object requestBody, Class<T> responseClass, String authToken) throws Exception {
-        URL url = new URL(urlString);
+        URL url = new URL(urlString + endpoint);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
