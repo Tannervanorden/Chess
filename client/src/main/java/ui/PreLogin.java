@@ -57,6 +57,11 @@ public class PreLogin {
                     System.out.println("Login failed: " + e.getMessage());
                 }
             }
+
+            else if(choice == 3){
+                System.out.print("Quitting, Thank You for Playing!");
+                System.exit(0);
+            }
         }
     }
 }
