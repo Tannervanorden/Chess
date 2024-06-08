@@ -5,9 +5,7 @@ import model.AuthData;
 import model.UserData;
 import model.GameData;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -68,8 +66,20 @@ public class ServerFacade {
 
             //connection.getHeaderField("Content-Length");
 
-            InputStream responseBody = connection.getInputStream();
             // Read response body from InputStream ...
+
+            try (InputStream responseStream = connection.getInputStream()) {
+                InputStreamReader responseStreamReader = new InputStreamReader(responseStream);
+                BufferedReader bufferStream = new BufferedReader(responseStreamReader);
+
+                StringBuilder responseBuilder = new StringBuilder();
+                String inputLine;
+                while ((inputLine = bufferStream.readLine()) != null) {
+                    responseBuilder.append(inputLine);
+                }
+
+
+            }
         }
         else {
             // SERVER RETURNED AN HTTP ERROR
