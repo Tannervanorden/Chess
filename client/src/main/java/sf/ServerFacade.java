@@ -55,7 +55,9 @@ public class ServerFacade {
         connection.connect();
 
         try(OutputStream requestBodyStream = connection.getOutputStream();) {
-            // Write request body to OutputStream ...
+            String jsonRequest = gson.toJson(requestBody);
+            requestBodyStream.write(jsonRequest.getBytes());
+            requestBodyStream.flush();
         }
 
         if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
