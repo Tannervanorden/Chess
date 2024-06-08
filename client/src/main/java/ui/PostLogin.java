@@ -14,5 +14,11 @@ public class PostLogin {
     }
 
     private static void displayPostLoginUI() {
+
+        while (true) {
+            System.out.print("Logged in");
+
+
+        }
     }
 }
