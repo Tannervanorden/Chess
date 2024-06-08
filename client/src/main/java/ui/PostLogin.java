@@ -1,7 +1,9 @@
 package ui;
 
+import model.GameData;
 import sf.ServerFacade;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -45,6 +47,15 @@ public class PostLogin {
             }
 
             else if (choice == 2){
+                try {
+                    List<GameData> games = serverFacade.listGames(authToken);
+                    System.out.println("Games:");
+                    for (GameData gameData : games) {
+                        System.out.println("Game ID:" + gameData.gameID() + "Game Name: " + gameData.gameName());
+                    }
+                } catch (Exception e) {
+                    System.out.println("Game List failed: " + e.getMessage());
+                }
             }
         }
     }
