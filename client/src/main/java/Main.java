@@ -1,4 +1,5 @@
 import chess.*;
+import model.AuthData;
 import ui.PreLogin;
 
 public class Main {
@@ -7,7 +8,7 @@ public class Main {
         System.out.println("♕ 240 Chess Client: " + piece);
 
         PreLogin preLogin = new PreLogin();
-        preLogin.displayPreLoginUI();
+        AuthData authData = preLogin.displayPreLoginUI();
 
     }
 }

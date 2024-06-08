@@ -1,5 +1,6 @@
 package ui;
 
+import model.AuthData;
 import sf.ServerFacade;
 import java.util.Scanner;
 
@@ -9,9 +10,9 @@ public class PreLogin {
 
     public static void main(String[] args) {
         PreLogin preLogin = new PreLogin();
-        preLogin.displayPreLoginUI();
+        AuthData authData = preLogin.displayPreLoginUI();
     }
-    public void displayPreLoginUI() {
+    public AuthData displayPreLoginUI() {
         System.out.print("Welcome to CS 240 Chess!\n");
 
         while(true) {

@@ -10,7 +10,7 @@ public class PostLogin {
 
     public static void main(String[] args) {
         PostLogin postLogin = new PostLogin();
-        PostLogin.displayPostLoginUI();
+        postLogin.displayPostLoginUI();
     }
 
     public void displayPostLoginUI() {
@@ -39,8 +39,6 @@ public class PostLogin {
                     System.out.println("Game Creation failed: " + e.getMessage());
                 }
             }
-
-
         }
     }
 }
