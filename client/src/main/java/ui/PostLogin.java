@@ -62,6 +62,14 @@ public class PostLogin {
                     System.out.println("Game List failed: " + e.getMessage());
                 }
             }
+
+            else if (choice == 5){
+                try {
+                    serverFacade.logout(name);
+                    System.out.println("Logged out Successfully!");
+                } catch (Exception e) {
+                    System.out.println("Logout Failed: " + e.getMessage());
+            }
         }
     }
 }

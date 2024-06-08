@@ -109,8 +109,7 @@ public class ServerFacade {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         connection.setReadTimeout(5000);
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
+        connection.setRequestMethod("DELETE");
 
         // Set HTTP request headers, if necessary
         // connection.addRequestProperty("Accept", "text/html");
@@ -119,12 +118,6 @@ public class ServerFacade {
         }
 
         connection.connect();
-
-        try (OutputStream requestBodyStream = connection.getOutputStream();) {
-            String jsonRequest = gson.toJson(requestBody);
-            requestBodyStream.write(jsonRequest.getBytes());
-            requestBodyStream.flush();
-        }
 
         if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 
