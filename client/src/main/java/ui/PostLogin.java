@@ -49,9 +49,13 @@ public class PostLogin {
             else if (choice == 2){
                 try {
                     List<GameData> games = serverFacade.listGames(authToken);
-                    System.out.println("Games:");
-                    for (GameData gameData : games) {
-                        System.out.println("Game ID:" + gameData.gameID() + "Game Name: " + gameData.gameName());
+                    if (games.isEmpty()) {
+                        System.out.println("No games found!");
+                    } else {
+                        System.out.println("Games:");
+                        for (GameData gameData : games) {
+                            System.out.println("Game ID:" + gameData.gameID() + "Game Name: " + gameData.gameName());
+                        }
                     }
                 } catch (Exception e) {
                     System.out.println("Game List failed: " + e.getMessage());
