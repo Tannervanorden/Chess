@@ -33,7 +33,7 @@ public class PostLogin {
 
             int choice = scanner.nextInt();
 
-            if (choice == 1){
+            if (choice == 1) {
 
                 System.out.print("Enter a Name:");
                 String name = scanner.next();
@@ -44,9 +44,7 @@ public class PostLogin {
                 } catch (Exception e) {
                     System.out.println("Game Creation failed: " + e.getMessage());
                 }
-            }
-
-            else if (choice == 2){
+            } else if (choice == 2) {
                 try {
                     List<GameData> games = serverFacade.listGames(authToken);
                     if (games.isEmpty()) {
@@ -61,14 +59,13 @@ public class PostLogin {
                 } catch (Exception e) {
                     System.out.println("Game List failed: " + e.getMessage());
                 }
-            }
-
-            else if (choice == 5){
+            } else if (choice == 5) {
                 try {
-                    serverFacade.logout(name);
+                    serverFacade.logout();
                     System.out.println("Logged out Successfully!");
                 } catch (Exception e) {
                     System.out.println("Logout Failed: " + e.getMessage());
+                }
             }
         }
     }

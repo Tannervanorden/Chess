@@ -48,6 +48,10 @@ public class ServerFacade {
         }
     }
 
+    public void logout() throws Exception {
+        String endpoint = "/session";
+    }
+
 
     public <T> T doPost(String endpoint, Object requestBody, Class<T> responseClass, String authToken) throws Exception {
         URL url = new URL(urlString + endpoint);
