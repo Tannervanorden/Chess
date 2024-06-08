@@ -52,6 +52,7 @@ public class PreLogin {
 
                 try {
                     serverFacade.login(username, password);
+                    System.out.println("Login successful!");
                 } catch (Exception e) {
                     System.out.println("Login failed: " + e.getMessage());
                 }
