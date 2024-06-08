@@ -2,6 +2,7 @@ package ui;
 
 import sf.ServerFacade;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class PostLogin {
@@ -41,6 +42,9 @@ public class PostLogin {
                 } catch (Exception e) {
                     System.out.println("Game Creation failed: " + e.getMessage());
                 }
+            }
+
+            else if (choice == 2){
             }
         }
     }
