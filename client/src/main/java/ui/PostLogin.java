@@ -68,9 +68,20 @@ public class PostLogin {
                     System.out.print("Which color? White or Black?\n");
                     String color = scanner.next();
                     serverFacade.joinGame(gameId, color, authToken);
+                    System.out.println("Game Joined Successfully!");
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Join Game Failed: " + e.getMessage());
+                }
+            } else if (choice == 4) {
+                try {
+                    System.out.print("Enter a game ID\n");
+                    long gameId = scanner.nextLong();
+                    serverFacade.observeGame(gameId, authToken);
+                    System.out.println("Observing Game!");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Observing " + e.getMessage());
                 }
             }
 
