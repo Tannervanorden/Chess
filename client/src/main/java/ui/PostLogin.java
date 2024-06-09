@@ -24,7 +24,7 @@ public class PostLogin {
             System.out.print("Select an option: \n");
             System.out.print("1. Create Game\n");
             System.out.print("2. List Games\n");
-            System.out.print("3. Join Game\n");
+            System.out.print("3. Play Game\n");
             System.out.print("4. Observe Game\n");
             System.out.print("5. Logout\n");
             System.out.print("6. Quit\n");
@@ -64,7 +64,9 @@ public class PostLogin {
                 try {
                     System.out.print("Enter a game ID\n");
                     int gameId = scanner.nextInt();
-                    serverFacade.joinGame(gameId, authToken);
+                    System.out.print("Which color? White or Black?\n");
+                    String color = scanner.next();
+                    serverFacade.joinGame(gameId, color, authToken);
                 } catch (Exception e) {
                     System.out.println("Join Game Failed: " + e.getMessage());
                 }

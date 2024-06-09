@@ -3,6 +3,7 @@ package sf;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.AuthData;
+import model.JoinGameRequest;
 import model.UserData;
 import model.GameData;
 
@@ -51,6 +52,12 @@ public class ServerFacade {
     public void logout(String authToken) throws Exception {
         String endpoint = "/session";
         doDelete(endpoint, authToken);
+    }
+
+    public void joinGame(int gameID, String color, String authToken) throws Exception {
+        String endpoint = "/game";
+        JoinGameRequest joingGameData = new JoinGameRequest(color, gameID);
+        doPost(endpoint, joingGameData, AuthData.class, authToken);
     }
 
 
