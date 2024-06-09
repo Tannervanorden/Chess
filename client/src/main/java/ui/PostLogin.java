@@ -71,7 +71,7 @@ public class PostLogin {
                     System.out.println("Game Joined Successfully!");
                     ChessGame game = gamedata.game();
                     Board board = new Board(game);
-                    board.drawChessBoard();
+                    board.drawChessBoard(true);
                     break;
                 } catch (Exception e) {
                     System.out.println("Join Game Failed: " + e.getMessage());
@@ -84,7 +84,8 @@ public class PostLogin {
                     System.out.println("Observing Game!");
                     ChessGame game = gamedata.game();
                     Board board = new Board(game);
-                    board.drawChessBoard();
+                    board.drawChessBoard(true);
+                    System.out.print("\n");
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Observing " + e.getMessage());

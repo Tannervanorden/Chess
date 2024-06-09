@@ -21,14 +21,18 @@ public class Board {
 
         Board board = new Board(game);
 
-        board.drawChessBoard();
+        board.drawChessBoard(true);
     }
 
-    public void drawChessBoard() {
+    public void drawChessBoard(boolean isWhiteOnBottom) {
         ChessBoard board = game.getBoard();
         System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + "   a  b  c  d  e  f  g  h\n");
 
-        for (int row = 0; row < boardSize; row++) {
+        int startRow = isWhiteOnBottom ? boardSize - 1 : 0;
+        int endRow = isWhiteOnBottom ? -1 : boardSize;
+        int rowStep = isWhiteOnBottom ? -1 : 1;
+
+        for (int row = startRow; row != endRow; row += rowStep) {
             System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + (8 - row) + " ");
 
             for (int col = 0; col < boardSize; col++) {
@@ -38,76 +42,50 @@ public class Board {
 
                 ChessPosition position = new ChessPosition(row + 1, col + 1);
                 ChessPiece piece = board.getPiece(position);
-                if (piece != null){
-                    if (piece.getPieceType() == ChessPiece.PieceType.ROOK){
-                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                if (piece != null) {
+                    if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " R ");
-                        }
-                        else {
+                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " R ");
                         }
-                    }
-                    else if (piece.getPieceType() == ChessPiece.PieceType.KING){
-                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " K ");
-                        }
-                        else {
+                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " K ");
                         }
-                    }
-
-                    else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT){
-                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " N ");
-                        }
-                        else {
+                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " N ");
                         }
-                    }
-
-                    else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT){
-                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
-                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " N ");
-                        }
-                        else {
-                            System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " N ");
-                        }
-                    }
-
-                    else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN){
-                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " Q ");
-                        }
-                        else {
+                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " Q ");
                         }
-                    }
-
-                    else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP){
-                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " B ");
-                        }
-                        else {
+                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " B ");
                         }
-                    }
-
-                    else if (piece.getPieceType() == ChessPiece.PieceType.PAWN){
-                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+                        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " P ");
-                        }
-                        else {
+                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " P ");
                         }
                     }
-
-                }
-                else {
+                } else {
                     System.out.print(EscapeSequences.EMPTY);
                 }
-
             }
             System.out.println(EscapeSequences.RESET_BG_COLOR);
         }
     }
+
 }
