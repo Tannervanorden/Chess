@@ -87,7 +87,7 @@ public class ServerFacade {
         return connection;
     }
 
-    private <T> T handleResponse(HttpURLConnection connection, Class<T> responseClass, Type responseType) throws Exception {
+    private <T> T getResponse(HttpURLConnection connection, Class<T> responseClass, Type responseType) throws Exception {
         if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
             try (InputStream responseStream = connection.getInputStream()) {
                 InputStreamReader responseStreamReader = new InputStreamReader(responseStream);
@@ -128,17 +128,17 @@ public class ServerFacade {
             }
         }
 
-        return handleResponse(connection, responseClass, null);
+        return getResponse(connection, responseClass, null);
     }
 
     public void doDelete(String endpoint, String authToken) throws Exception {
         HttpURLConnection connection = createConnection(endpoint, "DELETE", authToken);
-        handleResponse(connection, null, null);
+        getResponse(connection, null, null);
     }
 
     public <T> T doGet(String endpoint, Type responseType, String authToken) throws Exception {
         HttpURLConnection connection = createConnection(endpoint, "GET", authToken);
-        return handleResponse(connection, null, responseType);
+        return getResponse(connection, null, responseType);
     }
 
 
@@ -153,7 +153,7 @@ public class ServerFacade {
             }
         }
 
-        return handleResponse(connection, responseClass, null);
+        return getResponse(connection, responseClass, null);
     }
 }
 
