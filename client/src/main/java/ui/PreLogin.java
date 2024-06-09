@@ -13,14 +13,14 @@ public class PreLogin {
         AuthData authData = preLogin.displayPreLoginUI();
     }
     public AuthData displayPreLoginUI() {
-        System.out.print("Welcome to CS 240 Chess!\n");
+        System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + "Welcome to CS 240 Chess!\n");
 
         while(true) {
-            System.out.print("Select an option: \n");
-            System.out.print("1. Register\n");
-            System.out.print("2. Login\n");
-            System.out.print("3. Quit\n");
-            System.out.print("4. Help\n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW + "Select an option: \n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW + "1. Register\n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW +"2. Login\n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW +"3. Quit\n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW +"4. Help\n");
 
             System.out.print("Enter: ");
 

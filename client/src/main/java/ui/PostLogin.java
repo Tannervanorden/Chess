@@ -5,7 +5,6 @@ import model.GameData;
 import sf.ServerFacade;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class PostLogin {
@@ -19,16 +18,16 @@ public class PostLogin {
     }
     public void displayPostLoginUI() {
 
-        System.out.print("Logged in\n");
+        System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + "Logged in\n");
         while (true) {
-            System.out.print("Select an option: \n");
-            System.out.print("1. Create Game\n");
-            System.out.print("2. List Games\n");
-            System.out.print("3. Play Game\n");
-            System.out.print("4. Observe Game\n");
-            System.out.print("5. Logout\n");
-            System.out.print("6. Quit\n");
-            System.out.print("7. Help\n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW + "Select an option: \n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW +"1. Create Game\n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW +"2. List Games\n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW +"3. Play Game\n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW +"4. Observe Game\n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW +"5. Logout\n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW +"6. Quit\n");
+            System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW +"7. Help\n");
 
             System.out.print("Enter: ");
 
@@ -70,7 +69,6 @@ public class PostLogin {
                     serverFacade.joinGame(gameId, color, authToken);
                     System.out.println("Game Joined Successfully!");
                 } catch (Exception e) {
-                    e.printStackTrace();
                     System.out.println("Join Game Failed: " + e.getMessage());
                 }
             } else if (choice == 4) {
@@ -94,6 +92,15 @@ public class PostLogin {
                 } catch (Exception e) {
                     System.out.println("Logout Failed: " + e.getMessage());
                 }
+            }
+
+            else if(choice == 6){
+                System.out.print("Quitting, Thank You for Playing!");
+                System.exit(0);
+            }
+
+            else if(choice == 7){
+                System.out.print("Enter 1 to create a game, 2 to list games, 3 to play games, 4 to observe\n5 to logout, and 6 to quit: ");
             }
         }
     }
