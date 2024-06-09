@@ -79,7 +79,8 @@ public class MySQLGameDAO extends GenericDAO {
             statement.setString(2, game.whiteUsername());
             statement.setString(3, game.blackUsername());
             statement.setString(4, game.gameName());
-            String gameJson = gson.toJson(game.game());
+            ChessGame madeGame = new ChessGame();
+            String gameJson = gson.toJson(madeGame);
             statement.setString(5, gameJson);
             statement.executeUpdate();
         } catch (SQLException ex) {

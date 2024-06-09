@@ -28,7 +28,7 @@ public class JoinGameHandler {
 
              GameData game = joinGameService.joinGame(id, playerColor, authToken);
              response.status(200);
-             return gson.toJson(Map.of("message", "Game joined successfully"));
+             return gson.toJson(game);
          } catch (Exception e) {
              String errorMessage = e.getMessage();
              if (errorMessage.equals("Unauthorized")){

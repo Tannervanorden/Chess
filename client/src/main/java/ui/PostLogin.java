@@ -1,5 +1,6 @@
 package ui;
 
+import chess.ChessGame;
 import model.AuthData;
 import model.GameData;
 import sf.ServerFacade;
@@ -66,8 +67,12 @@ public class PostLogin {
                     System.out.print("GameID" + gameId + "\n");
                     System.out.print("Which color? White or Black?\n");
                     String color = scanner.next();
-                    serverFacade.joinGame(gameId, color, authToken);
+                    GameData gamedata = serverFacade.joinGame(gameId, color, authToken);
                     System.out.println("Game Joined Successfully!");
+                    ChessGame game = gamedata.game();
+                    Board board = new Board(game);
+                    board.drawChessBoard();
+                    break;
                 } catch (Exception e) {
                     System.out.println("Join Game Failed: " + e.getMessage());
                 }
@@ -75,8 +80,11 @@ public class PostLogin {
                 try {
                     System.out.print("Enter a game ID\n");
                     long gameId = scanner.nextLong();
-                    serverFacade.observeGame(gameId, authToken);
+                    GameData gamedata = serverFacade.observeGame(gameId, authToken);
                     System.out.println("Observing Game!");
+                    ChessGame game = gamedata.game();
+                    Board board = new Board(game);
+                    board.drawChessBoard();
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Observing " + e.getMessage());

@@ -24,7 +24,7 @@ public class Board {
         board.drawChessBoard();
     }
 
-    private void drawChessBoard() {
+    public void drawChessBoard() {
         ChessBoard board = game.getBoard();
         System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + "   a  b  c  d  e  f  g  h\n");
 

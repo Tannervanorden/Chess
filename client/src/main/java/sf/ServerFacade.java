@@ -1,6 +1,5 @@
 package sf;
 
-import chess.ChessGame;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.AuthData;
@@ -55,7 +54,7 @@ public class ServerFacade {
         doDelete(endpoint, authToken);
     }
 
-    public void joinGame(long gameID, String color, String authToken) throws Exception {
+    public GameData joinGame(long gameID, String color, String authToken) throws Exception {
         String endpoint = "/game";
         JoinGameRequest joiningGameData;
         if (color.equals("White")) {
@@ -63,24 +62,21 @@ public class ServerFacade {
         } else {
             joiningGameData = new JoinGameRequest("BLACK", gameID);
         }
-        doPut(endpoint, joiningGameData, AuthData.class, authToken);
+        return doPut(endpoint, joiningGameData, GameData.class, authToken);
     }
 
-    public void observeGame(long gameID, String authToken) throws Exception {
+    public GameData observeGame(long gameID, String authToken) throws Exception {
         String endpoint = "/game";
         JoinGameRequest joiningGameData = new JoinGameRequest("WHITE", gameID);
-        doPut(endpoint, joiningGameData, AuthData.class, authToken);
+        return doPut(endpoint, joiningGameData, GameData.class, authToken);
     }
 
-
-    public <T> T doPost(String endpoint, Object requestBody, Class<T> responseClass, String authToken) throws Exception {
+    private HttpURLConnection createConnection(String endpoint, String requestMethod, String authToken) throws IOException {
         URL url = new URL(urlString + endpoint);
-
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
         connection.setReadTimeout(5000);
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
+        connection.setRequestMethod(requestMethod);
+        connection.setDoOutput(!requestMethod.equals("GET"));
 
         // Set HTTP request headers, if necessary
         // connection.addRequestProperty("Accept", "text/html");
@@ -88,16 +84,11 @@ public class ServerFacade {
             connection.setRequestProperty("Authorization", authToken);
         }
 
-        connection.connect();
+        return connection;
+    }
 
-        try (OutputStream requestBodyStream = connection.getOutputStream();) {
-            String jsonRequest = gson.toJson(requestBody);
-            requestBodyStream.write(jsonRequest.getBytes());
-            requestBodyStream.flush();
-        }
-
+    private <T> T handleResponse(HttpURLConnection connection, Class<T> responseClass, Type responseType) throws Exception {
         if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-
             try (InputStream responseStream = connection.getInputStream()) {
                 InputStreamReader responseStreamReader = new InputStreamReader(responseStream);
                 BufferedReader bufferStream = new BufferedReader(responseStreamReader);
@@ -107,7 +98,7 @@ public class ServerFacade {
                 while ((inputLine = bufferStream.readLine()) != null) {
                     responseBuilder.append(inputLine);
                 }
-                return gson.fromJson(responseBuilder.toString(), responseClass);
+                return gson.fromJson(responseBuilder.toString(), responseClass != null ? responseClass : responseType);
             }
         } else {
             // SERVER RETURNED AN HTTP ERROR
@@ -127,149 +118,42 @@ public class ServerFacade {
     }
 
     public <T> T doPut(String endpoint, Object requestBody, Class<T> responseClass, String authToken) throws Exception {
-        URL url = new URL(urlString + endpoint);
+        HttpURLConnection connection = createConnection(endpoint, "PUT", authToken);
 
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        connection.setReadTimeout(5000);
-        connection.setRequestMethod("PUT");
-        connection.setDoOutput(true);
-
-        // Set HTTP request headers, if necessary
-        // connection.addRequestProperty("Accept", "text/html");
-        if (authToken != null) {
-            connection.setRequestProperty("Authorization", authToken);
-        }
-
-        connection.connect();
-
-        try (OutputStream requestBodyStream = connection.getOutputStream();) {
-            String jsonRequest = gson.toJson(requestBody);
-            requestBodyStream.write(jsonRequest.getBytes());
-            requestBodyStream.flush();
-        }
-
-        if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-
-            try (InputStream responseStream = connection.getInputStream()) {
-                InputStreamReader responseStreamReader = new InputStreamReader(responseStream);
-                BufferedReader bufferStream = new BufferedReader(responseStreamReader);
-
-                StringBuilder responseBuilder = new StringBuilder();
-                String inputLine;
-                while ((inputLine = bufferStream.readLine()) != null) {
-                    responseBuilder.append(inputLine);
-                }
-                return gson.fromJson(responseBuilder.toString(), responseClass);
-            }
-        } else {
-            // SERVER RETURNED AN HTTP ERROR
-            try (InputStream responseBodyStream = connection.getErrorStream();
-                 InputStreamReader inputStreamReader = new InputStreamReader(responseBodyStream);
-                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
-
-                StringBuilder responseBody = new StringBuilder();
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    responseBody.append(line);
-                }
-
-                throw new Exception(responseBody.toString());
+        if (!requestBody.equals("")) {
+            try (OutputStream requestBodyStream = connection.getOutputStream();) {
+                String jsonRequest = gson.toJson(requestBody);
+                requestBodyStream.write(jsonRequest.getBytes());
+                requestBodyStream.flush();
             }
         }
+
+        return handleResponse(connection, responseClass, null);
     }
-
 
     public void doDelete(String endpoint, String authToken) throws Exception {
-        URL url = new URL(urlString + endpoint);
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        connection.setReadTimeout(5000);
-        connection.setRequestMethod("DELETE");
-
-        // Set HTTP request headers, if necessary
-        // connection.addRequestProperty("Accept", "text/html");
-        if (authToken != null) {
-            connection.setRequestProperty("Authorization", authToken);
-        }
-
-        connection.connect();
-
-        if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-
-            try (InputStream responseStream = connection.getInputStream()) {
-                InputStreamReader responseStreamReader = new InputStreamReader(responseStream);
-                BufferedReader bufferStream = new BufferedReader(responseStreamReader);
-
-                StringBuilder responseBuilder = new StringBuilder();
-                String inputLine;
-                while ((inputLine = bufferStream.readLine()) != null) {
-                    responseBuilder.append(inputLine);
-                }
-            }
-        } else {
-            // SERVER RETURNED AN HTTP ERROR
-            try (InputStream responseBodyStream = connection.getErrorStream();
-                 InputStreamReader inputStreamReader = new InputStreamReader(responseBodyStream);
-                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
-
-                StringBuilder responseBody = new StringBuilder();
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    responseBody.append(line);
-                }
-
-                throw new Exception(responseBody.toString());
-            }
-        }
+        HttpURLConnection connection = createConnection(endpoint, "DELETE", authToken);
+        handleResponse(connection, null, null);
     }
-
 
     public <T> T doGet(String endpoint, Type responseType, String authToken) throws Exception {
-        URL url = new URL(urlString + endpoint);
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        connection.setReadTimeout(5000);
-        connection.setRequestMethod("GET");
-
-        // Set HTTP request headers, if necessary
-        // connection.addRequestProperty("Accept", "text/html");
-        if (authToken != null) {
-            connection.setRequestProperty("Authorization", authToken);
-        }
-
-        connection.connect();
+        HttpURLConnection connection = createConnection(endpoint, "GET", authToken);
+        return handleResponse(connection, null, responseType);
+    }
 
 
-        if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+    public <T> T doPost(String endpoint, Object requestBody, Class<T> responseClass, String authToken) throws Exception {
+        HttpURLConnection connection = createConnection(endpoint, "POST", authToken);
 
-            try (InputStream responseStream = connection.getInputStream()) {
-                InputStreamReader responseStreamReader = new InputStreamReader(responseStream);
-                BufferedReader bufferStream = new BufferedReader(responseStreamReader);
-
-                StringBuilder responseBuilder = new StringBuilder();
-                String inputLine;
-                while ((inputLine = bufferStream.readLine()) != null) {
-                    responseBuilder.append(inputLine);
-                }
-                return gson.fromJson(responseBuilder.toString(), responseType);
-            }
-        } else {
-            // SERVER RETURNED AN HTTP ERROR
-            try (InputStream responseBodyStream = connection.getErrorStream();
-                 InputStreamReader inputStreamReader = new InputStreamReader(responseBodyStream);
-                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
-
-                StringBuilder responseBody = new StringBuilder();
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    responseBody.append(line);
-                }
-
-                throw new Exception(responseBody.toString());
+        if (!requestBody.equals("")) {
+            try (OutputStream requestBodyStream = connection.getOutputStream();) {
+                String jsonRequest = gson.toJson(requestBody);
+                requestBodyStream.write(jsonRequest.getBytes());
+                requestBodyStream.flush();
             }
         }
+
+        return handleResponse(connection, responseClass, null);
     }
 }
+
