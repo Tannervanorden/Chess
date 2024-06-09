@@ -60,6 +60,7 @@ public class ServerFacade {
         JoinGameRequest joiningGameData;
         if (color.equals("White")) {
             joiningGameData = new JoinGameRequest("WHITE", gameID);
+            System.out.println(joiningGameData);
         } else {
             joiningGameData = new JoinGameRequest("BLACK", gameID);
         }
