@@ -71,7 +71,11 @@ public class PostLogin {
                     System.out.println("Game Joined Successfully!");
                     ChessGame game = gamedata.game();
                     Board board = new Board(game);
-                    board.drawChessBoard(true);
+                    if (color.equals("White")) {
+                        board.drawChessBoard(true);
+                    } else {
+                        board.drawChessBoard(false);
+                    }
                     break;
                 } catch (Exception e) {
                     System.out.println("Join Game Failed: " + e.getMessage());
