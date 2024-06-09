@@ -17,7 +17,7 @@ public class JoinGameHandler {
          try {
              String authToken = request.headers("authorization");
              JoinGameRequest requestBody = gson.fromJson(request.body(), JoinGameRequest.class);
-             int id = requestBody.gameID();
+             long id = requestBody.gameID();
              String playerColor = requestBody.playerColor();
 
              if (authToken == null || authToken.isEmpty()) {

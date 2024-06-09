@@ -1,5 +1,6 @@
 package sf;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.AuthData;
@@ -54,10 +55,15 @@ public class ServerFacade {
         doDelete(endpoint, authToken);
     }
 
-    public void joinGame(int gameID, String color, String authToken) throws Exception {
+    public void joinGame(long gameID, String color, String authToken) throws Exception {
         String endpoint = "/game";
-        JoinGameRequest joingGameData = new JoinGameRequest(color, gameID);
-        doPost(endpoint, joingGameData, AuthData.class, authToken);
+        JoinGameRequest joiningGameData;
+        if (color.equals("White")) {
+            joiningGameData = new JoinGameRequest("WHITE", gameID);
+        } else {
+            joiningGameData = new JoinGameRequest("BLACK", gameID);
+        }
+        doPost(endpoint, joiningGameData, AuthData.class, authToken);
     }
 
 

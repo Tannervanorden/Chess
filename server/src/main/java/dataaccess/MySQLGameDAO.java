@@ -29,11 +29,11 @@ public class MySQLGameDAO extends GenericDAO {
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
     };
 
-    public GameData getGame(int gameID) throws DataAccessException {
+    public GameData getGame(long gameID) throws DataAccessException {
         String query = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM " + tableName + " WHERE gameID = ?";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setInt(1, gameID);
+            statement.setLong(1, gameID);
             try (ResultSet resultSet = statement.executeQuery()) {
                 //Check if there even is a result after querying
                 if (resultSet.next()) {
@@ -54,7 +54,7 @@ public class MySQLGameDAO extends GenericDAO {
         }
     }
 
-    public void updateGame(int id, GameData game) throws DataAccessException {
+    public void updateGame(long id, GameData game) throws DataAccessException {
         String query = "UPDATE " + tableName + " SET whiteUsername = ?, blackUsername = ?, gameName = ?, game = ? WHERE gameID = ?";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement statement = conn.prepareStatement(query)) {
@@ -63,7 +63,7 @@ public class MySQLGameDAO extends GenericDAO {
             statement.setString(3, game.gameName());
             String gameJson = gson.toJson(game.game());
             statement.setString(4, gameJson);
-            statement.setInt(5, id);
+            statement.setLong(5, id);
             statement.executeUpdate();
         } catch (SQLException ex) {
             throw new DataAccessException("Error updating game: " + ex.getMessage());

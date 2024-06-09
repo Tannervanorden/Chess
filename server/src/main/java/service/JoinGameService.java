@@ -7,7 +7,7 @@ public class JoinGameService extends GenericService {
     MySQLAuthDAO authDAO = GenericService.getAuthDAO();
     MySQLGameDAO gameDAO = GenericService.getGameDAO();
 
-    public GameData joinGame(int id, String playerColor, String authToken) throws Exception {
+    public GameData joinGame(long id, String playerColor, String authToken) throws Exception {
         if (!authDAO.validateToken(authToken)) {
             throw new Exception("Unauthorized");
         }

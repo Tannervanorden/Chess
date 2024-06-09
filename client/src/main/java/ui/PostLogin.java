@@ -63,7 +63,7 @@ public class PostLogin {
             } else if (choice == 3) {
                 try {
                     System.out.print("Enter a game ID\n");
-                    int gameId = scanner.nextInt();
+                    long gameId = scanner.nextLong();
                     System.out.print("Which color? White or Black?\n");
                     String color = scanner.next();
                     serverFacade.joinGame(gameId, color, authToken);
