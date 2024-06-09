@@ -60,7 +60,17 @@ public class PostLogin {
                 } catch (Exception e) {
                     System.out.println("Game List failed: " + e.getMessage());
                 }
-            } else if (choice == 5) {
+            } else if (choice == 3) {
+                try {
+                    System.out.print("Enter a game ID\n");
+                    int gameId = scanner.nextInt();
+                    serverFacade.joinGame(gameId, authToken);
+                } catch (Exception e) {
+                    System.out.println("Join Game Failed: " + e.getMessage());
+                }
+            }
+
+            else if (choice == 5) {
                 try {
                     serverFacade.logout(authToken);
                     System.out.println("Logged out Successfully!");

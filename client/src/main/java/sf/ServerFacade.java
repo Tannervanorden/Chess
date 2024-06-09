@@ -50,7 +50,7 @@ public class ServerFacade {
 
     public void logout(String authToken) throws Exception {
         String endpoint = "/session";
-        doDelete(endpoint, void.class, authToken);
+        doDelete(endpoint, authToken);
     }
 
 
@@ -108,7 +108,7 @@ public class ServerFacade {
     }
 
 
-    public <T> T doDelete(String endpoint, Class<T> responseClass, String authToken) throws Exception {
+    public void doDelete(String endpoint, String authToken) throws Exception {
         URL url = new URL(urlString + endpoint);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -135,7 +135,6 @@ public class ServerFacade {
                 while ((inputLine = bufferStream.readLine()) != null) {
                     responseBuilder.append(inputLine);
                 }
-                return gson.fromJson(responseBuilder.toString(), responseClass);
             }
         } else {
             // SERVER RETURNED AN HTTP ERROR
