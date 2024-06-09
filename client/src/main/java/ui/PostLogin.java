@@ -69,6 +69,7 @@ public class PostLogin {
                     String color = scanner.next();
                     serverFacade.joinGame(gameId, color, authToken);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     System.out.println("Join Game Failed: " + e.getMessage());
                 }
             }
