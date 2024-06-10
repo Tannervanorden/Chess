@@ -54,6 +54,14 @@ public class PostLogin {
                         System.out.println("Games:");
                         int i = 0;
                         for (GameData gameData : games) {
+                            if (gameData.whiteUsername() != null) {
+                                System.out.print("White useername: ");
+                                System.out.print("\t" + gameData.whiteUsername() + "\n");
+                            }
+                            else if (gameData.blackUsername() != null) {
+                                System.out.print("Black useername: ");
+                                System.out.print("\t" + gameData.blackUsername() + "\n");
+                            }
                             i ++;
                             map.put(i,gameData.gameID());
                             System.out.println("Game ID: " + i);
@@ -76,9 +84,9 @@ public class PostLogin {
                     ChessGame game = gamedata.game();
                     Board board = new Board(game);
                     if (color.equals("White")) {
-                        board.drawChessBoard(true);
-                    } else {
                         board.drawChessBoard(false);
+                    } else {
+                        board.drawChessBoard(true);
                     }
                 } catch (Exception e) {
                     System.out.println("Join Game Failed: " + e.getMessage());
@@ -87,10 +95,8 @@ public class PostLogin {
                 try {
                     System.out.print("Enter a game ID\n");
                     int gameId = scanner.nextInt();
-                    int realGameId = map.get(gameId);
                     System.out.println("Observing Game!");
-                    GameData gamedata = serverFacade.observeGame(realGameId, authToken);
-                    ChessGame game = gamedata.game();
+                    ChessGame game = new ChessGame();
                     Board board = new Board(game);
                     board.drawChessBoard(true);
                 } catch (Exception e) {

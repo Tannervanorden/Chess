@@ -26,11 +26,18 @@ public class Board {
 
     public void drawChessBoard(boolean isWhiteOnBottom) {
         ChessBoard board = game.getBoard();
-        System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + "   a  b  c  d  e  f  g  h\n");
 
         int startRow = isWhiteOnBottom ? BOARD_SIZE - 1 : 0;
         int endRow = isWhiteOnBottom ? -1 : BOARD_SIZE;
         int rowStep = isWhiteOnBottom ? -1 : 1;
+        String top;
+        if (isWhiteOnBottom) {
+            top = "  h  g  f  e  d  c  b  a\n";
+        }
+        else {
+            top = "   a  b  c  d  e  f  g  h\n";
+        }
+        System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + top);
 
         for (int row = startRow; row != endRow; row += rowStep) {
             System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + (8 - row) + " ");
@@ -45,39 +52,39 @@ public class Board {
                 if (piece != null) {
                     if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
                         if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " R ");
-                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " R ");
+                        } else {
+                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " R ");
                         }
                     } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
                         if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " K ");
-                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " K ");
+                        } else {
+                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " K ");
                         }
                     } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
                         if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " N ");
-                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " N ");
+                        } else {
+                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " N ");
                         }
                     } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
                         if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " Q ");
-                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " Q ");
+                        } else {
+                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " Q ");
                         }
                     } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
                         if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " B ");
-                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " B ");
+                        } else {
+                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " B ");
                         }
                     } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
                         if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " P ");
-                        } else {
                             System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + " P ");
+                        } else {
+                            System.out.print(EscapeSequences.SET_TEXT_COLOR_WHITE + " P ");
                         }
                     }
                 } else {
