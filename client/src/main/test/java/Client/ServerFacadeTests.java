@@ -5,11 +5,9 @@ import model.GameData;
 import org.junit.jupiter.api.*;
 import server.Server;
 import sf.ServerFacade;
-import ui.PreLogin;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
@@ -23,11 +21,6 @@ public class ServerFacadeTests {
         server = new Server();
         var port = server.run(0);
         System.out.println("Started test HTTP server on " + port);
-    }
-
-    @BeforeEach
-    public void setUp() {
-        serverFacade = new ServerFacade();
     }
 
     @AfterAll
