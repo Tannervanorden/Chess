@@ -5,6 +5,7 @@ import model.AuthData;
 import model.GameData;
 import sf.ServerFacade;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -53,7 +54,11 @@ public class PostLogin {
                     } else {
                         System.out.println("Games:");
                         for (GameData gameData : games) {
-                            System.out.println("Game ID: " + gameData.gameID());
+                            int i = 1;
+                            HashMap<Integer, Integer> map = new HashMap<>();
+                            map.put(gameData.gameID(), i);
+                            i ++;
+                            System.out.println("Game ID: " + map.get(gameData.gameID()));
                             System.out.println("Game Name: " + gameData.gameName());
                         }
                     }
