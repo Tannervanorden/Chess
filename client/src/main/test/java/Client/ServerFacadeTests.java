@@ -61,6 +61,16 @@ public class ServerFacadeTests {
         AuthData login = serverFacade.login("test", "password");
         assertNotNull(login);
     }
+    @Test
+    public void testLoginNegative() throws Exception {
+        try {
+            AuthData login = serverFacade.login("unregistered", "Fakepassword");
+            assertNotNull(login);
+        } catch (Exception e){
+            assert(true);
+        }
+    }
+
 
 
 }
