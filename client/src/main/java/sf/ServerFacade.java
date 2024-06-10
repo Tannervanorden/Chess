@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ServerFacade {
+    int port;
     private String urlString = "http://localhost:8080";
     private Gson gson = new Gson();
 
