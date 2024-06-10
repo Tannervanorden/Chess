@@ -76,7 +76,6 @@ public class PostLogin {
                     } else {
                         board.drawChessBoard(false);
                     }
-                    break;
                 } catch (Exception e) {
                     System.out.println("Join Game Failed: " + e.getMessage());
                 }
@@ -84,12 +83,10 @@ public class PostLogin {
                 try {
                     System.out.print("Enter a game ID\n");
                     long gameId = scanner.nextLong();
-                    GameData gamedata = serverFacade.observeGame(gameId, authToken);
                     System.out.println("Observing Game!");
-                    ChessGame game = gamedata.game();
+                    ChessGame game = new ChessGame();
                     Board board = new Board(game);
                     board.drawChessBoard(true);
-                    System.out.print("\n");
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Observing " + e.getMessage());

@@ -67,7 +67,7 @@ public class ServerFacade {
 
     public GameData observeGame(long gameID, String authToken) throws Exception {
         String endpoint = "/game";
-        JoinGameRequest joiningGameData = new JoinGameRequest("WHITE", gameID);
+        JoinGameRequest joiningGameData = new JoinGameRequest(null, gameID);
         return doPut(endpoint, joiningGameData, GameData.class, authToken);
     }
 
@@ -97,6 +97,9 @@ public class ServerFacade {
                 String inputLine;
                 while ((inputLine = bufferStream.readLine()) != null) {
                     responseBuilder.append(inputLine);
+                }
+                if (responseBuilder.toString().equals("{}")) {
+                    return null;
                 }
                 return gson.fromJson(responseBuilder.toString(), responseClass != null ? responseClass : responseType);
             }
