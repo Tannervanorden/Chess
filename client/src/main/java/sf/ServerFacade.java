@@ -18,6 +18,7 @@ public class ServerFacade {
     private String urlString = "http://localhost:8080";
     private Gson gson = new Gson();
 
+
     //Login
     public AuthData login(String username, String password) throws Exception {
         String endpoint = "/session";

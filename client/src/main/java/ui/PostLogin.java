@@ -13,10 +13,12 @@ public class PostLogin {
     private Scanner scanner = new Scanner(System.in);
     private ServerFacade serverFacade = new ServerFacade();
     private String authToken;
+    private HashMap<Integer, Integer> map = new HashMap<>();
 
 
     public PostLogin(String authToken) {
         this.authToken = authToken;
+        this.map = new HashMap<>();
     }
     public void displayPostLoginUI() {
 
@@ -53,12 +55,11 @@ public class PostLogin {
                         System.out.println("No games found!");
                     } else {
                         System.out.println("Games:");
+                        int i = 0;
                         for (GameData gameData : games) {
-                            int i = 1;
-                            HashMap<Integer, Integer> map = new HashMap<>();
-                            map.put(gameData.gameID(), i);
                             i ++;
-                            System.out.println("Game ID: " + map.get(gameData.gameID()));
+                            map.put(i,gameData.gameID());
+                            System.out.println("Game ID: " + i);
                             System.out.println("Game Name: " + gameData.gameName());
                         }
                     }
@@ -68,11 +69,12 @@ public class PostLogin {
             } else if (choice == 3) {
                 try {
                     System.out.print("Enter a game ID\n");
-                    long gameId = scanner.nextLong();
+                    int gameId = scanner.nextInt();
+                    int realGameId = map.get(gameId);
                     System.out.print("GameID" + gameId + "\n");
                     System.out.print("Which color? White or Black?\n");
                     String color = scanner.next();
-                    GameData gamedata = serverFacade.joinGame(gameId, color, authToken);
+                    GameData gamedata = serverFacade.joinGame(realGameId, color, authToken);
                     System.out.println("Game Joined Successfully!");
                     ChessGame game = gamedata.game();
                     Board board = new Board(game);
@@ -87,7 +89,6 @@ public class PostLogin {
             } else if (choice == 4) {
                 try {
                     System.out.print("Enter a game ID\n");
-                    long gameId = scanner.nextLong();
                     System.out.println("Observing Game!");
                     ChessGame game = new ChessGame();
                     Board board = new Board(game);
