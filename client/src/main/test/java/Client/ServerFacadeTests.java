@@ -81,6 +81,13 @@ public class ServerFacadeTests {
         }
     }
 
+    @Test
+    public void testCreatePositive() throws Exception {
+        AuthData login = serverFacade.login("test", "password");
+        GameData game = serverFacade.createGame("Name", login.authToken());
+        assertNotNull(game);
+    }
+
 
 
 
