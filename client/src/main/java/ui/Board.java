@@ -10,7 +10,7 @@ public class Board {
 
     private ChessGame game;
 
-    private static final int boardSize = 8;
+    private static final int BOARD_SIZE = 8;
 
     public Board(ChessGame game) {
         this.game = game;
@@ -28,14 +28,14 @@ public class Board {
         ChessBoard board = game.getBoard();
         System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + "   a  b  c  d  e  f  g  h\n");
 
-        int startRow = isWhiteOnBottom ? boardSize - 1 : 0;
-        int endRow = isWhiteOnBottom ? -1 : boardSize;
+        int startRow = isWhiteOnBottom ? BOARD_SIZE - 1 : 0;
+        int endRow = isWhiteOnBottom ? -1 : BOARD_SIZE;
         int rowStep = isWhiteOnBottom ? -1 : 1;
 
         for (int row = startRow; row != endRow; row += rowStep) {
             System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + (8 - row) + " ");
 
-            for (int col = 0; col < boardSize; col++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
                 // Work on squares
                 String color = (row + col) % 2 == 0 ? EscapeSequences.SET_BG_COLOR_LIGHT_GREY : EscapeSequences.SET_BG_COLOR_DARK_GREY;
                 System.out.print(color);
