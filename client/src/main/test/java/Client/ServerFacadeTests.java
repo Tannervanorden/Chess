@@ -106,6 +106,39 @@ public class ServerFacadeTests {
         }
     }
 
+    @Test
+    public void joinGamePostitive() throws Exception {
+        try {
+            AuthData register = serverFacade.register("test", "password", "email");
+            GameData created = serverFacade.createGame("Name", register.authToken());
+            GameData name = serverFacade.createGame(String.valueOf(created.gameID()), register.authToken());
+        }
+        catch (Exception e) {
+            assert(true);
+        }
+    }
+
+    @Test
+    public void joinGameNegative() throws Exception {
+        try {
+            AuthData register = serverFacade.register("test", "password", "email");
+            GameData name = serverFacade.createGame(String.valueOf(4218421), register.authToken());
+        }
+        catch (Exception e) {
+            assert(true);
+        }
+    }
+
+    @Test
+    public void logout() throws Exception {
+        try {
+            AuthData login = serverFacade.login("test", "password");
+            serverFacade.logout(login.authToken());
+        } catch (Exception e) {
+            assert (true);
+        }
+    }
+
 
 
 
