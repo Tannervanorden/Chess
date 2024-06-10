@@ -39,6 +39,12 @@ public class ServerFacadeTests {
     }
 
     @Test
+    public void registerUser() throws Exception {
+        AuthData register = serverFacade.register("test", "password", "email");
+        assertNotNull(register, "Registration should return AuthData");
+    }
+
+    @Test
     public void testLogin() throws Exception {
         AuthData login = serverFacade.login("test", "password");
         assertNotNull(login);
