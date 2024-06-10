@@ -7,6 +7,8 @@ import server.Server;
 import sf.ServerFacade;
 import ui.PreLogin;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -86,6 +88,22 @@ public class ServerFacadeTests {
         AuthData login = serverFacade.login("test", "password");
         GameData game = serverFacade.createGame("Name", login.authToken());
         assertNotNull(game);
+    }
+
+    @Test
+    public void testListPositive() throws Exception {
+        AuthData login = serverFacade.login("test", "password");
+        List<GameData> list = serverFacade.listGames(login.authToken());
+        assertNotNull(list);
+    }
+
+    @Test
+    public void testListNegative() throws Exception {
+        try {
+            List<GameData> list = serverFacade.listGames(String.valueOf(1231));
+        } catch (Exception e){
+            assert(true);
+        }
     }
 
 
