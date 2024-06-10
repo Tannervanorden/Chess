@@ -22,6 +22,11 @@ public class ServerFacadeTests {
         System.out.println("Started test HTTP server on " + port);
     }
 
+    @BeforeEach
+    public void setUp() {
+        serverFacade = new ServerFacade();
+    }
+
     @AfterAll
     static void stopServer() {
         server.stop();
@@ -35,7 +40,6 @@ public class ServerFacadeTests {
 
     @Test
     public void testLogin() throws Exception {
-        serverFacade.register("test", "password", "email");
         AuthData login = serverFacade.login("test", "password");
         assertNotNull(login);
     }
