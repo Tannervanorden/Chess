@@ -125,10 +125,10 @@ public class ServerFacade {
     public <T> T doPut(String endpoint, Object requestBody, Class<T> responseClass, String authToken) throws Exception {
         HttpURLConnection connection = createConnection(endpoint, "PUT", authToken);
 
-        if (!requestBody.equals("")) {
+        if (!(requestBody == "")) {
             try (OutputStream requestBodyStream = connection.getOutputStream();) {
-                String jsonRequest = gson.toJson(requestBody);
-                requestBodyStream.write(jsonRequest.getBytes());
+                String json = gson.toJson(requestBody);
+                requestBodyStream.write(json.getBytes());
                 requestBodyStream.flush();
             }
         }
