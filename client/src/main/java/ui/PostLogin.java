@@ -89,8 +89,11 @@ public class PostLogin {
             } else if (choice == 4) {
                 try {
                     System.out.print("Enter a game ID\n");
+                    int gameId = scanner.nextInt();
+                    int realGameId = map.get(gameId);
                     System.out.println("Observing Game!");
-                    ChessGame game = new ChessGame();
+                    GameData gamedata = serverFacade.observeGame(realGameId, authToken);
+                    ChessGame game = gamedata.game();
                     Board board = new Board(game);
                     board.drawChessBoard(true);
                 } catch (Exception e) {
