@@ -1,6 +1,7 @@
 package Client;
 
 import model.AuthData;
+import model.GameData;
 import org.junit.jupiter.api.*;
 import server.Server;
 import sf.ServerFacade;
@@ -70,6 +71,16 @@ public class ServerFacadeTests {
             assert(true);
         }
     }
+
+    @Test
+    public void testCreateNegative() throws Exception {
+        try {
+            GameData game = serverFacade.createGame(null, null);
+        } catch (Exception e){
+            assert(true);
+        }
+    }
+
 
 
 
