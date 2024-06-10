@@ -15,13 +15,11 @@ public class PostLogin {
     private String authToken;
     private HashMap<Integer, Integer> map = new HashMap<>();
 
-
     public PostLogin(String authToken) {
         this.authToken = authToken;
         this.map = new HashMap<>();
     }
     public void displayPostLoginUI() {
-
         System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + "Logged in\n");
         while (true) {
             System.out.print(EscapeSequences.SET_TEXT_COLOR_YELLOW + "Select an option: \n");
@@ -38,7 +36,6 @@ public class PostLogin {
             int choice = scanner.nextInt();
 
             if (choice == 1) {
-
                 System.out.print("Enter a Name:");
                 String name = scanner.next();
 
@@ -101,7 +98,6 @@ public class PostLogin {
                     System.out.println("Observing " + e.getMessage());
                 }
             }
-
             else if (choice == 5) {
                 try {
                     serverFacade.logout(authToken);
@@ -112,12 +108,10 @@ public class PostLogin {
                     System.out.println("Logout Failed: " + e.getMessage());
                 }
             }
-
             else if(choice == 6){
                 System.out.print("Quitting, Thank You for Playing!");
                 System.exit(0);
             }
-
             else if(choice == 7){
                 System.out.print("Enter 1 to create a game, 2 to list games, 3 to play games, 4 to observe\n5 to logout, and 6 to quit: ");
             }
