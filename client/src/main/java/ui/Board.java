@@ -16,25 +16,21 @@ public class Board {
         this.game = game;
     }
 
-    public static void main(String[] args) {
-        ChessGame game = new ChessGame();
-
-        Board board = new Board(game);
-
-        board.drawChessBoard(true);
-    }
-
     public void drawChessBoard(boolean isWhiteOnBottom) {
         ChessBoard board = game.getBoard();
 
         int startRow = isWhiteOnBottom ? BOARD_SIZE - 1 : 0;
         int endRow = isWhiteOnBottom ? -1 : BOARD_SIZE;
         int rowStep = isWhiteOnBottom ? -1 : 1;
+
+        int startCol = isWhiteOnBottom ? BOARD_SIZE - 1 : 0;
+        int endCol = isWhiteOnBottom ? -1 : BOARD_SIZE;
+        int colStep = isWhiteOnBottom ? -1 : 1;
+
         String top;
         if (isWhiteOnBottom) {
-            top = "  h  g  f  e  d  c  b  a\n";
-        }
-        else {
+            top = "   h  g  f  e  d  c  b  a\n";
+        } else {
             top = "   a  b  c  d  e  f  g  h\n";
         }
         System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + top);
@@ -42,7 +38,7 @@ public class Board {
         for (int row = startRow; row != endRow; row += rowStep) {
             System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + (8 - row) + " ");
 
-            for (int col = 0; col < BOARD_SIZE; col++) {
+            for (int col = startCol; col != endCol; col += colStep) {
                 // Work on squares
                 String color = (row + col) % 2 == 0 ? EscapeSequences.SET_BG_COLOR_LIGHT_GREY : EscapeSequences.SET_BG_COLOR_DARK_GREY;
                 System.out.print(color);
@@ -94,5 +90,4 @@ public class Board {
             System.out.println(EscapeSequences.RESET_BG_COLOR);
         }
     }
-
 }

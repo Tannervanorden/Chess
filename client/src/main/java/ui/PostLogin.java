@@ -58,7 +58,7 @@ public class PostLogin {
                                 System.out.print("White useername: ");
                                 System.out.print("\t" + gameData.whiteUsername() + "\n");
                             }
-                            else if (gameData.blackUsername() != null) {
+                            if (gameData.blackUsername() != null) {
                                 System.out.print("Black useername: ");
                                 System.out.print("\t" + gameData.blackUsername() + "\n");
                             }

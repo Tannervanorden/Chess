@@ -67,7 +67,7 @@ public class PreLogin {
             }
 
             else if(choice == 4){
-                System.out.print("Enter 1 to register a new user, 2 to login an existing user, and 3 to quit");
+                System.out.print("Enter 1 to register a new user, 2 to login an existing user, and 3 to quit\n");
             }
         }
     }
