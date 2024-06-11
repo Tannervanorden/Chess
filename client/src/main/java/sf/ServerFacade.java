@@ -14,10 +14,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-public class ServerFacade extends WebSocket {
+public class ServerFacade {
     int port;
     private String urlString = "http://localhost:8080";
     private Gson gson = new Gson();
+    private WebSocket webSocket;
 
 
     //Login

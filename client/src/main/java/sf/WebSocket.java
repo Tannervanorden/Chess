@@ -1,21 +1,37 @@
 package sf;
 
-import com.google.gson.Gson;
-import chess.ChessMove;
-import websocket.*;
+import javax.websocket.*;
+import java.net.URI;
+import java.util.Scanner;
 
-public class WebSocket {
-    private static WebSocket instance;
-    private Gson gson;
+public class WebSocket extends Endpoint {
 
-    public WebSocket() {
-        gson = new Gson();
+    public static void main(String[] args) throws Exception {
+        var ws = new WebSocket();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter a message you want to echo");
+        while (true) ws.send(scanner.nextLine());
     }
 
-    public static WebSocket getInstance() {
-        if (instance == null) {
-            instance = new WebSocket();
-        }
-        return instance;
+    public Session session;
+
+    public WebSocket() throws Exception {
+        URI uri = new URI("ws://localhost:8080/ws");
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        this.session = container.connectToServer(this, uri);
+
+        this.session.addMessageHandler(new MessageHandler.Whole<String>() {
+            public void onMessage(String message) {
+                System.out.println(message);
+            }
+        });
+    }
+
+    public void send(String msg) throws Exception {
+        this.session.getBasicRemote().sendText(msg);
+    }
+
+    public void onOpen(Session session, EndpointConfig endpointConfig) {
     }
 }
