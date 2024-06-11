@@ -8,7 +8,7 @@ public class WebSocket {
     private static WebSocket instance;
     private Gson gson;
 
-    private WebSocket() {
+    public WebSocket() {
         gson = new Gson();
     }
 
