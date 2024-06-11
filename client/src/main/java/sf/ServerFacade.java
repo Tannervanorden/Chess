@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-public class ServerFacade {
+public class ServerFacade extends WebSocket {
     int port;
     private String urlString = "http://localhost:8080";
     private Gson gson = new Gson();
