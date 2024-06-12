@@ -4,10 +4,10 @@ import javax.websocket.*;
 import java.net.URI;
 import java.util.Scanner;
 
-public class WebSocket extends Endpoint {
+public class WebSocketClient extends Endpoint {
 
     public static void main(String[] args) throws Exception {
-        var ws = new WebSocket();
+        var ws = new WebSocketClient();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter a message you want to echo");
@@ -16,7 +16,7 @@ public class WebSocket extends Endpoint {
 
     public Session session;
 
-    public WebSocket() throws Exception {
+    public WebSocketClient() throws Exception {
         URI uri = new URI("ws://localhost:8080/ws");
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         this.session = container.connectToServer(this, uri);

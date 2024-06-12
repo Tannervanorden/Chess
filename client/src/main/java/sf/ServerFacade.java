@@ -18,7 +18,7 @@ public class ServerFacade {
     int port;
     private String urlString = "http://localhost:8080";
     private Gson gson = new Gson();
-    private WebSocket webSocket;
+    private WebSocketClient webSocket;
 
 
     //Login

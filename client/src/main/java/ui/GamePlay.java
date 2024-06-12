@@ -1,9 +1,9 @@
 package ui;
 
-import sf.WebSocket;
+import sf.WebSocketClient;
 
 public class GamePlay {
-    private WebSocket webSocket;
+    private WebSocketClient webSocket;
 
     public GamePlay() {
     }
