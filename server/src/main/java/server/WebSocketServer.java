@@ -6,12 +6,6 @@ import spark.Spark;
 
 @WebSocket
 public class WebSocketServer {
-    public static void main(String[] args) {
-        Spark.port(8080);
-        Spark.webSocket("/ws", WebSocketServer.class);
-        Spark.get("/echo/:msg", (req, res) -> "HTTP response: " + req.params(":msg"));
-    }
-
     @OnWebSocketMessage
     public void onMessage(Session session, String message) throws Exception {
         System.out.printf("Received: %s", message);
