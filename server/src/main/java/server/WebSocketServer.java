@@ -4,69 +4,46 @@ import chess.ChessMove;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.eclipse.jetty.websocket.api.*;
 import dataaccess.*;
-import org.eclipse.jetty.websocket.client.WebSocketClient;
 import service.GenericService;
 import websocket.commands.*;
 import com.google.gson.Gson;
+import websocket.messages.*;
 
-import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebSocket
 public class WebSocketServer {
-    private Gson gson = new Gson();
+    private Gson serializer = new Gson();
     private MySQLAuthDAO authDAO = GenericService.getAuthDAO();
     private MySQLUserDAO userDAO = GenericService.getUserDAO();
     private MySQLGameDAO gameDAO = GenericService.getGameDAO();
 
+    private Map<String, Session> authTokenSession = new HashMap<>();
+
 
     @OnWebSocketMessage
-    public void onMessage(Session session, String message) throws Exception {
-        System.out.printf("Received: %s", message);
-//        session.getRemote().sendString("WebSocket response: " + message);
-
-        UserGameCommand command = gson.fromJson(message, UserGameCommand.class);
-        switch (command.getCommandType()) {
-            case CONNECT:
-                handleConnect((Connect) command, session);
-                break;
-            case MAKE_MOVE:
-                handleMakeMove((MakeMove) command, session);
-                break;
-            case LEAVE:
-                handleLeave((Leave) command, session);
-                break;
-            case RESIGN:
-                handleResign((Resign) command, session);
-                break;
-        }
-    }
-
-    private void handleConnect(Connect command, Session session) {
-        System.out.println("CONNECT");
-        String authToken = command.getAuthString();
-
+    public void onMessage(Session session, String msg) {
         try {
-            if (authToken != null && authDAO.validateToken(authToken)) {
+            UserGameCommand command = serializer.fromJson(msg, UserGameCommand.class);
 
-            } else {
-                System.out.println("Authentication failed");
+            // Throws a custom UnauthorizedException. Yours may work differently.
+            String username = getUsername(command.getAuthString());
+
+            saveSession(command.getGameID(), session);
+
+            switch (command.getCommandType()) {
+                case CONNECT -> connect(session, username, (ConnectCommand) command);
+                case MAKE_MOVE -> makeMove(session, username, (MakeMoveCommand) command);
+                case LEAVE -> leaveGame(session, username, (LeaveGameCommand) command);
+                case RESIGN -> resign(session, username, (ResignCommand) command);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (UnauthorizedException ex) {
+            // Serializes and sends the error message
+            sendMessage(session.getRemote(), new ErrorMessage("Error: unauthorized"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            sendMessage(session.getRemote(), new ErrorMessage("Error: " + ex.getMessage()));
         }
-
     }
 
-    private void handleMakeMove(MakeMove command, Session session) {
-        System.out.println("MAKE_MOVE");
-        ChessMove move = command.getMove();
-    }
-
-    private void handleLeave(Leave command, Session session) {
-        System.out.println("LEAVE");
-    }
-
-    private void handleResign(Resign command, Session session) {
-        System.out.println("RESIGN");
-    }
-}
