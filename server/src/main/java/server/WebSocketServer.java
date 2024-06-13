@@ -43,6 +43,7 @@ public class WebSocketServer {
                     }
                     case MAKE_MOVE -> {
                         MakeMove makeMoveCommand = serializer.fromJson(msg, MakeMove.class);
+                        makeMove(session, username, makeMoveCommand);
                     }
                     case LEAVE -> {
                     }
@@ -63,6 +64,20 @@ public class WebSocketServer {
     }
 
     private void connect(Session session, String username, Connect command) {
+        int gameID = command.getGameID();
+        saveSession(gameID, session);
+        try {
+            GameData gamedata = gameDAO.getGame(gameID);
+            ChessGame game = gamedata.game();
+            sendMessage(session, new LoadGame(game));
+            Notification notification = new Notification(username + " has connected.");
+            sendMessageToOthers(session, gameID, notification);
+        } catch (Exception e) {
+            sendMessage(session, new ErrorMessage("errorMessage"));
+        }
+    }
+
+    private void makeMove(Session session, String username, MakeMove command) {
         int gameID = command.getGameID();
         saveSession(gameID, session);
         try {
