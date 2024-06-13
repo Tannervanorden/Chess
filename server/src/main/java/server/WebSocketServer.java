@@ -1,7 +1,8 @@
 package server;
 
-import chess.ChessMove;
+import chess.ChessGame;
 import model.AuthData;
+import model.GameData;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.eclipse.jetty.websocket.api.*;
 import dataaccess.*;
@@ -48,11 +49,11 @@ public class WebSocketServer {
                     }
                 }
             } else {
-                sendMessage(session, new ErrorMess());
+                sendMessage(session, new ErrorMessage("errorMessage"));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            sendMessage(session, new ErrorMess());
+            sendMessage(session, new ErrorMessage("errorMessage"));
         }
     }
 
@@ -64,10 +65,14 @@ public class WebSocketServer {
         System.out.println("CONNECT");
         int gameID = command.getGameID();
         saveSession(gameID, session);
-
-        sendMessage(session, new LoadGame());
-
-        sendMessageToOthers(session, gameID, new Notification(username + " has connected."));
+        try {
+            GameData gamedata = gameDAO.getGame(gameID);
+            ChessGame game = gamedata.game();
+            sendMessage(session, new LoadGame(game));
+            sendMessageToOthers(session, gameID, new Notification(username + " has connected."));
+        } catch (Exception e) {
+            sendMessage(session, new ErrorMessage("errorMessage"));
+        }
     }
 
     private void sendMessage(Session session, ServerMessage message) {
