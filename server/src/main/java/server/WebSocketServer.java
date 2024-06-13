@@ -88,18 +88,21 @@ public class WebSocketServer {
             gameDAO.updateGame(gameID, gamedata);
 
             LoadGame updateGame = new LoadGame(game);
+            sendMessage(session, updateGame);
             sendMessageToOthers(session, gameID, updateGame);
 
             Notification moveNotification = new Notification(username + " made a move: " + move);
             sendMessageToOthers(session, gameID, moveNotification);
 
             if (game.isInCheck((game.getTeamTurn()))){
-                Notification notification = new Notification("Check");
-                sendMessageToOthers(session, gameID, notification);
+                Notification checkNotification = new Notification("Check");
+                sendMessage(session, checkNotification);
+                sendMessageToOthers(session, gameID, checkNotification);
             }
             if (game.isInCheckmate((game.getTeamTurn()))){
-                Notification notification = new Notification("Checkmate");
-                sendMessageToOthers(session, gameID, notification);
+                Notification checkMateNotification = new Notification("Checkmate");
+                sendMessage(session, checkMateNotification);
+                sendMessageToOthers(session, gameID, checkMateNotification);
             }
             if (game.isInStalemate((game.getTeamTurn()))){
                 Notification notification = new Notification("Stalemate");
@@ -107,7 +110,7 @@ public class WebSocketServer {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            sendMessage(session, new ErrorMessage("An error occurred while making the move."));
         }
     }
 
