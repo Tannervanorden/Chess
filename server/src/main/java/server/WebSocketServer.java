@@ -86,6 +86,14 @@ public class WebSocketServer {
             ChessGame.TeamColor currentTeam = game.getTeamTurn();
             ChessGame.TeamColor currentPlayerColor = getCurrentPlayer(username, gamedata);
 
+            if (currentTeam != currentPlayerColor || currentTeam == null) {
+                if (currentTeam == null) {
+                    sendMessage(session, new ErrorMessage("You are an observer"));
+                } else {
+                    sendMessage(session, new ErrorMessage("Error, Not your Turn"));
+                }
+            }
+
             game.makeMove(move);
             gameDAO.updateGame(gameID, gamedata);
 
