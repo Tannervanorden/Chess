@@ -83,6 +83,8 @@ public class WebSocketServer {
             GameData gamedata = gameDAO.getGame(gameID);
             ChessGame game = gamedata.game();
             ChessMove move = command.getMove();
+            ChessGame.TeamColor currentTeam = game.getTeamTurn();
+            ChessGame.TeamColor currentPlayerColor = getCurrentPlayer(username, gamedata);
 
             game.makeMove(move);
             gameDAO.updateGame(gameID, gamedata);
@@ -105,8 +107,9 @@ public class WebSocketServer {
                 sendMessageToOthers(session, gameID, checkMateNotification);
             }
             if (game.isInStalemate((game.getTeamTurn()))){
-                Notification notification = new Notification("Stalemate");
-                sendMessageToOthers(session, gameID, notification);
+                Notification stalemateNotification = new Notification("Stalemate");
+                sendMessage(session, stalemateNotification);
+                sendMessageToOthers(session, gameID, stalemateNotification);
             }
 
         } catch (Exception e) {
@@ -131,5 +134,16 @@ public class WebSocketServer {
                 }
             }
         }
+    }
+
+    //I think I can get this to not allow observers or invalid players
+    private ChessGame.TeamColor getCurrentPlayer(String username, GameData gameData) {
+        if (username.equals(gameData.whiteUsername())) {
+            return ChessGame.TeamColor.WHITE;
+        } else if (username.equals(gameData.blackUsername())) {
+            return ChessGame.TeamColor.BLACK;
+        }
+        // Handle observers
+        return null;
     }
 }
