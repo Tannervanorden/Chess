@@ -86,6 +86,11 @@ public class WebSocketServer {
             ChessGame.TeamColor currentTeam = game.getTeamTurn();
             ChessGame.TeamColor currentPlayerColor = getCurrentPlayer(username, gamedata);
 
+            if (game.isInCheckmate(ChessGame.TeamColor.WHITE) || game.isInCheckmate(ChessGame.TeamColor.BLACK)) {
+                sendMessage(session, new ErrorMessage("Game Over!"));
+                return;
+            }
+
             if (currentTeam != currentPlayerColor || currentTeam == null) {
                 if (currentTeam == null) {
                     sendMessage(session, new ErrorMessage("You are an observer"));
@@ -96,10 +101,6 @@ public class WebSocketServer {
                 }
             }
 
-            if (game.isInCheckmate(ChessGame.TeamColor.WHITE) || game.isInCheckmate(ChessGame.TeamColor.BLACK)) {
-                sendMessage(session, new ErrorMessage("The game is over due to checkmate."));
-                return;
-            }
 
             game.makeMove(move);
             gameDAO.updateGame(gameID, gamedata);
@@ -110,6 +111,12 @@ public class WebSocketServer {
 
             Notification moveNotification = new Notification(username + " made a move: " + move);
             sendMessageToOthers(session, gameID, moveNotification);
+
+            if (game.isInCheckmate(ChessGame.TeamColor.WHITE) || game.isInCheckmate(ChessGame.TeamColor.BLACK)) {
+                Notification endNotification = new Notification("The game is over");
+                sendMessage(session, endNotification);
+                return;
+            }
 
             if (game.isInCheck((game.getTeamTurn()))){
                 Notification checkNotification = new Notification("Check");
