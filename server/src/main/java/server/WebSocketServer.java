@@ -94,8 +94,16 @@ public class WebSocketServer {
             sendMessageToOthers(session, gameID, moveNotification);
 
             if (game.isInCheck((game.getTeamTurn()))){
-                Notification
-                sendMessageToOthers(session, gameID, updateGame);
+                Notification notification = new Notification("Check");
+                sendMessageToOthers(session, gameID, notification);
+            }
+            if (game.isInCheckmate((game.getTeamTurn()))){
+                Notification notification = new Notification("Checkmate");
+                sendMessageToOthers(session, gameID, notification);
+            }
+            if (game.isInStalemate((game.getTeamTurn()))){
+                Notification notification = new Notification("Stalemate");
+                sendMessageToOthers(session, gameID, notification);
             }
 
         } catch (Exception e) {
