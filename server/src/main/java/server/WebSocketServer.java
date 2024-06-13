@@ -6,11 +6,13 @@ import org.eclipse.jetty.websocket.api.*;
 import dataaccess.*;
 import service.GenericService;
 import websocket.commands.*;
-import com.google.gson.Gson;
 import websocket.messages.*;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @WebSocket
 public class WebSocketServer {
@@ -19,31 +21,65 @@ public class WebSocketServer {
     private MySQLUserDAO userDAO = GenericService.getUserDAO();
     private MySQLGameDAO gameDAO = GenericService.getGameDAO();
 
-    private Map<String, Session> authTokenSession = new HashMap<>();
-
+    private Map<Integer, Set<Session>> gameSessions = new HashMap<>();
 
     @OnWebSocketMessage
     public void onMessage(Session session, String msg) {
         try {
             UserGameCommand command = serializer.fromJson(msg, UserGameCommand.class);
+            String authToken = command.getAuthString();
 
-            // Throws a custom UnauthorizedException. Yours may work differently.
-            String username = getUsername(command.getAuthString());
+            if (authToken != null && authDAO.validateToken(authToken)) {
+                String username = userDAO.getUsername(authToken);
 
-            saveSession(command.getGameID(), session);
-
-            switch (command.getCommandType()) {
-                case CONNECT -> connect(session, username, (ConnectCommand) command);
-                case MAKE_MOVE -> makeMove(session, username, (MakeMoveCommand) command);
-                case LEAVE -> leaveGame(session, username, (LeaveGameCommand) command);
-                case RESIGN -> resign(session, username, (ResignCommand) command);
+                switch (command.getCommandType()) {
+                    case CONNECT -> connect(session, username, (Connect) command);
+                    case MAKE_MOVE -> {
+                    }
+                    case LEAVE -> {
+                    }
+                    case RESIGN -> {
+                    }
+                }
+            } else {
+                sendMessage(session, new ErrorMess());
             }
-        } catch (UnauthorizedException ex) {
-            // Serializes and sends the error message
-            sendMessage(session.getRemote(), new ErrorMessage("Error: unauthorized"));
         } catch (Exception ex) {
             ex.printStackTrace();
-            sendMessage(session.getRemote(), new ErrorMessage("Error: " + ex.getMessage()));
+            sendMessage(session, new ErrorMess());
         }
     }
 
+    private void saveSession(int gameID, Session session) {
+        gameSessions.computeIfAbsent(gameID, k -> new HashSet<>()).add(session);
+    }
+
+    private void connect(Session session, String username, Connect command) {
+        System.out.println("CONNECT");
+        int gameID = command.getGameID();
+        saveSession(gameID, session);
+
+        sendMessage(session, new LoadGame());
+
+        sendMessageToOthers(session, gameID, new Notification(username + " has connected."));
+    }
+
+    private void sendMessage(Session session, ServerMessage message) {
+        try {
+            session.getRemote().sendString(serializer.toJson(message));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendMessageToOthers(Session rootClientSession, int gameID, ServerMessage message) {
+        Set<Session> sessions = gameSessions.get(gameID);
+        if (sessions != null) {
+            for (Session session : sessions) {
+                if (!session.equals(rootClientSession)) {
+                    sendMessage(session, message);
+                }
+            }
+        }
+    }
+}

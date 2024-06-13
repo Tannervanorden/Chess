@@ -53,4 +53,24 @@ public class MySQLUserDAO extends GenericDAO{
             throw new DataAccessException("Error: can't add user" + ex.getMessage());
         }
     }
+    public String getUsername(String authToken) throws DataAccessException {
+        String username = null;
+        String sql = "SELECT username FROM users WHERE auth_string = ?";
+
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, authToken);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    username = resultSet.getString("username");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Failed to get username");
+        }
+
+        return username;
+    }
+
 }

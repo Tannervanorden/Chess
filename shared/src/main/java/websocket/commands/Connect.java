@@ -1,8 +1,14 @@
 package websocket.commands;
 
 public class Connect extends UserGameCommand {
-    public Connect(String authToken) {
+    private int gameID;
+    public Connect(String authToken, int gameID) {
         super(authToken);
+        this.gameID = gameID;
         this.commandType = CommandType.CONNECT;
+    }
+
+    public int getGameID() {
+        return gameID;
     }
 }
