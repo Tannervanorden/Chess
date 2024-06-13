@@ -31,6 +31,9 @@ public class WebSocketServer {
 
             if (authToken != null && authDAO.validateToken(authToken)) {
                 String username = userDAO.getUsername(authToken);
+                UserGameCommand.CommandType type = command.getCommandType();
+
+                int x = 5;
 
                 switch (command.getCommandType()) {
                     case CONNECT -> connect(session, username, (Connect) command);
