@@ -1,6 +1,6 @@
 package server;
 
-import chess.ChessGame;
+import chess.*;
 import model.AuthData;
 import model.GameData;
 import org.eclipse.jetty.websocket.api.annotations.*;
@@ -79,15 +79,27 @@ public class WebSocketServer {
 
     private void makeMove(Session session, String username, MakeMove command) {
         int gameID = command.getGameID();
-        saveSession(gameID, session);
         try {
             GameData gamedata = gameDAO.getGame(gameID);
             ChessGame game = gamedata.game();
-            sendMessage(session, new LoadGame(game));
-            Notification notification = new Notification(username + " has connected.");
-            sendMessageToOthers(session, gameID, notification);
+            ChessMove move = command.getMove();
+
+            game.makeMove(move);
+            gameDAO.updateGame(gameID, gamedata);
+
+            LoadGame updateGame = new LoadGame(game);
+            sendMessageToOthers(session, gameID, updateGame);
+
+            Notification moveNotification = new Notification(username + " made a move: " + move);
+            sendMessageToOthers(session, gameID, moveNotification);
+
+            if (game.isInCheck((game.getTeamTurn()))){
+                Notification
+                sendMessageToOthers(session, gameID, updateGame);
+            }
+
         } catch (Exception e) {
-            sendMessage(session, new ErrorMessage("errorMessage"));
+            e.printStackTrace();
         }
     }
 
