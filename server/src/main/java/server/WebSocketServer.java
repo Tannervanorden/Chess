@@ -96,6 +96,11 @@ public class WebSocketServer {
                 }
             }
 
+            if (game.isInCheckmate(ChessGame.TeamColor.WHITE) || game.isInCheckmate(ChessGame.TeamColor.BLACK)) {
+                sendMessage(session, new ErrorMessage("The game is over due to checkmate."));
+                return;
+            }
+
             game.makeMove(move);
             gameDAO.updateGame(gameID, gamedata);
 
