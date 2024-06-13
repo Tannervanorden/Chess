@@ -89,8 +89,10 @@ public class WebSocketServer {
             if (currentTeam != currentPlayerColor || currentTeam == null) {
                 if (currentTeam == null) {
                     sendMessage(session, new ErrorMessage("You are an observer"));
+                    return;
                 } else {
                     sendMessage(session, new ErrorMessage("Error, Not your Turn"));
+                    return;
                 }
             }
 
