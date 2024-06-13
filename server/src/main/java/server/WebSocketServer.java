@@ -42,6 +42,7 @@ public class WebSocketServer {
                         connect(session, username, connCommand);
                     }
                     case MAKE_MOVE -> {
+                        MakeMove makeMoveCommand = serializer.fromJson(msg, MakeMove.class);
                     }
                     case LEAVE -> {
                     }
