@@ -1,6 +1,7 @@
 package server;
 
 import chess.ChessMove;
+import model.AuthData;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.eclipse.jetty.websocket.api.*;
 import dataaccess.*;
@@ -28,15 +29,17 @@ public class WebSocketServer {
         try {
             UserGameCommand command = serializer.fromJson(msg, UserGameCommand.class);
             String authToken = command.getAuthString();
+            Map<String, AuthData> authData = authDAO.getAuth();
 
             if (authToken != null && authDAO.validateToken(authToken)) {
-                String username = userDAO.getUsername(authToken);
+                String username = authData.get(authToken).username();
                 UserGameCommand.CommandType type = command.getCommandType();
 
-                int x = 5;
-
-                switch (command.getCommandType()) {
-                    case CONNECT -> connect(session, username, (Connect) command);
+                switch (type) {
+                    case CONNECT -> {
+                        Connect connCommand = serializer.fromJson(msg, Connect.class);
+                        connect(session, username, connCommand);
+                    }
                     case MAKE_MOVE -> {
                     }
                     case LEAVE -> {

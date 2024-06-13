@@ -12,6 +12,7 @@ public class UserGameCommand {
 
     public UserGameCommand(String authToken) {
         this.authToken = authToken;
+        this.commandType = commandType;;
     }
 
     public enum CommandType {
@@ -30,7 +31,7 @@ public class UserGameCommand {
     }
 
     public CommandType getCommandType() {
-        return this.commandType;
+        return commandType;
     }
 
     @Override
