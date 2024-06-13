@@ -62,14 +62,14 @@ public class WebSocketServer {
     }
 
     private void connect(Session session, String username, Connect command) {
-        System.out.println("CONNECT");
         int gameID = command.getGameID();
         saveSession(gameID, session);
         try {
             GameData gamedata = gameDAO.getGame(gameID);
             ChessGame game = gamedata.game();
             sendMessage(session, new LoadGame(game));
-            sendMessageToOthers(session, gameID, new Notification(username + " has connected."));
+            Notification notification = new Notification(username + " has connected.");
+            sendMessageToOthers(session, gameID, notification);
         } catch (Exception e) {
             sendMessage(session, new ErrorMessage("errorMessage"));
         }
