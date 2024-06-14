@@ -44,12 +44,20 @@ public class GamePlay implements Observer{
             if (choice == 1) {
                 System.out.print("Enter start position: ");
                 String start = scanner.next();
+                ChessPosition startPosition = parsePosition(start);
                 System.out.print("Enter end position: ");
                 String end = scanner.next();
+                ChessPosition endPosition = parsePosition(end);
 
 
             }
         }
+    }
+
+    private ChessPosition parsePosition(String pos) {
+        int file = pos.charAt(0) - 'a';
+        int rank = pos.charAt(1) - '1';
+        return new ChessPosition(file, rank);
     }
 
     @Override
