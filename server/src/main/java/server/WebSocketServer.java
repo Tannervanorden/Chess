@@ -91,7 +91,13 @@ public class WebSocketServer {
             String gameName = gamedata.gameName();
 
             if (whiteUser == null || blackUser == null) {
-                sendMessage(session, new ErrorMessage("Cannot make move. Game is over"));
+                sendMessage(session, new ErrorMessage("Cannot resign. Game is already over."));
+                return;
+            }
+
+            ChessGame.TeamColor currentPlayerColor = getCurrentPlayer(username, gamedata);
+            if (currentPlayerColor == null) {
+                sendMessage(session, new ErrorMessage("You are not a player in this game."));
                 return;
             }
 
@@ -109,12 +115,6 @@ public class WebSocketServer {
                 Notification notification = new Notification(username + " has resigned. " + whiteUser + " wins by resignation.");
                 sendMessageToOthers(session, gameID, notification);
             }
-            GameData updateData = gameDAO.getGame(gameID);
-
-            if (updateData.whiteUsername() == null || updateData.blackUsername() == null) {
-                sendMessage(session, new ErrorMessage("Cannot make move. Game is over"));
-                return;
-            }
 
             Set<Session> sessions = gameSessions.get(gameID);
             if (sessions != null) {
@@ -131,7 +131,6 @@ public class WebSocketServer {
             sendMessage(session, new ErrorMessage("An error occurred while resigning from the game."));
         }
     }
-
 
 
     private void leaveGame(Session session, String username, Leave command) {
