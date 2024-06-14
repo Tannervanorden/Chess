@@ -4,12 +4,8 @@ import websocket.messages.ServerMessage;
 
 import javax.websocket.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class WebSocketClient extends Endpoint {
-    private List<Observer> observers = new ArrayList<>();
 
     public Session session;
 
@@ -29,10 +25,7 @@ public class WebSocketClient extends Endpoint {
         this.session.getBasicRemote().sendText(msg);
     }
 
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
-
+    @Override
     public void onOpen(Session session, EndpointConfig endpointConfig) {
     }
 }

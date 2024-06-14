@@ -25,7 +25,7 @@ public class ServerFacade {
 
     public ServerFacade() {
         try {
-            this.webSocketClient = new WebSocketClient(gamePlay);
+            this.webSocketClient = new WebSocketClient();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -170,6 +170,10 @@ public class ServerFacade {
         }
 
         return getResponse(connection, responseClass, null);
+    }
+
+    public WebSocketClient getWebSocketClient() {
+        return webSocketClient;
     }
 }
 

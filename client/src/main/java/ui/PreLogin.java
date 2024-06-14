@@ -2,15 +2,17 @@ package ui;
 
 import model.AuthData;
 import sf.ServerFacade;
+import sf.WebSocketClient;
+
 import java.util.Scanner;
 
 public class PreLogin {
     private Scanner scanner = new Scanner(System.in);
-    private ServerFacade serverFacade = new ServerFacade();
+    private ServerFacade serverFacade;
 
-    public static void main(String[] args) {
-        PreLogin preLogin = new PreLogin();
-        AuthData authData = preLogin.displayPreLoginUI();
+
+    public PreLogin(ServerFacade serverFacade) {
+        this.serverFacade = serverFacade;
     }
     public AuthData displayPreLoginUI() {
         System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + "Welcome to CS 240 Chess!\n");

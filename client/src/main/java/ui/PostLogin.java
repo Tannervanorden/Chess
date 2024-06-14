@@ -12,15 +12,14 @@ import java.util.Scanner;
 
 public class PostLogin {
     private Scanner scanner = new Scanner(System.in);
-    private ServerFacade serverFacade = new ServerFacade();
+    private ServerFacade serverFacade;
     private String authToken;
     private HashMap<Integer, Integer> map = new HashMap<>();
-    private WebSocketClient webSocket;
 
-    public PostLogin(String authToken, WebSocketClient websocket) {
+    public PostLogin(String authToken, ServerFacade serverFacade) {
         this.authToken = authToken;
         this.map = new HashMap<>();
-        this.webSocket = webSocket;
+        this.serverFacade = serverFacade;
     }
     public void displayPostLoginUI() {
         System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + "Logged in\n");
@@ -85,7 +84,7 @@ public class PostLogin {
                     GameData gamedata = serverFacade.joinGame(realGameId, color, authToken);
                     System.out.println("Game Joined Successfully!");
                     ChessGame game = gamedata.game();
-                    GamePlay gamePlayUI = new GamePlay(game, gameId, authToken, webSocket);
+                    GamePlay gamePlayUI = new GamePlay(game, realGameId, authToken);
                     gamePlayUI.displayChessBoard(color);
                     return;
                 } catch (Exception e) {
@@ -95,10 +94,11 @@ public class PostLogin {
                 try {
                     System.out.print("Enter a game ID\n");
                     int gameId = scanner.nextInt();
+                    int realGameId = map.get(gameId);
                     System.out.println("Observing Game!");
                     ChessGame game = new ChessGame();
                     String color = "White";
-                    GamePlay gamePlayUI = new GamePlay(game, gameId, authToken, webSocket);
+                    GamePlay gamePlayUI = new GamePlay(game, realGameId, authToken);
                     gamePlayUI.displayChessBoard(color);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -109,7 +109,7 @@ public class PostLogin {
                 try {
                     serverFacade.logout(authToken);
                     System.out.println("Logged out Successfully!");
-                    PreLogin preLogin = new PreLogin();
+                    PreLogin preLogin = new PreLogin(serverFacade);
                     AuthData authData = preLogin.displayPreLoginUI();
                 } catch (Exception e) {
                     System.out.println("Logout Failed: " + e.getMessage());

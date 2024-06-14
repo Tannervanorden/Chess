@@ -4,27 +4,39 @@ import chess.ChessGame;
 import chess.ChessMove;
 import chess.ChessPiece;
 import chess.ChessPosition;
+import com.google.gson.Gson;
 import sf.Observer;
 import sf.WebSocketClient;
+import websocket.commands.Connect;
 import websocket.commands.MakeMove;
 import websocket.messages.ServerMessage;
 
+import java.net.URISyntaxException;
 import java.util.Scanner;
 
-public class GamePlay implements Observer{
+public class GamePlay implements Observer {
+    private Gson gson = new Gson();
     private WebSocketClient webSocket;
     private int gameId;
     private String authToken;
     private Scanner scanner = new Scanner(System.in);
 
+
     private ChessGame game;
 
-    public GamePlay(ChessGame game, int gameId, String authToken, WebSocketClient webSocket) {
+    public GamePlay(ChessGame game, int gameId, String authToken) {
+        try {
+            WebSocketClient webSocket = new WebSocketClient();
+
+            Connect connect = new Connect(authToken, gameId);
+            String jsonCommand = gson.toJson(connect);
+            webSocket.send(jsonCommand);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.game = game;
         this.gameId = gameId;
         this.authToken = authToken;
-        this.webSocket = webSocket;
-        this.webSocket.addObserver(this);
     }
     public void displayChessBoard(String color) {
         Board board = new Board(game);
@@ -58,8 +70,10 @@ public class GamePlay implements Observer{
 
                 ChessMove move = new ChessMove(startPosition, endPosition, promotionPiece);
                 MakeMove command = new MakeMove(authToken, gameId, move);
+
+                String jsonCommand = gson.toJson(command);
                 try {
-                    webSocket.send(command);
+                    webSocket.send(jsonCommand);
                 } catch (Exception e) {
                     System.out.println("Failed to send move command: " + e.getMessage());
                 }
