@@ -10,6 +10,7 @@ import model.GameData;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,15 @@ public class ServerFacade {
     int port;
     private String urlString = "http://localhost:8080";
     private Gson gson = new Gson();
-    private WebSocketClient webSocket;
+    private WebSocketClient webSocketClient;
 
+    public ServerFacade() {
+        try {
+            this.webSocketClient = new WebSocketClient();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     //Login
     public AuthData login(String username, String password) throws Exception {
