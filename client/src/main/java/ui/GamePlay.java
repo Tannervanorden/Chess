@@ -1,13 +1,14 @@
 package ui;
 
+import chess.ChessGame;
 import sf.WebSocketClient;
 
 public class GamePlay {
     private WebSocketClient webSocket;
 
-    public GamePlay() {
-    }
+    private ChessGame game;
 
-    public void startGamePlay() {
+    public GamePlay(ChessGame game) {
+        this.game = game;
     }
 }
