@@ -90,6 +90,11 @@ public class WebSocketServer {
             String blackUser = gamedata.blackUsername();
             String gameName = gamedata.gameName();
 
+            if (whiteUser == null || blackUser == null) {
+                sendMessage(session, new ErrorMessage("A player has already resigned. The game is over."));
+                return;
+            }
+
             if (username.equals(whiteUser)) {
                 gamedata = new GameData(gameID, null, blackUser, gameName, game);
                 gameDAO.updateGame(gameID, gamedata);
