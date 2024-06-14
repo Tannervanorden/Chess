@@ -82,7 +82,7 @@ public class PostLogin {
                     GameData gamedata = serverFacade.joinGame(realGameId, color, authToken);
                     System.out.println("Game Joined Successfully!");
                     ChessGame game = gamedata.game();
-                    GamePlay gamePlayUI = new GamePlay(game);
+                    GamePlay gamePlayUI = new GamePlay(game, gameId, authToken);
                     gamePlayUI.displayChessBoard(color);
                     return;
                 } catch (Exception e) {
@@ -95,7 +95,7 @@ public class PostLogin {
                     System.out.println("Observing Game!");
                     ChessGame game = new ChessGame();
                     String color = "White";
-                    GamePlay gamePlayUI = new GamePlay(game);
+                    GamePlay gamePlayUI = new GamePlay(game, gameId, authToken);
                     gamePlayUI.displayChessBoard(color);
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -1,6 +1,7 @@
 package ui;
 
 import chess.ChessGame;
+import chess.ChessPosition;
 import sf.Observer;
 import sf.WebSocketClient;
 import websocket.messages.ServerMessage;
@@ -41,6 +42,11 @@ public class GamePlay implements Observer{
             int choice = scanner.nextInt();
 
             if (choice == 1) {
+                System.out.print("Enter start position: ");
+                String start = scanner.next();
+                System.out.print("Enter end position: ");
+                String end = scanner.next();
+
 
             }
         }
