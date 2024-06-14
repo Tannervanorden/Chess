@@ -6,6 +6,7 @@ import model.AuthData;
 import model.JoinGameRequest;
 import model.UserData;
 import model.GameData;
+import ui.GamePlay;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -20,10 +21,11 @@ public class ServerFacade {
     private String urlString = "http://localhost:8080";
     private Gson gson = new Gson();
     private WebSocketClient webSocketClient;
+    private GamePlay gamePlay;
 
     public ServerFacade() {
         try {
-            this.webSocketClient = new WebSocketClient();
+            this.webSocketClient = new WebSocketClient(gamePlay);
         } catch (Exception e) {
             e.printStackTrace();
         }

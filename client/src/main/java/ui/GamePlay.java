@@ -1,9 +1,11 @@
 package ui;
 
 import chess.ChessGame;
+import sf.Observer;
 import sf.WebSocketClient;
+import websocket.messages.ServerMessage;
 
-public class GamePlay {
+public class GamePlay implements Observer{
     private WebSocketClient webSocket;
 
     private ChessGame game;
@@ -18,5 +20,10 @@ public class GamePlay {
         } else {
             board.drawChessBoard(true);
         }
+    }
+
+    @Override
+    public void notify(ServerMessage message) {
+
     }
 }

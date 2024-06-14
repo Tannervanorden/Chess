@@ -82,12 +82,8 @@ public class PostLogin {
                     GameData gamedata = serverFacade.joinGame(realGameId, color, authToken);
                     System.out.println("Game Joined Successfully!");
                     ChessGame game = gamedata.game();
-                    Board board = new Board(game);
-                    if (color.equals("White")) {
-                        board.drawChessBoard(false);
-                    } else {
-                        board.drawChessBoard(true);
-                    }
+                    GamePlay gamePlayUI = new GamePlay(game);
+                    gamePlayUI.displayChessBoard(color);
                 } catch (Exception e) {
                     System.out.println("Join Game Failed: " + e.getMessage());
                 }
@@ -97,8 +93,9 @@ public class PostLogin {
                     int gameId = scanner.nextInt();
                     System.out.println("Observing Game!");
                     ChessGame game = new ChessGame();
-                    Board board = new Board(game);
-                    board.drawChessBoard(true);
+                    String color = "White";
+                    GamePlay gamePlayUI = new GamePlay(game);
+                    gamePlayUI.displayChessBoard(color);
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Observing " + e.getMessage());
