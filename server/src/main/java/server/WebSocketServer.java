@@ -20,7 +20,6 @@ import java.util.Set;
 public class WebSocketServer {
     private Gson serializer = new Gson();
     private MySQLAuthDAO authDAO = GenericService.getAuthDAO();
-    private MySQLUserDAO userDAO = GenericService.getUserDAO();
     private MySQLGameDAO gameDAO = GenericService.getGameDAO();
 
     private Map<Integer, Set<Session>> gameSessions = new HashMap<>();
@@ -80,6 +79,49 @@ public class WebSocketServer {
             sendMessage(session, new ErrorMessage("errorMessage"));
         }
     }
+
+    private void resign(Session session, String username, Resign command) {
+        int gameID = command.getGameID();
+        try {
+            GameData gamedata = gameDAO.getGame(gameID);
+            ChessGame game = gamedata.game();
+
+            String whiteUser = gamedata.whiteUsername();
+            String blackUser = gamedata.blackUsername();
+            String gameName = gamedata.gameName();
+
+            if (username.equals(whiteUser)) {
+                gamedata = new GameData(gameID, null, blackUser, gameName, game);
+                gameDAO.updateGame(gameID, gamedata);
+
+                Notification notification = new Notification(username + " has resigned. " + blackUser + " wins by resignation.");
+                sendMessageToOthers(session, gameID, notification);
+
+            } else if (username.equals(blackUser)) {
+                gamedata = new GameData(gameID, whiteUser, null, gameName, game);
+                gameDAO.updateGame(gameID, gamedata);
+
+                Notification notification = new Notification(username + " has resigned. " + whiteUser + " wins by resignation.");
+                sendMessageToOthers(session, gameID, notification);
+            }
+
+            Set<Session> sessions = gameSessions.get(gameID);
+            if (sessions != null) {
+                sessions.remove(session);
+                if (sessions.isEmpty()) {
+                    gameSessions.remove(gameID);
+                }
+            }
+
+            Notification resignNotification = new Notification("You have resigned from the game.");
+            sendMessage(session, resignNotification);
+
+        } catch (Exception e) {
+            sendMessage(session, new ErrorMessage("An error occurred while resigning from the game."));
+        }
+    }
+
+
 
     private void leaveGame(Session session, String username, Leave command) {
         int gameID = command.getGameID();
