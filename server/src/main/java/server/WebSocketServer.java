@@ -50,6 +50,8 @@ public class WebSocketServer {
                         leaveGame(session, username, leaveCommand);
                     }
                     case RESIGN -> {
+                        Resign resignCommand = serializer.fromJson(msg, Resign.class);
+                        resign(session, username, resignCommand);
                     }
                 }
             } else {
