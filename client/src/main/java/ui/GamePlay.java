@@ -9,12 +9,16 @@ import java.util.Scanner;
 
 public class GamePlay implements Observer{
     private WebSocketClient webSocket;
+    private int gameId;
+    private String authToken;
     private Scanner scanner = new Scanner(System.in);
 
     private ChessGame game;
 
-    public GamePlay(ChessGame game) {
+    public GamePlay(ChessGame game, int gameId, String authToken) {
         this.game = game;
+        this.gameId = gameId;
+        this.authToken = authToken;
     }
     public void displayChessBoard(String color) {
         Board board = new Board(game);
