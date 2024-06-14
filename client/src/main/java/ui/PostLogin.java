@@ -4,6 +4,7 @@ import chess.ChessGame;
 import model.AuthData;
 import model.GameData;
 import sf.ServerFacade;
+import sf.WebSocketClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +15,12 @@ public class PostLogin {
     private ServerFacade serverFacade = new ServerFacade();
     private String authToken;
     private HashMap<Integer, Integer> map = new HashMap<>();
+    private WebSocketClient webSocket;
 
-    public PostLogin(String authToken) {
+    public PostLogin(String authToken, WebSocketClient websocket) {
         this.authToken = authToken;
         this.map = new HashMap<>();
+        this.webSocket = websocket;
     }
     public void displayPostLoginUI() {
         System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + "Logged in\n");

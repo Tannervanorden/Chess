@@ -54,7 +54,6 @@ public class GamePlay implements Observer{
 
                 ChessPiece.PieceType promotionPiece = null;
 
-
                 ChessMove move = new ChessMove(startPosition, endPosition, promotionPiece);
                 MakeMove command = new MakeMove(authToken, gameId, move);
 
