@@ -5,8 +5,11 @@ import sf.Observer;
 import sf.WebSocketClient;
 import websocket.messages.ServerMessage;
 
+import java.util.Scanner;
+
 public class GamePlay implements Observer{
     private WebSocketClient webSocket;
+    private Scanner scanner = new Scanner(System.in);
 
     private ChessGame game;
 
@@ -19,6 +22,23 @@ public class GamePlay implements Observer{
             board.drawChessBoard(false);
         } else {
             board.drawChessBoard(true);
+        }
+        displayGamePlayMenu();
+    }
+
+    public void displayGamePlayMenu() {
+        while (true) {
+            System.out.print("Gameplay Menu:\n");
+            System.out.print("1. Make a Move\n");
+            System.out.print("2. Surrender\n");
+            System.out.print("3. Exit to Main Menu\n");
+            System.out.print("Enter: ");
+
+            int choice = scanner.nextInt();
+
+            if (choice == 1) {
+
+            }
         }
     }
 

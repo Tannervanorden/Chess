@@ -84,6 +84,7 @@ public class PostLogin {
                     ChessGame game = gamedata.game();
                     GamePlay gamePlayUI = new GamePlay(game);
                     gamePlayUI.displayChessBoard(color);
+                    return;
                 } catch (Exception e) {
                     System.out.println("Join Game Failed: " + e.getMessage());
                 }
