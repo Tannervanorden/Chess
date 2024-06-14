@@ -20,7 +20,7 @@ public class PostLogin {
     public PostLogin(String authToken, WebSocketClient websocket) {
         this.authToken = authToken;
         this.map = new HashMap<>();
-        this.webSocket = websocket;
+        this.webSocket = webSocket;
     }
     public void displayPostLoginUI() {
         System.out.print(EscapeSequences.SET_TEXT_COLOR_MAGENTA + "Logged in\n");
@@ -85,7 +85,7 @@ public class PostLogin {
                     GameData gamedata = serverFacade.joinGame(realGameId, color, authToken);
                     System.out.println("Game Joined Successfully!");
                     ChessGame game = gamedata.game();
-                    GamePlay gamePlayUI = new GamePlay(game, gameId, authToken);
+                    GamePlay gamePlayUI = new GamePlay(game, gameId, authToken, webSocket);
                     gamePlayUI.displayChessBoard(color);
                     return;
                 } catch (Exception e) {
@@ -98,7 +98,7 @@ public class PostLogin {
                     System.out.println("Observing Game!");
                     ChessGame game = new ChessGame();
                     String color = "White";
-                    GamePlay gamePlayUI = new GamePlay(game, gameId, authToken);
+                    GamePlay gamePlayUI = new GamePlay(game, gameId, authToken, webSocket);
                     gamePlayUI.displayChessBoard(color);
                 } catch (Exception e) {
                     e.printStackTrace();

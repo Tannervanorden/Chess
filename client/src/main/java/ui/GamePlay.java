@@ -19,10 +19,12 @@ public class GamePlay implements Observer{
 
     private ChessGame game;
 
-    public GamePlay(ChessGame game, int gameId, String authToken) {
+    public GamePlay(ChessGame game, int gameId, String authToken, WebSocketClient webSocket) {
         this.game = game;
         this.gameId = gameId;
         this.authToken = authToken;
+        this.webSocket = webSocket;
+        this.webSocket.addObserver(this);
     }
     public void displayChessBoard(String color) {
         Board board = new Board(game);
@@ -56,6 +58,11 @@ public class GamePlay implements Observer{
 
                 ChessMove move = new ChessMove(startPosition, endPosition, promotionPiece);
                 MakeMove command = new MakeMove(authToken, gameId, move);
+                try {
+                    webSocket.send(command);
+                } catch (Exception e) {
+                    System.out.println("Failed to send move command: " + e.getMessage());
+                }
 
             }
         }

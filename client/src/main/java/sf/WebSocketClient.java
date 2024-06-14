@@ -1,5 +1,7 @@
 package sf;
 
+import websocket.messages.ServerMessage;
+
 import javax.websocket.*;
 import java.net.URI;
 import java.util.ArrayList;
