@@ -79,6 +79,10 @@ public class WebSocketServer {
         }
     }
 
+    private void leaveGame(Session session, String username, Leave command) {
+        int gameID = command.getGameID();
+    }
+
     private void makeMove(Session session, String username, MakeMove command) {
         int gameID = command.getGameID();
         try {
