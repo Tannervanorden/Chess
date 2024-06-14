@@ -82,6 +82,21 @@ public class WebSocketServer {
     private void leaveGame(Session session, String username, Leave command) {
         int gameID = command.getGameID();
         try {
+            GameData gamedata = gameDAO.getGame(gameID);
+            ChessGame game = gamedata.game();
+
+            String whiteUser = gamedata.whiteUsername();
+            String blackUser = gamedata.blackUsername();
+            String gameName = gamedata.gameName();
+
+            if (username.equals(whiteUser)) {
+                gamedata = new GameData(gameID, null, blackUser, gameName, game);
+            } else if (username.equals(blackUser)) {
+                gamedata = new GameData(gameID, whiteUser, null, gameName, game);
+            }
+
+            gameDAO.updateGame(gameID, gamedata);
+
             Set<Session> sessions = gameSessions.get(gameID);
             if (sessions != null) {
                 sessions.remove(session);
@@ -92,11 +107,9 @@ public class WebSocketServer {
             Notification notification = new Notification(username + " has left the game.");
             sendMessageToOthers(session, gameID, notification);
 
+        } catch (Exception e) {
+            sendMessage(session, new ErrorMessage("An error occurred while leaving the game."));
         }
-        GameData gamedata = gameDAO.getGame(gameID);
-        ChessGame game = gamedata.game();
-        ChessGame.TeamColor currentPlayerColor = getCurrentPlayer(username, gamedata);
-
     }
 
     private void makeMove(Session session, String username, MakeMove command) {
