@@ -11,4 +11,12 @@ public class GamePlay {
     public GamePlay(ChessGame game) {
         this.game = game;
     }
+    public void displayChessBoard(String color) {
+        Board board = new Board(game);
+        if (color.equalsIgnoreCase("White")) {
+            board.drawChessBoard(false);
+        } else {
+            board.drawChessBoard(true);
+        }
+    }
 }
