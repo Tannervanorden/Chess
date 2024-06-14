@@ -46,6 +46,8 @@ public class WebSocketServer {
                         makeMove(session, username, makeMoveCommand);
                     }
                     case LEAVE -> {
+                        Leave leaveCommand = serializer.fromJson(msg, Leave.class);
+                        leaveGame(session, username, leaveCommand);
                     }
                     case RESIGN -> {
                     }
