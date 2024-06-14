@@ -1,9 +1,12 @@
 package ui;
 
 import chess.ChessGame;
+import chess.ChessMove;
+import chess.ChessPiece;
 import chess.ChessPosition;
 import sf.Observer;
 import sf.WebSocketClient;
+import websocket.commands.MakeMove;
 import websocket.messages.ServerMessage;
 
 import java.util.Scanner;
@@ -44,17 +47,38 @@ public class GamePlay implements Observer{
             if (choice == 1) {
                 System.out.print("Enter start position: ");
                 String start = scanner.next();
-                ChessPosition startPosition = parsePosition(start);
+                ChessPosition startPosition = positionGetter(start);
                 System.out.print("Enter end position: ");
                 String end = scanner.next();
-                ChessPosition endPosition = parsePosition(end);
+                ChessPosition endPosition = positionGetter(end);
 
+                ChessPiece.PieceType promotionPiece = null;
+
+
+                ChessMove move = new ChessMove(startPosition, endPosition, promotionPiece);
+                MakeMove command = new MakeMove(authToken, gameId, move);
 
             }
         }
     }
 
-    private ChessPosition parsePosition(String pos) {
+    private ChessPiece.PieceType parsePromotionPiece(String piece) {
+        switch (piece.toUpperCase()) {
+            case "Q":
+                return ChessPiece.PieceType.QUEEN;
+            case "R":
+                return ChessPiece.PieceType.ROOK;
+            case "B":
+                return ChessPiece.PieceType.BISHOP;
+            case "N":
+                return ChessPiece.PieceType.KNIGHT;
+            default:
+                return null;
+        }
+    }
+
+
+    private ChessPosition positionGetter(String pos) {
         int file = pos.charAt(0) - 'a';
         int rank = pos.charAt(1) - '1';
         return new ChessPosition(file, rank);
