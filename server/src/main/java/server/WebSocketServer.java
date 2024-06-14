@@ -123,14 +123,6 @@ public class WebSocketServer {
                     gameSessions.remove(gameID);
                 }
             }
-            GameData updateData = gameDAO.getGame(gameID);
-            if (currentPlayerColor == ChessGame.TeamColor.WHITE && updateData.blackUsername() == null) {
-                sendMessage(session, new ErrorMessage("Cannot make move. Opponent has resigned."));
-                return;
-            } else if (currentPlayerColor == ChessGame.TeamColor.BLACK && updateData.whiteUsername() == null) {
-                sendMessage(session, new ErrorMessage("Cannot make move. Opponent has resigned."));
-                return;
-            }
 
             Notification resignNotification = new Notification("You have resigned from the game.");
             sendMessage(session, resignNotification);
@@ -185,6 +177,14 @@ public class WebSocketServer {
 
             if (game.isInCheckmate(ChessGame.TeamColor.WHITE) || game.isInCheckmate(ChessGame.TeamColor.BLACK)) {
                 sendMessage(session, new ErrorMessage("Game Over!"));
+                return;
+            }
+
+            if (currentPlayerColor == ChessGame.TeamColor.WHITE && gamedata.blackUsername() == null) {
+                sendMessage(session, new ErrorMessage("Cannot make move. Opponent has resigned."));
+                return;
+            } else if (currentPlayerColor == ChessGame.TeamColor.BLACK && gamedata.whiteUsername() == null) {
+                sendMessage(session, new ErrorMessage("Cannot make move. Opponent has resigned."));
                 return;
             }
 
