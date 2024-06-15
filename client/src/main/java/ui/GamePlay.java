@@ -8,9 +8,6 @@ import com.google.gson.Gson;
 import sf.WebSocketClient;
 import websocket.commands.Connect;
 import websocket.commands.MakeMove;
-import websocket.messages.ServerMessage;
-
-import java.net.URISyntaxException;
 import java.util.Scanner;
 
 public class GamePlay {
@@ -29,7 +26,7 @@ public class GamePlay {
 
             Connect connect = new Connect(authToken, gameId);
             String jsonCommand = gson.toJson(connect);
-//            this.webSocket.send(jsonCommand);
+            this.webSocket.send(jsonCommand);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,21 +75,6 @@ public class GamePlay {
                 }
 
             }
-        }
-    }
-
-    private ChessPiece.PieceType parsePromotionPiece(String piece) {
-        switch (piece.toUpperCase()) {
-            case "Q":
-                return ChessPiece.PieceType.QUEEN;
-            case "R":
-                return ChessPiece.PieceType.ROOK;
-            case "B":
-                return ChessPiece.PieceType.BISHOP;
-            case "N":
-                return ChessPiece.PieceType.KNIGHT;
-            default:
-                return null;
         }
     }
 

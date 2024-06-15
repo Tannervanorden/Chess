@@ -78,12 +78,6 @@ public class ServerFacade {
         return doPut(endpoint, joiningGameData, GameData.class, authToken);
     }
 
-    public GameData observeGame(long gameID, String authToken) throws Exception {
-        String endpoint = "/game";
-        JoinGameRequest joiningGameData = new JoinGameRequest(null, gameID);
-        return doPut(endpoint, joiningGameData, GameData.class, authToken);
-    }
-
     private HttpURLConnection createConnection(String endpoint, String requestMethod, String authToken) throws IOException {
         URL url = new URL(urlString + endpoint);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
