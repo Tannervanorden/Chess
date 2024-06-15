@@ -5,7 +5,6 @@ import chess.ChessMove;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import com.google.gson.Gson;
-import sf.Observer;
 import sf.WebSocketClient;
 import websocket.commands.Connect;
 import websocket.commands.MakeMove;
@@ -14,7 +13,7 @@ import websocket.messages.ServerMessage;
 import java.net.URISyntaxException;
 import java.util.Scanner;
 
-public class GamePlay implements Observer {
+public class GamePlay {
     private Gson gson = new Gson();
     private WebSocketClient webSocket;
     private int gameId;
@@ -26,11 +25,11 @@ public class GamePlay implements Observer {
 
     public GamePlay(ChessGame game, int gameId, String authToken) {
         try {
-            WebSocketClient webSocket = new WebSocketClient();
+            this.webSocket = new WebSocketClient();
 
             Connect connect = new Connect(authToken, gameId);
             String jsonCommand = gson.toJson(connect);
-            webSocket.send(jsonCommand);
+//            this.webSocket.send(jsonCommand);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +53,7 @@ public class GamePlay implements Observer {
             System.out.print("1. Make a Move\n");
             System.out.print("2. Surrender\n");
             System.out.print("3. Exit to Main Menu\n");
-            System.out.print("Enter: ");
+            System.out.print("Enter: \n");
 
             int choice = scanner.nextInt();
 
@@ -102,10 +101,5 @@ public class GamePlay implements Observer {
         int file = pos.charAt(0) - 'a';
         int rank = pos.charAt(1) - '1';
         return new ChessPosition(file, rank);
-    }
-
-    @Override
-    public void notify(ServerMessage message) {
-
     }
 }

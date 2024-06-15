@@ -181,7 +181,7 @@ public class WebSocketServer {
             }
 
             if (currentPlayerColor == ChessGame.TeamColor.WHITE && gamedata.blackUsername() == null) {
-                sendMessage(session, new ErrorMessage("Cannot make move. Opponent has resigned."));
+                sendMessage(session, new ErrorMessage("Cannot make move. No Opponent."));
                 return;
             } else if (currentPlayerColor == ChessGame.TeamColor.BLACK && gamedata.whiteUsername() == null) {
                 sendMessage(session, new ErrorMessage("Cannot make move. Opponent has resigned."));
