@@ -1,21 +1,16 @@
 package ui;
-
 import chess.ChessGame;
 import model.AuthData;
 import model.GameData;
 import sf.ServerFacade;
-import sf.WebSocketClient;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
 public class PostLogin {
     private Scanner scanner = new Scanner(System.in);
     private ServerFacade serverFacade;
     private String authToken;
     private HashMap<Integer, Integer> map = new HashMap<>();
-
     public PostLogin(String authToken, ServerFacade serverFacade) {
         this.authToken = authToken;
         this.map = new HashMap<>();
