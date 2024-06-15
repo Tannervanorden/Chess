@@ -85,20 +85,6 @@ public class PostLogin {
                 } catch (Exception e) {
                     System.out.println("Join Game Failed: " + e.getMessage());
                 }
-            } else if (choice == 4) {
-                try {
-                    System.out.print("Enter a game ID\n");
-                    int gameId = scanner.nextInt();
-                    int realGameId = map.get(gameId);
-                    System.out.println("Observing Game!");
-                    ChessGame game = new ChessGame();
-                    String color = "White";
-                    GamePlay gamePlayUI = new GamePlay(game, realGameId, authToken);
-                    gamePlayUI.displayChessBoard(color);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("Observing " + e.getMessage());
-                }
             }
             else if (choice == 5) {
                 try {
